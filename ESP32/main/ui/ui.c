@@ -151,19 +151,40 @@ lv_obj_t *ui_sensor_chart_week;
 lv_chart_series_t *ui_sensor_chart_week_series_hight;
 lv_chart_series_t *ui_sensor_chart_week_series_low;
 
-// Screen for alarm keypad
-// SCREEN: ui_Alarm_keypad1
-void ui_Alarm_keypad1_screen_init(void);
-lv_obj_t * ui_Alarm_keypad1;
-lv_obj_t * ui_ha_keypad_label1;
+lv_obj_t *ui_screen_last;
+
+// SCREEN: ui_ha_alarm_keypad
+void ui_ha_alarm_keypad_screen_init(void);
+lv_obj_t * ui_ha_alarm_keypad;
+lv_obj_t * ui_ha_alarm_label;
 void ui_event_Button1(lv_event_t * e);
 lv_obj_t * ui_Button1;
 lv_obj_t * ui_Label1;
-void ui_event_Button2(lv_event_t * e);
 lv_obj_t * ui_Button2;
 lv_obj_t * ui_Label2;
+lv_obj_t * ui_Button3;
+lv_obj_t * ui_Label3;
+lv_obj_t * ui_Button4;
+lv_obj_t * ui_Label4;
+lv_obj_t * ui_Button5;
+lv_obj_t * ui_Label5;
+lv_obj_t * ui_Button6;
+lv_obj_t * ui_Label6;
+lv_obj_t * ui_Button7;
+lv_obj_t * ui_Label7;
+lv_obj_t * ui_Button8;
+lv_obj_t * ui_Label8;
+lv_obj_t * ui_Button9;
+lv_obj_t * ui_Label9;
+lv_obj_t * ui_Button10;
+lv_obj_t * ui_Label10;
+void ui_event_Button11(lv_event_t * e);
+lv_obj_t * ui_Button11;
+lv_obj_t * ui_Label11;
+void ui_event_Button12(lv_event_t * e);
+lv_obj_t * ui_Button12;
+lv_obj_t * ui_Label12;
 
-lv_obj_t *ui_screen_last;
 ///////////////////// TEST LVGL SETTINGS ////////////////////
 #if LV_COLOR_DEPTH != 16
 #error "LV_COLOR_DEPTH should be 16bit to match SquareLine Studio's settings"
@@ -208,6 +229,31 @@ void up_Animation(lv_obj_t *TargetObject, int delay)
 }
 
 ///////////////////// FUNCTIONS ////////////////////
+
+void ui_event_Button1(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        Button1ClickedAction(e);
+    }
+}
+void ui_event_Button11(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        ButtonClearClickedAction(e);
+    }
+}
+void ui_event_Button12(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        ButtonSendClickedAction(e);
+    }
+}
 
 void ui_event_screen_time(lv_event_t *e)
 {
@@ -960,79 +1006,6 @@ void ui_screen_setting_screen_init(void)
     lv_obj_add_event_cb(ui_screen_setting, ui_event_screen_setting, LV_EVENT_ALL, NULL);
 }
 
-void ui_Alarm_keypad_screen_init(void)
-{
-    ui_Alarm_keypad1 = lv_obj_create(NULL);
-    lv_obj_clear_flag(ui_Alarm_keypad1, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_bg_color(ui_Alarm_keypad1, lv_color_hex(0x1C1C1C), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui_Alarm_keypad1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-
-    ui_ha_keypad_label1 = lv_label_create(ui_Alarm_keypad1);
-    lv_obj_set_width(ui_ha_keypad_label1, 316);
-    lv_obj_set_height(ui_ha_keypad_label1, 38);
-    lv_obj_set_x(ui_ha_keypad_label1, 82);
-    lv_obj_set_y(ui_ha_keypad_label1, 58);
-    lv_label_set_text(ui_ha_keypad_label1, "Alarm code");
-    lv_obj_set_style_text_color(ui_ha_keypad_label1, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui_ha_keypad_label1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui_ha_keypad_label1, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_ha_keypad_label1, &ui_font_font0, LV_PART_MAIN | LV_STATE_DEFAULT);
-
-    ui_Button1 = lv_btn_create(ui_Alarm_keypad1);
-    lv_obj_set_width(ui_Button1, 100);
-    lv_obj_set_height(ui_Button1, 50);
-    lv_obj_set_x(ui_Button1, -134);
-    lv_obj_set_y(ui_Button1, -40);
-    lv_obj_set_align(ui_Button1, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_Button1, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
-    lv_obj_clear_flag(ui_Button1, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-
-    ui_Label1 = lv_label_create(ui_Button1);
-    lv_obj_set_width(ui_Label1, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_Label1, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_align(ui_Label1, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_Label1, "1");
-    lv_obj_set_style_text_font(ui_Label1, &lv_font_montserrat_34, LV_PART_MAIN | LV_STATE_DEFAULT);
-
-    ui_Button2 = lv_btn_create(ui_Alarm_keypad1);
-    lv_obj_set_width(ui_Button2, 100);
-    lv_obj_set_height(ui_Button2, 50);
-    lv_obj_set_x(ui_Button2, -19);
-    lv_obj_set_y(ui_Button2, -40);
-    lv_obj_set_align(ui_Button2, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_Button2, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
-    lv_obj_clear_flag(ui_Button2, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-
-    ui_Label2 = lv_label_create(ui_Button2);
-    lv_obj_set_width(ui_Label2, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_Label2, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_align(ui_Label2, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_Label2, "2");
-    lv_obj_set_style_text_font(ui_Label2, &lv_font_montserrat_34, LV_PART_MAIN | LV_STATE_DEFAULT);
-
-    lv_obj_add_event_cb(ui_Button1, ui_event_Button1, LV_EVENT_ALL, NULL);
-    lv_obj_add_event_cb(ui_Button2, ui_event_Button2, LV_EVENT_ALL, NULL);
-
-}
-
-void ui_event_Button1(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t * target = lv_event_get_target(e);
-    if(event_code == LV_EVENT_CLICKED) {
-        AlarmKeypadButton1Clicked(e);
-    }
-}
-
-void ui_event_Button2(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t * target = lv_event_get_target(e);
-    if(event_code == LV_EVENT_CLICKED) {
-        AlarmKeypadButton2Clicked(e);
-    }
-}
-
 void ui_screen_display_screen_init(void)
 {
     ui_screen_display = lv_obj_create(NULL);
@@ -1667,9 +1640,9 @@ void ui_init(void)
     lv_disp_t *dispp = lv_disp_get_default();
     lv_theme_t *theme = lv_theme_default_init(dispp, lv_color_hex(0x529d53), lv_palette_main(LV_PALETTE_RED), true, LV_FONT_DEFAULT);
     lv_disp_set_theme(dispp, theme);
+    ui_ha_alarm_keypad_screen_init();
     ui_screen_time_screen_init();
     ui_screen_sensor_screen_init();
-    ui_Alarm_keypad_screen_init();
     ui_screen_setting_screen_init();
     ui_screen_display_screen_init();
     ui_screen_date_time_screen_init();

@@ -153,16 +153,39 @@ extern lv_obj_t * ui_sensor_chart_week;
 extern lv_chart_series_t * ui_sensor_chart_week_series_hight;
 extern lv_chart_series_t * ui_sensor_chart_week_series_low;
 
-// SCREEN: ui_Alarm_keypad1
-void ui_Alarm_keypad1_screen_init(void);
-extern lv_obj_t * ui_Alarm_keypad1;
-extern lv_obj_t * ui_ha_keypad_label1;
+// SCREEN: ui_ha_alarm_keypad
+void ui_ha_alarm_keypad_screen_init(void);
+extern lv_obj_t * ui_ha_alarm_keypad;
+extern lv_obj_t * ui_ha_alarm_label;
 void ui_event_Button1(lv_event_t * e);
 extern lv_obj_t * ui_Button1;
 extern lv_obj_t * ui_Label1;
-void ui_event_Button2(lv_event_t * e);
 extern lv_obj_t * ui_Button2;
 extern lv_obj_t * ui_Label2;
+extern lv_obj_t * ui_Button3;
+extern lv_obj_t * ui_Label3;
+extern lv_obj_t * ui_Button4;
+extern lv_obj_t * ui_Label4;
+extern lv_obj_t * ui_Button5;
+extern lv_obj_t * ui_Label5;
+extern lv_obj_t * ui_Button6;
+extern lv_obj_t * ui_Label6;
+extern lv_obj_t * ui_Button7;
+extern lv_obj_t * ui_Label7;
+extern lv_obj_t * ui_Button8;
+extern lv_obj_t * ui_Label8;
+extern lv_obj_t * ui_Button9;
+extern lv_obj_t * ui_Label9;
+extern lv_obj_t * ui_Button10;
+extern lv_obj_t * ui_Label10;
+void ui_event_Button11(lv_event_t * e);
+extern lv_obj_t * ui_Button11;
+extern lv_obj_t * ui_Label11;
+void ui_event_Button12(lv_event_t * e);
+extern lv_obj_t * ui_Button12;
+extern lv_obj_t * ui_Label12;
+extern lv_obj_t * ui____initial_actions0;
+
 
 
 LV_IMG_DECLARE( ui_img_wifi_disconet_png);   // assets/wifi_disconet.png

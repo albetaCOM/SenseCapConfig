@@ -24,7 +24,7 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
             _ui_screen_change(ui_screen_time, LV_SCR_LOAD_ANIM_FADE_IN, 200, 0);
         }
         else if(strcmp(p_data,"alarm_keypad")==0){
-            _ui_screen_change(ui_Alarm_keypad1, LV_SCR_LOAD_ANIM_FADE_IN, 200, 0);
+            _ui_screen_change(ui_ha_alarm_keypad, LV_SCR_LOAD_ANIM_FADE_IN, 200, 0);
         }
         
         break;    
