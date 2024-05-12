@@ -7,6 +7,7 @@
 #include "esp_log.h"
 #include "indicator_ha_config.h"
 #include "ui_helpers.h"
+#include "ui_albetacom.h"
 
 static const char *TAG = "UI";
 
@@ -153,38 +154,6 @@ lv_chart_series_t *ui_sensor_chart_week_series_low;
 
 lv_obj_t *ui_screen_last;
 
-// SCREEN: ui_ha_alarm_keypad
-void ui_ha_alarm_keypad_screen_init(void);
-lv_obj_t * ui_ha_alarm_keypad;
-lv_obj_t * ui_ha_alarm_label;
-void ui_event_Button1(lv_event_t * e);
-lv_obj_t * ui_Button1;
-lv_obj_t * ui_Label1;
-lv_obj_t * ui_Button2;
-lv_obj_t * ui_Label2;
-lv_obj_t * ui_Button3;
-lv_obj_t * ui_Label3;
-lv_obj_t * ui_Button4;
-lv_obj_t * ui_Label4;
-lv_obj_t * ui_Button5;
-lv_obj_t * ui_Label5;
-lv_obj_t * ui_Button6;
-lv_obj_t * ui_Label6;
-lv_obj_t * ui_Button7;
-lv_obj_t * ui_Label7;
-lv_obj_t * ui_Button8;
-lv_obj_t * ui_Label8;
-lv_obj_t * ui_Button9;
-lv_obj_t * ui_Label9;
-lv_obj_t * ui_Button10;
-lv_obj_t * ui_Label10;
-void ui_event_Button11(lv_event_t * e);
-lv_obj_t * ui_Button11;
-lv_obj_t * ui_Label11;
-void ui_event_Button12(lv_event_t * e);
-lv_obj_t * ui_Button12;
-lv_obj_t * ui_Label12;
-
 ///////////////////// TEST LVGL SETTINGS ////////////////////
 #if LV_COLOR_DEPTH != 16
 #error "LV_COLOR_DEPTH should be 16bit to match SquareLine Studio's settings"
@@ -229,32 +198,6 @@ void up_Animation(lv_obj_t *TargetObject, int delay)
 }
 
 ///////////////////// FUNCTIONS ////////////////////
-
-void ui_event_Button1(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t * target = lv_event_get_target(e);
-    if(event_code == LV_EVENT_CLICKED) {
-        Button1ClickedAction(e);
-    }
-}
-void ui_event_Button11(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t * target = lv_event_get_target(e);
-    if(event_code == LV_EVENT_CLICKED) {
-        ButtonClearClickedAction(e);
-    }
-}
-void ui_event_Button12(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t * target = lv_event_get_target(e);
-    if(event_code == LV_EVENT_CLICKED) {
-        ButtonSendClickedAction(e);
-    }
-}
-
 void ui_event_screen_time(lv_event_t *e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
@@ -1640,7 +1583,7 @@ void ui_init(void)
     lv_disp_t *dispp = lv_disp_get_default();
     lv_theme_t *theme = lv_theme_default_init(dispp, lv_color_hex(0x529d53), lv_palette_main(LV_PALETTE_RED), true, LV_FONT_DEFAULT);
     lv_disp_set_theme(dispp, theme);
-    ui_ha_alarm_keypad_screen_init();
+    ui_albetacom_init();
     ui_screen_time_screen_init();
     ui_screen_sensor_screen_init();
     ui_screen_setting_screen_init();
