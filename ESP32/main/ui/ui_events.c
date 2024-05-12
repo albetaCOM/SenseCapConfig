@@ -5,20 +5,143 @@
 
 #include "ui.h"
 
+#include "indicator_controller_ha.h"
+#include "lvgl.h"
+#include "ui.h"
+
+#include "../model/indicator_ha_config.h"
+#include "../ui/screens/ui_screen_ha_auto.h"
+#include "../ui/screens/ui_screen_ha_templates.h"
+
+#include "indicator_view.h"
+
+#include "ui_helpers.h"
+#include <sys/time.h>
+#include <time.h>
+
+#define MAX_ALARM_CODE 10
+
+char alarm_code[MAX_ALARM_CODE] = {0};
+char display_data[MAX_ALARM_CODE] = {0};
+int alarm_code_index = 0;
+
+
+void DisplayAlarmCode( void )
+{
+	// char display_data[MAX_ALARM_CODE] = {0};
+
+	// lv_label_set_text(ui_LabelCode, "                                    ");
+
+	for(int i=0;i<alarm_code_index;i++){
+		display_data[i] = '*';
+	}
+	
+	
+	lv_label_set_text(ui_LabelCode, alarm_code);
+
+	printf("display_data = '%s'\n", display_data);
+	printf("alarm_code = '%s'\n", alarm_code);
+
+}
+
+void AlarmCodeScreenLoadedAction(lv_event_t * e)
+{
+	alarm_code_index = 0;
+	memset(alarm_code, 0, MAX_ALARM_CODE);
+	DisplayAlarmCode();
+}
+
+
 void Button1ClickedAction(lv_event_t * e)
 {
-	// Your code here
-	printf("HE APRETADO EL 1\n");
+	if(alarm_code_index < MAX_ALARM_CODE){
+		alarm_code[alarm_code_index++] = '1';
+	}
+	DisplayAlarmCode();
 }
 
 void ButtonClearClickedAction(lv_event_t * e)
 {
-	// Your code here
-	printf("HE APRETADO EL CLEAR\n");
+	alarm_code_index = 0;
+	memset(alarm_code, 0, MAX_ALARM_CODE);
+	DisplayAlarmCode();
 }
 
 void ButtonSendClickedAction(lv_event_t * e)
 {
 	// Your code here
-	printf("HE APRETADO EL SEND\n");
+	printf("Sending alarm code event");
+    esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_ALARM_CODE_CHANGE, &alarm_code, strlen(alarm_code) + 1, portMAX_DELAY);
+}
+
+void Button2ClickedAction(lv_event_t * e)
+{
+	if(alarm_code_index < MAX_ALARM_CODE){
+		alarm_code[alarm_code_index++] = '2';
+	}
+	DisplayAlarmCode();
+}
+
+void Button3ClickedAction(lv_event_t * e)
+{
+	if(alarm_code_index < MAX_ALARM_CODE){
+		alarm_code[alarm_code_index++] = '3';
+	}
+	DisplayAlarmCode();
+}
+
+void Button4ClickedAction(lv_event_t * e)
+{
+	if(alarm_code_index < MAX_ALARM_CODE){
+		alarm_code[alarm_code_index++] = '4';
+	}
+	DisplayAlarmCode();
+}
+
+void Button5ClickedAction(lv_event_t * e)
+{
+	if(alarm_code_index < MAX_ALARM_CODE){
+		alarm_code[alarm_code_index++] = '5';
+	}
+	DisplayAlarmCode();
+}
+
+void Button6ClickedAction(lv_event_t * e)
+{
+	if(alarm_code_index < MAX_ALARM_CODE){
+		alarm_code[alarm_code_index++] = '6';
+	}
+	DisplayAlarmCode();
+}
+
+void Button7ClickedAction(lv_event_t * e)
+{
+	if(alarm_code_index < MAX_ALARM_CODE){
+		alarm_code[alarm_code_index++] = '7';
+	}
+	DisplayAlarmCode();
+}
+
+void Button8ClickedAction(lv_event_t * e)
+{
+	if(alarm_code_index < MAX_ALARM_CODE){
+		alarm_code[alarm_code_index++] = '8';
+	}
+	DisplayAlarmCode();
+}
+
+void Button9ClickedAction(lv_event_t * e)
+{
+	if(alarm_code_index < MAX_ALARM_CODE){
+		alarm_code[alarm_code_index++] = '9';
+	}
+	DisplayAlarmCode();
+}
+
+void Button0ClickedAction(lv_event_t * e)
+{
+	if(alarm_code_index < MAX_ALARM_CODE){
+		alarm_code[alarm_code_index++] = '0';
+	}
+	DisplayAlarmCode();
 }

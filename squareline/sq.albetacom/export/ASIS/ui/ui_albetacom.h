@@ -17,38 +17,50 @@ extern "C" {
 
 // SCREEN: ui_ha_alarm_keypad
 void ui_ha_alarm_keypad_screen_init(void);
+void ui_event_ha_alarm_keypad(lv_event_t * e);
 extern lv_obj_t * ui_ha_alarm_keypad;
 extern lv_obj_t * ui_ha_alarm_label;
 extern lv_obj_t * ui_Container1;
 void ui_event_Button1(lv_event_t * e);
 extern lv_obj_t * ui_Button1;
 extern lv_obj_t * ui_Label1;
+void ui_event_Button2(lv_event_t * e);
 extern lv_obj_t * ui_Button2;
 extern lv_obj_t * ui_Label2;
+void ui_event_Button3(lv_event_t * e);
 extern lv_obj_t * ui_Button3;
 extern lv_obj_t * ui_Label3;
+void ui_event_Button4(lv_event_t * e);
 extern lv_obj_t * ui_Button4;
 extern lv_obj_t * ui_Label4;
+void ui_event_Button5(lv_event_t * e);
 extern lv_obj_t * ui_Button5;
 extern lv_obj_t * ui_Label5;
+void ui_event_Button6(lv_event_t * e);
 extern lv_obj_t * ui_Button6;
 extern lv_obj_t * ui_Label6;
+void ui_event_Button7(lv_event_t * e);
 extern lv_obj_t * ui_Button7;
 extern lv_obj_t * ui_Label7;
+void ui_event_Button8(lv_event_t * e);
 extern lv_obj_t * ui_Button8;
 extern lv_obj_t * ui_Label8;
+void ui_event_Button9(lv_event_t * e);
 extern lv_obj_t * ui_Button9;
 extern lv_obj_t * ui_Label9;
 void ui_event_Button11(lv_event_t * e);
 extern lv_obj_t * ui_Button11;
 extern lv_obj_t * ui_Label11;
+void ui_event_Button10(lv_event_t * e);
 extern lv_obj_t * ui_Button10;
 extern lv_obj_t * ui_Label10;
 void ui_event_Button12(lv_event_t * e);
 extern lv_obj_t * ui_Button12;
 extern lv_obj_t * ui_Label12;
 extern lv_obj_t * ui_LabelCode;
-extern lv_obj_t * ui____initial_actions0;
+
+
+
 
 
 void ui_albetacom_init(void);

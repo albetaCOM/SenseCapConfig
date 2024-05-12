@@ -2,6 +2,8 @@ UI.C ->
 	Modificar:  ui_init (void) --> ui_albetacom_init(void)
 	Eliminar: lv_obj_t * ui____initial_actions0;
 	Modificar: #include "ui.h" -->  #include "ui_albetacom.h"
+	Modificar: 
+		Dejar solo inicializaciones en el init
 
 
 ui.h -> Eliminar:

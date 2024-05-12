@@ -491,6 +491,28 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
         ha_ctrl_cfg_save(); // save switch state to flash
         break;
     }
+    case VIEW_EVENT_HA_ALARM_CODE_CHANGE:
+    {
+        if (mqtt_connected_flag == false)
+        {
+            break;
+        }
+#if DEBUG_HA
+        ESP_LOGI(TAG, "event: VIEW_EVENT_HA_SWITCH_SET");
+#endif
+
+        char *p_data = (char *)event_data;
+
+        char data_buf[64];
+        int len = 0;
+        memset(data_buf, 0, sizeof(data_buf));
+
+        len = snprintf(data_buf, sizeof(data_buf), "{\"code\": \"%s\"}", p_data);
+        esp_mqtt_client_publish(mqtt_client, CONFIG_TOPIC_ALARM_CODE, data_buf, len, 0, 0);
+
+        ESP_LOGI(TAG, "MQTT send alarm code: %s", p_data);
+        break;
+    }    
     default:
         break;
     }
@@ -514,5 +536,8 @@ int indicator_ha_init(void)
                                                              __view_event_handler, NULL, NULL));
     ESP_ERROR_CHECK(esp_event_handler_instance_register_with(view_event_handle,
                                                              VIEW_EVENT_BASE, VIEW_EVENT_HA_SWITCH_ST,
+                                                             __view_event_handler, NULL, NULL));
+    ESP_ERROR_CHECK(esp_event_handler_instance_register_with(view_event_handle,
+                                                             VIEW_EVENT_BASE, VIEW_EVENT_HA_ALARM_CODE_CHANGE,
                                                              __view_event_handler, NULL, NULL));
 }

@@ -1522,6 +1522,71 @@
                     "strtype": "BUTTON/Style_main",
                     "strval": "lv.PART.MAIN, Rectangle, Pad, Text ",
                     "InheritedType": 11
+                  },
+                  {
+                    "disabled": false,
+                    "nid": 806146422,
+                    "strtype": "BUTTON/EventHandler",
+                    "strval": "CLICKED",
+                    "childs": [
+                      {
+                        "nid": 587548549,
+                        "strtype": "_custom/name",
+                        "strval": "Button2ClickedEvent",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": -739100238,
+                        "strtype": "_custom/condition_C",
+                        "strval": "",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": -715958110,
+                        "strtype": "_custom/condition_P",
+                        "strval": "",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": -2088860657,
+                        "strtype": "_custom/action",
+                        "strval": "CALL FUNCTION",
+                        "childs": [
+                          {
+                            "nid": -811415120,
+                            "strtype": "CALL FUNCTION/Name",
+                            "strval": "CALL FUNCTION",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": -1249608588,
+                            "strtype": "CALL FUNCTION/Call",
+                            "strval": "<{Function_name}>( event_struct )",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 1995795621,
+                            "strtype": "CALL FUNCTION/CallC",
+                            "strval": "<{Function_name}>( e );",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": -1942995290,
+                            "strtype": "CALL FUNCTION/Function_name",
+                            "strval": "Button2ClickedAction",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 450341091,
+                            "strtype": "CALL FUNCTION/Dont_export_function",
+                            "strval": "False",
+                            "InheritedType": 2
+                          }
+                        ],
+                        "InheritedType": 10
+                      }
+                    ],
+                    "InheritedType": 4
                   }
                 ],
                 "saved_objtypeKey": "BUTTON"
@@ -2088,6 +2153,71 @@
                     "strtype": "BUTTON/Style_main",
                     "strval": "lv.PART.MAIN, Rectangle, Pad, Text ",
                     "InheritedType": 11
+                  },
+                  {
+                    "disabled": false,
+                    "nid": 1686070483,
+                    "strtype": "BUTTON/EventHandler",
+                    "strval": "CLICKED",
+                    "childs": [
+                      {
+                        "nid": 364731881,
+                        "strtype": "_custom/name",
+                        "strval": "Button3ClickedEvent",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": -1540803655,
+                        "strtype": "_custom/condition_C",
+                        "strval": "",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": 1452288527,
+                        "strtype": "_custom/condition_P",
+                        "strval": "",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": -1230239036,
+                        "strtype": "_custom/action",
+                        "strval": "CALL FUNCTION",
+                        "childs": [
+                          {
+                            "nid": 1526450975,
+                            "strtype": "CALL FUNCTION/Name",
+                            "strval": "CALL FUNCTION",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 1113443056,
+                            "strtype": "CALL FUNCTION/Call",
+                            "strval": "<{Function_name}>( event_struct )",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": -1187481611,
+                            "strtype": "CALL FUNCTION/CallC",
+                            "strval": "<{Function_name}>( e );",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 397058635,
+                            "strtype": "CALL FUNCTION/Function_name",
+                            "strval": "Button3ClickedAction",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 1351606857,
+                            "strtype": "CALL FUNCTION/Dont_export_function",
+                            "strval": "False",
+                            "InheritedType": 2
+                          }
+                        ],
+                        "InheritedType": 10
+                      }
+                    ],
+                    "InheritedType": 4
                   }
                 ],
                 "saved_objtypeKey": "BUTTON"
@@ -2654,6 +2784,71 @@
                     "strtype": "BUTTON/Style_main",
                     "strval": "lv.PART.MAIN, Rectangle, Pad, Text ",
                     "InheritedType": 11
+                  },
+                  {
+                    "disabled": false,
+                    "nid": -1027219297,
+                    "strtype": "BUTTON/EventHandler",
+                    "strval": "CLICKED",
+                    "childs": [
+                      {
+                        "nid": -1174773717,
+                        "strtype": "_custom/name",
+                        "strval": "Button4ClickedEvent",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": -1028835829,
+                        "strtype": "_custom/condition_C",
+                        "strval": "",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": 731472190,
+                        "strtype": "_custom/condition_P",
+                        "strval": "",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": 911221927,
+                        "strtype": "_custom/action",
+                        "strval": "CALL FUNCTION",
+                        "childs": [
+                          {
+                            "nid": 1352571389,
+                            "strtype": "CALL FUNCTION/Name",
+                            "strval": "CALL FUNCTION",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 717874435,
+                            "strtype": "CALL FUNCTION/Call",
+                            "strval": "<{Function_name}>( event_struct )",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 2114636428,
+                            "strtype": "CALL FUNCTION/CallC",
+                            "strval": "<{Function_name}>( e );",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": -1956905669,
+                            "strtype": "CALL FUNCTION/Function_name",
+                            "strval": "Button4ClickedAction",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 1092327932,
+                            "strtype": "CALL FUNCTION/Dont_export_function",
+                            "strval": "False",
+                            "InheritedType": 2
+                          }
+                        ],
+                        "InheritedType": 10
+                      }
+                    ],
+                    "InheritedType": 4
                   }
                 ],
                 "saved_objtypeKey": "BUTTON"
@@ -3220,6 +3415,71 @@
                     "strtype": "BUTTON/Style_main",
                     "strval": "lv.PART.MAIN, Rectangle, Pad, Text ",
                     "InheritedType": 11
+                  },
+                  {
+                    "disabled": false,
+                    "nid": -578512669,
+                    "strtype": "BUTTON/EventHandler",
+                    "strval": "CLICKED",
+                    "childs": [
+                      {
+                        "nid": 459963586,
+                        "strtype": "_custom/name",
+                        "strval": "Button5ClickedEvent",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": 640655343,
+                        "strtype": "_custom/condition_C",
+                        "strval": "",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": 606352230,
+                        "strtype": "_custom/condition_P",
+                        "strval": "",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": 1425887217,
+                        "strtype": "_custom/action",
+                        "strval": "CALL FUNCTION",
+                        "childs": [
+                          {
+                            "nid": 487953825,
+                            "strtype": "CALL FUNCTION/Name",
+                            "strval": "CALL FUNCTION",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 241849228,
+                            "strtype": "CALL FUNCTION/Call",
+                            "strval": "<{Function_name}>( event_struct )",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 21689048,
+                            "strtype": "CALL FUNCTION/CallC",
+                            "strval": "<{Function_name}>( e );",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 1365902834,
+                            "strtype": "CALL FUNCTION/Function_name",
+                            "strval": "Button5ClickedAction",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 132364684,
+                            "strtype": "CALL FUNCTION/Dont_export_function",
+                            "strval": "False",
+                            "InheritedType": 2
+                          }
+                        ],
+                        "InheritedType": 10
+                      }
+                    ],
+                    "InheritedType": 4
                   }
                 ],
                 "saved_objtypeKey": "BUTTON"
@@ -3786,6 +4046,71 @@
                     "strtype": "BUTTON/Style_main",
                     "strval": "lv.PART.MAIN, Rectangle, Pad, Text ",
                     "InheritedType": 11
+                  },
+                  {
+                    "disabled": false,
+                    "nid": 1995744697,
+                    "strtype": "BUTTON/EventHandler",
+                    "strval": "CLICKED",
+                    "childs": [
+                      {
+                        "nid": -1027581459,
+                        "strtype": "_custom/name",
+                        "strval": "Button6ClickedEvent",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": -1228417749,
+                        "strtype": "_custom/condition_C",
+                        "strval": "",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": -470756198,
+                        "strtype": "_custom/condition_P",
+                        "strval": "",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": 942769455,
+                        "strtype": "_custom/action",
+                        "strval": "CALL FUNCTION",
+                        "childs": [
+                          {
+                            "nid": 2106170676,
+                            "strtype": "CALL FUNCTION/Name",
+                            "strval": "CALL FUNCTION",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": -2042907840,
+                            "strtype": "CALL FUNCTION/Call",
+                            "strval": "<{Function_name}>( event_struct )",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 208446369,
+                            "strtype": "CALL FUNCTION/CallC",
+                            "strval": "<{Function_name}>( e );",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": -1214737940,
+                            "strtype": "CALL FUNCTION/Function_name",
+                            "strval": "Button6ClickedAction",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": -789666459,
+                            "strtype": "CALL FUNCTION/Dont_export_function",
+                            "strval": "False",
+                            "InheritedType": 2
+                          }
+                        ],
+                        "InheritedType": 10
+                      }
+                    ],
+                    "InheritedType": 4
                   }
                 ],
                 "saved_objtypeKey": "BUTTON"
@@ -4352,6 +4677,71 @@
                     "strtype": "BUTTON/Style_main",
                     "strval": "lv.PART.MAIN, Rectangle, Pad, Text ",
                     "InheritedType": 11
+                  },
+                  {
+                    "disabled": false,
+                    "nid": -787761162,
+                    "strtype": "BUTTON/EventHandler",
+                    "strval": "CLICKED",
+                    "childs": [
+                      {
+                        "nid": 248532216,
+                        "strtype": "_custom/name",
+                        "strval": "Button7ClickedEvent",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": 1983034012,
+                        "strtype": "_custom/condition_C",
+                        "strval": "",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": 87105186,
+                        "strtype": "_custom/condition_P",
+                        "strval": "",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": -1562433499,
+                        "strtype": "_custom/action",
+                        "strval": "CALL FUNCTION",
+                        "childs": [
+                          {
+                            "nid": -616828859,
+                            "strtype": "CALL FUNCTION/Name",
+                            "strval": "CALL FUNCTION",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 533389892,
+                            "strtype": "CALL FUNCTION/Call",
+                            "strval": "<{Function_name}>( event_struct )",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 1401004863,
+                            "strtype": "CALL FUNCTION/CallC",
+                            "strval": "<{Function_name}>( e );",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 115023362,
+                            "strtype": "CALL FUNCTION/Function_name",
+                            "strval": "Button7ClickedAction",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 1275740906,
+                            "strtype": "CALL FUNCTION/Dont_export_function",
+                            "strval": "False",
+                            "InheritedType": 2
+                          }
+                        ],
+                        "InheritedType": 10
+                      }
+                    ],
+                    "InheritedType": 4
                   }
                 ],
                 "saved_objtypeKey": "BUTTON"
@@ -4918,6 +5308,71 @@
                     "strtype": "BUTTON/Style_main",
                     "strval": "lv.PART.MAIN, Rectangle, Pad, Text ",
                     "InheritedType": 11
+                  },
+                  {
+                    "disabled": false,
+                    "nid": 462571848,
+                    "strtype": "BUTTON/EventHandler",
+                    "strval": "CLICKED",
+                    "childs": [
+                      {
+                        "nid": -562672144,
+                        "strtype": "_custom/name",
+                        "strval": "Button8ClickedEvent",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": -1073855069,
+                        "strtype": "_custom/condition_C",
+                        "strval": "",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": 1088048539,
+                        "strtype": "_custom/condition_P",
+                        "strval": "",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": -1496318762,
+                        "strtype": "_custom/action",
+                        "strval": "CALL FUNCTION",
+                        "childs": [
+                          {
+                            "nid": -1922872612,
+                            "strtype": "CALL FUNCTION/Name",
+                            "strval": "CALL FUNCTION",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 1076267996,
+                            "strtype": "CALL FUNCTION/Call",
+                            "strval": "<{Function_name}>( event_struct )",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 1220902757,
+                            "strtype": "CALL FUNCTION/CallC",
+                            "strval": "<{Function_name}>( e );",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": -693806025,
+                            "strtype": "CALL FUNCTION/Function_name",
+                            "strval": "Button8ClickedAction",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 1114808282,
+                            "strtype": "CALL FUNCTION/Dont_export_function",
+                            "strval": "False",
+                            "InheritedType": 2
+                          }
+                        ],
+                        "InheritedType": 10
+                      }
+                    ],
+                    "InheritedType": 4
                   }
                 ],
                 "saved_objtypeKey": "BUTTON"
@@ -5484,6 +5939,71 @@
                     "strtype": "BUTTON/Style_main",
                     "strval": "lv.PART.MAIN, Rectangle, Pad, Text ",
                     "InheritedType": 11
+                  },
+                  {
+                    "disabled": false,
+                    "nid": 953040375,
+                    "strtype": "BUTTON/EventHandler",
+                    "strval": "CLICKED",
+                    "childs": [
+                      {
+                        "nid": 1821769950,
+                        "strtype": "_custom/name",
+                        "strval": "Button9ClickedEvent",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": 1422553653,
+                        "strtype": "_custom/condition_C",
+                        "strval": "",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": -777893440,
+                        "strtype": "_custom/condition_P",
+                        "strval": "",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": 1049968899,
+                        "strtype": "_custom/action",
+                        "strval": "CALL FUNCTION",
+                        "childs": [
+                          {
+                            "nid": -814302505,
+                            "strtype": "CALL FUNCTION/Name",
+                            "strval": "CALL FUNCTION",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": -1465119509,
+                            "strtype": "CALL FUNCTION/Call",
+                            "strval": "<{Function_name}>( event_struct )",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 1867421300,
+                            "strtype": "CALL FUNCTION/CallC",
+                            "strval": "<{Function_name}>( e );",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 1091147695,
+                            "strtype": "CALL FUNCTION/Function_name",
+                            "strval": "Button9ClickedAction",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": -1719622581,
+                            "strtype": "CALL FUNCTION/Dont_export_function",
+                            "strval": "False",
+                            "InheritedType": 2
+                          }
+                        ],
+                        "InheritedType": 10
+                      }
+                    ],
+                    "InheritedType": 4
                   }
                 ],
                 "saved_objtypeKey": "BUTTON"
@@ -6681,6 +7201,71 @@
                     "strtype": "BUTTON/Style_main",
                     "strval": "lv.PART.MAIN, Rectangle, Pad, Text ",
                     "InheritedType": 11
+                  },
+                  {
+                    "disabled": false,
+                    "nid": -2008420769,
+                    "strtype": "BUTTON/EventHandler",
+                    "strval": "CLICKED",
+                    "childs": [
+                      {
+                        "nid": 2093002988,
+                        "strtype": "_custom/name",
+                        "strval": "Button0ClickedEvent",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": 237154639,
+                        "strtype": "_custom/condition_C",
+                        "strval": "",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": -1356293762,
+                        "strtype": "_custom/condition_P",
+                        "strval": "",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": 1590958021,
+                        "strtype": "_custom/action",
+                        "strval": "CALL FUNCTION",
+                        "childs": [
+                          {
+                            "nid": -667990272,
+                            "strtype": "CALL FUNCTION/Name",
+                            "strval": "CALL FUNCTION",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 883743097,
+                            "strtype": "CALL FUNCTION/Call",
+                            "strval": "<{Function_name}>( event_struct )",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": -1230476472,
+                            "strtype": "CALL FUNCTION/CallC",
+                            "strval": "<{Function_name}>( e );",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 1400227857,
+                            "strtype": "CALL FUNCTION/Function_name",
+                            "strval": "Button0ClickedAction",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 1616965091,
+                            "strtype": "CALL FUNCTION/Dont_export_function",
+                            "strval": "False",
+                            "InheritedType": 2
+                          }
+                        ],
+                        "InheritedType": 10
+                      }
+                    ],
+                    "InheritedType": 4
                   }
                 ],
                 "saved_objtypeKey": "BUTTON"
@@ -8126,6 +8711,71 @@
             "strtype": "SCREEN/Don't export screen",
             "strval": "False",
             "InheritedType": 2
+          },
+          {
+            "disabled": false,
+            "nid": 1895974709,
+            "strtype": "SCREEN/EventHandler",
+            "strval": "SCREEN_LOADED",
+            "childs": [
+              {
+                "nid": -1099800772,
+                "strtype": "_custom/name",
+                "strval": "AlarmCodeScreenLoaded",
+                "InheritedType": 10
+              },
+              {
+                "nid": -2142914205,
+                "strtype": "_custom/condition_C",
+                "strval": "",
+                "InheritedType": 10
+              },
+              {
+                "nid": 1738658711,
+                "strtype": "_custom/condition_P",
+                "strval": "",
+                "InheritedType": 10
+              },
+              {
+                "nid": 319659356,
+                "strtype": "_custom/action",
+                "strval": "CALL FUNCTION",
+                "childs": [
+                  {
+                    "nid": 794703208,
+                    "strtype": "CALL FUNCTION/Name",
+                    "strval": "CALL FUNCTION",
+                    "InheritedType": 10
+                  },
+                  {
+                    "nid": -1424733155,
+                    "strtype": "CALL FUNCTION/Call",
+                    "strval": "<{Function_name}>( event_struct )",
+                    "InheritedType": 10
+                  },
+                  {
+                    "nid": 1180655646,
+                    "strtype": "CALL FUNCTION/CallC",
+                    "strval": "<{Function_name}>( e );",
+                    "InheritedType": 10
+                  },
+                  {
+                    "nid": -2105774484,
+                    "strtype": "CALL FUNCTION/Function_name",
+                    "strval": "AlarmCodeScreenLoadedAction",
+                    "InheritedType": 10
+                  },
+                  {
+                    "nid": -2138175688,
+                    "strtype": "CALL FUNCTION/Dont_export_function",
+                    "strval": "False",
+                    "InheritedType": 2
+                  }
+                ],
+                "InheritedType": 10
+              }
+            ],
+            "InheritedType": 4
           }
         ],
         "saved_objtypeKey": "SCREEN"
@@ -8169,7 +8819,7 @@
     "theme_color2": 0,
     "uiExportFolderPath": "C:/Users/albap/OneDrive/Projects/SenseCAPConfigAlbetaCOM/squareline/sq.albetacom/export/ASIS/./ui",
     "projectExportFolderPath": "C:/Users/albap/OneDrive/Projects/SenseCAPConfigAlbetaCOM/squareline/sq.albetacom/export/ASIS",
-    "backup_cnt": 73,
+    "backup_cnt": 78,
     "autosave_cnt": 0,
     "lvgl_version": "8.3.6",
     "callfuncsexport": "C_FILE",
