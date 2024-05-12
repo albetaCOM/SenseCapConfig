@@ -36,7 +36,8 @@ enum ha_config_page_item_size
 {
     IHAC_ITEM_SIZE_SMALL,
     IHAC_ITEM_SIZE_MEDIUM,
-    IHAC_ITEM_SIZE_LARGE
+    IHAC_ITEM_SIZE_LARGE,
+    // IHAC_ITEM_SIZE_XSMALL
 };
 
 // Enum for switch type
@@ -59,6 +60,7 @@ enum ha_config_page_type
     IHAC_PAGE_TYPE_2x2,
     IHAC_PAGE_TYPE_2x3,
     IHAC_PAGE_TYPE_2x4,
+    IHAC_PAGE_TYPE_3x4
 };
 
 // Config file status (RP2040 -> ESP32)

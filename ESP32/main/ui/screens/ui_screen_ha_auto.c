@@ -204,6 +204,10 @@ void getXYfromPageType(int type, int sensorx, int sensory, int *x, int *y)
         *x = 27 + (sensorx * 214) + (sensorx * 8);
         *y = 96 + (sensory * 78) + (sensory * 8);
         break;
+    case IHAC_PAGE_TYPE_3x4:
+        *x = 27 + (sensorx * 143) + (sensorx * 8);
+        *y = 96 + (sensory * 78) + (sensory * 8);
+        break;
     }
 
 #if DEBUG_UI

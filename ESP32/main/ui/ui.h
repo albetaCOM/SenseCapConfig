@@ -178,6 +178,8 @@ LV_IMG_DECLARE( ui_img_ic_switch2_on_png);   // assets/ic_switch2_on.png
 LV_IMG_DECLARE( ui_img_ic_switch1_on_png);   // assets/ic_switch1_on.png
 LV_IMG_DECLARE( ui_img_ic_switch2_off_png);   // assets/ic_switch2_off.png
 LV_IMG_DECLARE( ui_img_ic_switch1_off_png);   // assets/ic_switch1_off.png
+LV_IMG_DECLARE( ui_img_button_on_png);   // assets/ic_switch2_off.png
+LV_IMG_DECLARE( ui_img_button_off_png);   // assets/ic_switch1_off.png
 
 
 LV_FONT_DECLARE( ui_font_font0);

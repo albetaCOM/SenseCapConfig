@@ -37,6 +37,81 @@ void init_templates()
     ui_templates[BT_SMALL].sensor_ui.unit_y = 27;
     ui_templates[BT_SMALL].sensor_ui.font_size = 20;
 
+    // Added by JCL+Alba
+    // small switches
+    ui_templates[BT_SMALL].switch_ui.width = 214;
+    ui_templates[BT_SMALL].switch_ui.height = 78;
+
+    // Small Button
+    ui_templates[BT_SMALL].switch_ui.b_icon_x = 0;
+    ui_templates[BT_SMALL].switch_ui.b_icon_y = -10;
+
+    // small toggle
+    ui_templates[BT_SMALL].switch_ui.t_label_x = 0;
+    ui_templates[BT_SMALL].switch_ui.t_label_y = -5;
+    ui_templates[BT_SMALL].switch_ui.t_toggle_x = 0;
+    ui_templates[BT_SMALL].switch_ui.t_toggle_y = -7;
+    ui_templates[BT_SMALL].switch_ui.t_toggle_width = 120;
+    ui_templates[BT_SMALL].switch_ui.t_toggle_height = 60;
+
+    // small slider
+    ui_templates[BT_SMALL].switch_ui.s_data_label_x = 25;
+    ui_templates[BT_SMALL].switch_ui.s_data_label_y = 21;
+
+    // small arc
+    ui_templates[BT_SMALL].switch_ui.a_data_width = 130;
+    ui_templates[BT_SMALL].switch_ui.a_data_height = 125;
+    ui_templates[BT_SMALL].switch_ui.a_data_label_x = 0;
+    ui_templates[BT_SMALL].switch_ui.a_data_label_y = -50;
+
+    
+
+    // // Xtra Small type
+    // ui_templates[BT_XSMALL].type = BT_XSMALL;
+    // ui_templates[BT_XSMALL].sensor_ui.height = 78;
+    // ui_templates[BT_XSMALL].sensor_ui.width = 143;
+    // ui_templates[BT_XSMALL].sensor_ui.logo_width = 45;
+    // ui_templates[BT_XSMALL].sensor_ui.logo_height = 45;
+    // ui_templates[BT_XSMALL].sensor_ui.logo_x = 0;
+    // ui_templates[BT_XSMALL].sensor_ui.logo_y = 0;
+    // ui_templates[BT_XSMALL].sensor_ui.label_x = 0;
+    // ui_templates[BT_XSMALL].sensor_ui.label_y = 0;
+    // ui_templates[BT_XSMALL].sensor_ui.data_x = 58;
+    // ui_templates[BT_XSMALL].sensor_ui.data_y = 24;
+    // ui_templates[BT_XSMALL].sensor_ui.data_width = 71;
+    // ui_templates[BT_XSMALL].sensor_ui.unit_x = 142;
+    // ui_templates[BT_XSMALL].sensor_ui.unit_y = 27;
+    // ui_templates[BT_XSMALL].sensor_ui.font_size = 20;
+
+    // // Added by JCL+Alba
+    // // small switches
+    // ui_templates[BT_XSMALL].switch_ui.width = 143;
+    // ui_templates[BT_XSMALL].switch_ui.height = 78;
+
+    // // Small Button
+    // ui_templates[BT_XSMALL].switch_ui.b_icon_x = 0;
+    // ui_templates[BT_XSMALL].switch_ui.b_icon_y = -10;
+
+    // // small toggle
+    // ui_templates[BT_XSMALL].switch_ui.t_label_x = 0;
+    // ui_templates[BT_XSMALL].switch_ui.t_label_y = 0;//-5;
+    // ui_templates[BT_XSMALL].switch_ui.t_toggle_x = 0;
+    // ui_templates[BT_XSMALL].switch_ui.t_toggle_y = -7;
+    // ui_templates[BT_XSMALL].switch_ui.t_toggle_width = 120;
+    // ui_templates[BT_XSMALL].switch_ui.t_toggle_height = 60;
+
+    // // small slider
+    // ui_templates[BT_XSMALL].switch_ui.s_data_label_x = 25;
+    // ui_templates[BT_XSMALL].switch_ui.s_data_label_y = 21;
+
+    // // small arc
+    // ui_templates[BT_XSMALL].switch_ui.a_data_width = 130;
+    // ui_templates[BT_XSMALL].switch_ui.a_data_height = 125;
+    // ui_templates[BT_XSMALL].switch_ui.a_data_label_x = 0;
+    // ui_templates[BT_XSMALL].switch_ui.a_data_label_y = -50;
+
+    // End of JCL+Alba modification
+
     // Large type
     ui_templates[BT_LARGE].type = BT_LARGE;
     ui_templates[BT_LARGE].sensor_ui.height = 164;
@@ -213,7 +288,7 @@ void create_switch_button(int size, lv_obj_t *parent, ha_switch_t *switch_, int 
     lv_obj_set_style_bg_opa(switch_->btn, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     switch_->img = lv_img_create(switch_->btn);
-    lv_img_set_src(switch_->img, &ui_img_ic_switch2_off_png);
+    lv_img_set_src(switch_->img, &ui_img_button_off_png);
     lv_obj_set_width(switch_->img, LV_SIZE_CONTENT);  /// 45
     lv_obj_set_height(switch_->img, LV_SIZE_CONTENT); /// 45
     lv_obj_set_x(switch_->img, ui_templates[size].switch_ui.b_icon_x);
@@ -225,11 +300,11 @@ void create_switch_button(int size, lv_obj_t *parent, ha_switch_t *switch_, int 
     switch_->label = lv_label_create(switch_->btn);
     lv_obj_set_width(switch_->label, LV_SIZE_CONTENT);  /// 1
     lv_obj_set_height(switch_->label, LV_SIZE_CONTENT); /// 1
-    lv_obj_set_align(switch_->label, LV_ALIGN_BOTTOM_MID);
+    lv_obj_set_align(switch_->label, LV_ALIGN_CENTER); //LV_ALIGN_BOTTOM_MID);
     lv_label_set_text(switch_->label, label);
     lv_obj_set_style_text_color(switch_->label, lv_color_hex(0x9E9E9E), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(switch_->label, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(switch_->label, &lv_font_montserrat_18, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(switch_->label, &lv_font_montserrat_38, LV_PART_MAIN | LV_STATE_DEFAULT);
 }
 
 /**

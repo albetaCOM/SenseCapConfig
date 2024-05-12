@@ -130,6 +130,10 @@ void config_read()
                     else if (strcmp(cjson_item_type->valuestring, "2x4") == 0)
                     {
                         page->type = IHAC_PAGE_TYPE_2x4;
+                    }                    
+                    else if (strcmp(cjson_item_type->valuestring, "3x4") == 0)
+                    {
+                        page->type = IHAC_PAGE_TYPE_3x4;
                     }
                 }
 
@@ -197,7 +201,11 @@ void config_read()
                             else if (strcmp(cjson_item_size->valuestring, "small") == 0)
                             {
                                 sensor->size = IHAC_ITEM_SIZE_SMALL;
-                            }
+                            }                            
+                            // else if (strcmp(cjson_item_size->valuestring, "xsmall") == 0)
+                            // {
+                            //     sensor->size = IHAC_ITEM_SIZE_XSMALL;
+                            // }
                         }
                     }
 
@@ -296,6 +304,10 @@ void config_read()
                             {
                                 switchItem->size = IHAC_ITEM_SIZE_SMALL;
                             }
+                            // else if (strcmp(cjson_item_size->valuestring, "xsmall") == 0)
+                            // {
+                            //     switchItem->size = IHAC_ITEM_SIZE_XSMALL;
+                            // }
                         }
                     }
 

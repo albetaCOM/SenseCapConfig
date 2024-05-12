@@ -64,7 +64,8 @@ typedef struct template {
 enum template_type {
     BT_SMALL = 0,
     BT_MEDIUM = 1,
-    BT_LARGE = 2
+    BT_LARGE = 2,
+    // BT_XSMALL = 3
 };
 
 #define GLOBAL_LABEL_COLOR 0xECBF41
