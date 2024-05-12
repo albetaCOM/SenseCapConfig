@@ -37,7 +37,7 @@ enum ha_config_page_item_size
     IHAC_ITEM_SIZE_SMALL,
     IHAC_ITEM_SIZE_MEDIUM,
     IHAC_ITEM_SIZE_LARGE,
-    // IHAC_ITEM_SIZE_XSMALL
+    IHAC_ITEM_SIZE_XSMALL
 };
 
 // Enum for switch type

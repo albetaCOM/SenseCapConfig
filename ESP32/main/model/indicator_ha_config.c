@@ -202,10 +202,10 @@ void config_read()
                             {
                                 sensor->size = IHAC_ITEM_SIZE_SMALL;
                             }                            
-                            // else if (strcmp(cjson_item_size->valuestring, "xsmall") == 0)
-                            // {
-                            //     sensor->size = IHAC_ITEM_SIZE_XSMALL;
-                            // }
+                            else if (strcmp(cjson_item_size->valuestring, "xsmall") == 0)
+                            {
+                                sensor->size = IHAC_ITEM_SIZE_XSMALL;
+                            }
                         }
                     }
 
@@ -304,10 +304,10 @@ void config_read()
                             {
                                 switchItem->size = IHAC_ITEM_SIZE_SMALL;
                             }
-                            // else if (strcmp(cjson_item_size->valuestring, "xsmall") == 0)
-                            // {
-                            //     switchItem->size = IHAC_ITEM_SIZE_XSMALL;
-                            // }
+                            else if (strcmp(cjson_item_size->valuestring, "xsmall") == 0)
+                            {
+                                switchItem->size = IHAC_ITEM_SIZE_XSMALL;
+                            }
                         }
                     }
 

@@ -8,7 +8,7 @@ typedef struct user_data
     char postfix[10];
 } user_data_t;
 
-template_t ui_templates[3];
+template_t ui_templates[4];
 
 static const char *TAG = "HA_TEMPLATE";
 
@@ -66,49 +66,49 @@ void init_templates()
 
     
 
-    // // Xtra Small type
-    // ui_templates[BT_XSMALL].type = BT_XSMALL;
-    // ui_templates[BT_XSMALL].sensor_ui.height = 78;
-    // ui_templates[BT_XSMALL].sensor_ui.width = 143;
-    // ui_templates[BT_XSMALL].sensor_ui.logo_width = 45;
-    // ui_templates[BT_XSMALL].sensor_ui.logo_height = 45;
-    // ui_templates[BT_XSMALL].sensor_ui.logo_x = 0;
-    // ui_templates[BT_XSMALL].sensor_ui.logo_y = 0;
-    // ui_templates[BT_XSMALL].sensor_ui.label_x = 0;
-    // ui_templates[BT_XSMALL].sensor_ui.label_y = 0;
-    // ui_templates[BT_XSMALL].sensor_ui.data_x = 58;
-    // ui_templates[BT_XSMALL].sensor_ui.data_y = 24;
-    // ui_templates[BT_XSMALL].sensor_ui.data_width = 71;
-    // ui_templates[BT_XSMALL].sensor_ui.unit_x = 142;
-    // ui_templates[BT_XSMALL].sensor_ui.unit_y = 27;
-    // ui_templates[BT_XSMALL].sensor_ui.font_size = 20;
+    // Xtra Small type
+    ui_templates[BT_XSMALL].type = BT_XSMALL;
+    ui_templates[BT_XSMALL].sensor_ui.height = 78;
+    ui_templates[BT_XSMALL].sensor_ui.width = 143;
+    ui_templates[BT_XSMALL].sensor_ui.logo_width = 45;
+    ui_templates[BT_XSMALL].sensor_ui.logo_height = 45;
+    ui_templates[BT_XSMALL].sensor_ui.logo_x = 0;
+    ui_templates[BT_XSMALL].sensor_ui.logo_y = 0;
+    ui_templates[BT_XSMALL].sensor_ui.label_x = 0;
+    ui_templates[BT_XSMALL].sensor_ui.label_y = 0;
+    ui_templates[BT_XSMALL].sensor_ui.data_x = 58;
+    ui_templates[BT_XSMALL].sensor_ui.data_y = 24;
+    ui_templates[BT_XSMALL].sensor_ui.data_width = 71;
+    ui_templates[BT_XSMALL].sensor_ui.unit_x = 142;
+    ui_templates[BT_XSMALL].sensor_ui.unit_y = 27;
+    ui_templates[BT_XSMALL].sensor_ui.font_size = 20;
 
-    // // Added by JCL+Alba
-    // // small switches
-    // ui_templates[BT_XSMALL].switch_ui.width = 143;
-    // ui_templates[BT_XSMALL].switch_ui.height = 78;
+    // Added by JCL+Alba
+    // small switches
+    ui_templates[BT_XSMALL].switch_ui.width = 143;
+    ui_templates[BT_XSMALL].switch_ui.height = 78;
 
-    // // Small Button
-    // ui_templates[BT_XSMALL].switch_ui.b_icon_x = 0;
-    // ui_templates[BT_XSMALL].switch_ui.b_icon_y = -10;
+    // Small Button
+    ui_templates[BT_XSMALL].switch_ui.b_icon_x = 0;
+    ui_templates[BT_XSMALL].switch_ui.b_icon_y = -10;
 
-    // // small toggle
-    // ui_templates[BT_XSMALL].switch_ui.t_label_x = 0;
-    // ui_templates[BT_XSMALL].switch_ui.t_label_y = 0;//-5;
-    // ui_templates[BT_XSMALL].switch_ui.t_toggle_x = 0;
-    // ui_templates[BT_XSMALL].switch_ui.t_toggle_y = -7;
-    // ui_templates[BT_XSMALL].switch_ui.t_toggle_width = 120;
-    // ui_templates[BT_XSMALL].switch_ui.t_toggle_height = 60;
+    // small toggle
+    ui_templates[BT_XSMALL].switch_ui.t_label_x = 0;
+    ui_templates[BT_XSMALL].switch_ui.t_label_y = 0;//-5;
+    ui_templates[BT_XSMALL].switch_ui.t_toggle_x = 0;
+    ui_templates[BT_XSMALL].switch_ui.t_toggle_y = -7;
+    ui_templates[BT_XSMALL].switch_ui.t_toggle_width = 120;
+    ui_templates[BT_XSMALL].switch_ui.t_toggle_height = 60;
 
-    // // small slider
-    // ui_templates[BT_XSMALL].switch_ui.s_data_label_x = 25;
-    // ui_templates[BT_XSMALL].switch_ui.s_data_label_y = 21;
+    // small slider
+    ui_templates[BT_XSMALL].switch_ui.s_data_label_x = 25;
+    ui_templates[BT_XSMALL].switch_ui.s_data_label_y = 21;
 
-    // // small arc
-    // ui_templates[BT_XSMALL].switch_ui.a_data_width = 130;
-    // ui_templates[BT_XSMALL].switch_ui.a_data_height = 125;
-    // ui_templates[BT_XSMALL].switch_ui.a_data_label_x = 0;
-    // ui_templates[BT_XSMALL].switch_ui.a_data_label_y = -50;
+    // small arc
+    ui_templates[BT_XSMALL].switch_ui.a_data_width = 130;
+    ui_templates[BT_XSMALL].switch_ui.a_data_height = 125;
+    ui_templates[BT_XSMALL].switch_ui.a_data_label_x = 0;
+    ui_templates[BT_XSMALL].switch_ui.a_data_label_y = -50;
 
     // End of JCL+Alba modification
 
