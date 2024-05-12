@@ -8,14 +8,17 @@
 void Button1ClickedAction(lv_event_t * e)
 {
 	// Your code here
+	printf("HE APRETADO EL 1\n");
 }
 
 void ButtonClearClickedAction(lv_event_t * e)
 {
 	// Your code here
+	printf("HE APRETADO EL CLEAR\n");
 }
 
 void ButtonSendClickedAction(lv_event_t * e)
 {
 	// Your code here
+	printf("HE APRETADO EL SEND\n");
 }

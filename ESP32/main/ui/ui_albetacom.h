@@ -19,6 +19,7 @@ extern "C" {
 void ui_ha_alarm_keypad_screen_init(void);
 extern lv_obj_t * ui_ha_alarm_keypad;
 extern lv_obj_t * ui_ha_alarm_label;
+extern lv_obj_t * ui_Container1;
 void ui_event_Button1(lv_event_t * e);
 extern lv_obj_t * ui_Button1;
 extern lv_obj_t * ui_Label1;
@@ -38,15 +39,17 @@ extern lv_obj_t * ui_Button8;
 extern lv_obj_t * ui_Label8;
 extern lv_obj_t * ui_Button9;
 extern lv_obj_t * ui_Label9;
-extern lv_obj_t * ui_Button10;
-extern lv_obj_t * ui_Label10;
 void ui_event_Button11(lv_event_t * e);
 extern lv_obj_t * ui_Button11;
 extern lv_obj_t * ui_Label11;
+extern lv_obj_t * ui_Button10;
+extern lv_obj_t * ui_Label10;
 void ui_event_Button12(lv_event_t * e);
 extern lv_obj_t * ui_Button12;
 extern lv_obj_t * ui_Label12;
+extern lv_obj_t * ui_LabelCode;
 extern lv_obj_t * ui____initial_actions0;
+
 
 void ui_albetacom_init(void);
 

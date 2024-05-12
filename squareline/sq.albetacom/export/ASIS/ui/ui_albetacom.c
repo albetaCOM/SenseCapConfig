@@ -3,7 +3,6 @@
 // LVGL version: 8.3.6
 // Project name: albetacom
 
-#include "ui.h"
 #include "ui_albetacom.h"
 #include "ui_helpers.h"
 
@@ -14,6 +13,7 @@
 void ui_ha_alarm_keypad_screen_init(void);
 lv_obj_t * ui_ha_alarm_keypad;
 lv_obj_t * ui_ha_alarm_label;
+lv_obj_t * ui_Container1;
 void ui_event_Button1(lv_event_t * e);
 lv_obj_t * ui_Button1;
 lv_obj_t * ui_Label1;
@@ -33,14 +33,15 @@ lv_obj_t * ui_Button8;
 lv_obj_t * ui_Label8;
 lv_obj_t * ui_Button9;
 lv_obj_t * ui_Label9;
-lv_obj_t * ui_Button10;
-lv_obj_t * ui_Label10;
 void ui_event_Button11(lv_event_t * e);
 lv_obj_t * ui_Button11;
 lv_obj_t * ui_Label11;
+lv_obj_t * ui_Button10;
+lv_obj_t * ui_Label10;
 void ui_event_Button12(lv_event_t * e);
 lv_obj_t * ui_Button12;
 lv_obj_t * ui_Label12;
+lv_obj_t * ui_LabelCode;
 
 ///////////////////// TEST LVGL SETTINGS ////////////////////
 #if LV_COLOR_DEPTH != 16

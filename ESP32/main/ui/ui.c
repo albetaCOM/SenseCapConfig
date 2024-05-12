@@ -7,7 +7,7 @@
 #include "esp_log.h"
 #include "indicator_ha_config.h"
 #include "ui_helpers.h"
-#include "ui_albetacom.h"
+#include "ui.h"
 
 static const char *TAG = "UI";
 
