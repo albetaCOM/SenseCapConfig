@@ -90,7 +90,7 @@ void init_templates()
 
     // Small Button
     ui_templates[BT_XSMALL].switch_ui.b_icon_x = 0;
-    ui_templates[BT_XSMALL].switch_ui.b_icon_y = -10;
+    ui_templates[BT_XSMALL].switch_ui.b_icon_y = 0;//-10;
 
     // small toggle
     ui_templates[BT_XSMALL].switch_ui.t_label_x = 0;
@@ -288,7 +288,7 @@ void create_switch_button(int size, lv_obj_t *parent, ha_switch_t *switch_, int 
     lv_obj_set_style_bg_opa(switch_->btn, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     switch_->img = lv_img_create(switch_->btn);
-    lv_img_set_src(switch_->img, &ui_img_button_off_png);
+    lv_img_set_src(switch_->img, &ui_img_round_png);
     lv_obj_set_width(switch_->img, LV_SIZE_CONTENT);  /// 45
     lv_obj_set_height(switch_->img, LV_SIZE_CONTENT); /// 45
     lv_obj_set_x(switch_->img, ui_templates[size].switch_ui.b_icon_x);

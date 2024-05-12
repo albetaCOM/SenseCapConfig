@@ -172,6 +172,8 @@ extern "C"
         VIEW_EVENT_HA_SWITCH_ST,  // struct view_data_ha_switch_data
         VIEW_EVENT_HA_SWITCH_SET, // struct view_data_ha_switch_data
 
+        VIEW_EVENT_HA_SCREEN_CHANGE, 
+
         VIEW_EVENT_ALL,
     };
 

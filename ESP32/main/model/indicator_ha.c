@@ -19,6 +19,8 @@
 #include "mqtt_client.h"
 
 #define HA_CFG_STORAGE "ha-cfg"
+#define MAX_LENGTH_SCREEN_TARGET 50
+
 
 static const char *TAG = "HA";
 #define DEBUG_HA 0
@@ -228,6 +230,19 @@ static int mqtt_msg_handler(const char *p_topic, int topic_len, const char *p_da
             // return 0;
         }
     }
+
+    // Added MQTT topic for changinf the screen from home assistant
+    if (0 == strncmp(p_topic, "indicator/screen", topic_len)){
+        cjson_item = cJSON_GetObjectItem(root, "target");
+        if (cjson_item != NULL){
+            ESP_LOGI(TAG, "CAMBIO DE PANTALLA: %s", cjson_item->valuestring);
+            ESP_LOGI(TAG, "String size: %d", strnlen(cjson_item->valuestring,MAX_LENGTH_SCREEN_TARGET));
+            
+            esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SCREEN_CHANGE, cjson_item->valuestring, strnlen(cjson_item->valuestring,MAX_LENGTH_SCREEN_TARGET)+1, portMAX_DELAY);
+        }
+    }
+
+
 prase_end:
     cJSON_Delete(root);
 }
@@ -273,10 +288,14 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
         for (int i; i < ha_switch_entites_num; i++)
         {
             msg_id = esp_mqtt_client_subscribe(client, ha_switch_entites[i].topic_set, ha_switch_entites[i].qos);
+            ESP_LOGI(TAG, "subscribe:%s, msg_id=%d", ha_switch_entites[i].topic_set, msg_id);
 #if DEBUG_HA
             ESP_LOGI(TAG, "subscribe:%s, msg_id=%d", ha_switch_entites[i].topic_set, msg_id);
 #endif
         }
+
+        // New topic subscription for changing the screens from HA (JCL + Alba)
+        msg_id = esp_mqtt_client_subscribe(client, "indicator/screen", 0);
 
         //  restore switch state for UI and HA.
         struct view_data_ha_switch_data switch_data;

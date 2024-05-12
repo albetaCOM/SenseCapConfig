@@ -153,6 +153,18 @@ extern lv_obj_t * ui_sensor_chart_week;
 extern lv_chart_series_t * ui_sensor_chart_week_series_hight;
 extern lv_chart_series_t * ui_sensor_chart_week_series_low;
 
+// SCREEN: ui_Alarm_keypad1
+void ui_Alarm_keypad1_screen_init(void);
+extern lv_obj_t * ui_Alarm_keypad1;
+extern lv_obj_t * ui_ha_keypad_label1;
+void ui_event_Button1(lv_event_t * e);
+extern lv_obj_t * ui_Button1;
+extern lv_obj_t * ui_Label1;
+void ui_event_Button2(lv_event_t * e);
+extern lv_obj_t * ui_Button2;
+extern lv_obj_t * ui_Label2;
+
+
 LV_IMG_DECLARE( ui_img_wifi_disconet_png);   // assets/wifi_disconet.png
 LV_IMG_DECLARE( ui_img_location_png);   // assets/location.png
 LV_IMG_DECLARE( ui_img_temp_1_png);   // assets/temp_1.png
@@ -178,8 +190,7 @@ LV_IMG_DECLARE( ui_img_ic_switch2_on_png);   // assets/ic_switch2_on.png
 LV_IMG_DECLARE( ui_img_ic_switch1_on_png);   // assets/ic_switch1_on.png
 LV_IMG_DECLARE( ui_img_ic_switch2_off_png);   // assets/ic_switch2_off.png
 LV_IMG_DECLARE( ui_img_ic_switch1_off_png);   // assets/ic_switch1_off.png
-LV_IMG_DECLARE( ui_img_button_on_png);   // assets/ic_switch2_off.png
-LV_IMG_DECLARE( ui_img_button_off_png);   // assets/ic_switch1_off.png
+LV_IMG_DECLARE( ui_img_round_png);   // assets/ic_switch2_off.png
 
 
 LV_FONT_DECLARE( ui_font_font0);

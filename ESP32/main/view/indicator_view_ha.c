@@ -11,6 +11,25 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
     lv_port_sem_take();
     switch (id)
     {
+    case VIEW_EVENT_HA_SCREEN_CHANGE:
+    {
+        ESP_LOGI(TAG, "event: VIEW_EVENT_HA_SCREEN_CHANGE");
+        char *p_data = (char *)event_data;
+        ESP_LOGI(TAG, "data: %s",p_data);
+        
+        if(strcmp(p_data,"settings")==0){
+            _ui_screen_change(ui_screen_setting, LV_SCR_LOAD_ANIM_FADE_IN, 200, 0);
+        }
+        else if(strcmp(p_data,"clock")==0){
+            _ui_screen_change(ui_screen_time, LV_SCR_LOAD_ANIM_FADE_IN, 200, 0);
+        }
+        else if(strcmp(p_data,"alarm_keypad")==0){
+            _ui_screen_change(ui_Alarm_keypad1, LV_SCR_LOAD_ANIM_FADE_IN, 200, 0);
+        }
+        
+        break;    
+    }
+
     case VIEW_EVENT_HA_SENSOR:
     {
         ESP_LOGI(TAG, "event: VIEW_EVENT_HA_SENSOR");
@@ -84,5 +103,9 @@ int indicator_view_ha_init(void)
 
     ESP_ERROR_CHECK(esp_event_handler_instance_register_with(view_event_handle,
                                                              VIEW_EVENT_BASE, VIEW_EVENT_HA_SWITCH_SET,
+                                                             __view_event_handler, NULL, NULL));
+
+    ESP_ERROR_CHECK(esp_event_handler_instance_register_with(view_event_handle,
+                                                             VIEW_EVENT_BASE, VIEW_EVENT_HA_SCREEN_CHANGE,
                                                              __view_event_handler, NULL, NULL));
 }
