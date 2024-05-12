@@ -13,30 +13,29 @@ void ui_ha_alarm_keypad_screen_init(void)
     lv_obj_set_style_bg_opa(ui_ha_alarm_keypad, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_ha_alarm_label = lv_label_create(ui_ha_alarm_keypad);
-    lv_obj_set_width(ui_ha_alarm_label, 316);
-    lv_obj_set_height(ui_ha_alarm_label, 38);
-    lv_obj_set_x(ui_ha_alarm_label, 82);
-    lv_obj_set_y(ui_ha_alarm_label, 58);
+    lv_obj_set_width(ui_ha_alarm_label, 476);
+    lv_obj_set_height(ui_ha_alarm_label, 17);
+    lv_obj_set_align(ui_ha_alarm_label, LV_ALIGN_TOP_MID);
     lv_label_set_text(ui_ha_alarm_label, "Alarm Code");
     lv_obj_set_style_text_color(ui_ha_alarm_label, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_ha_alarm_label, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui_ha_alarm_label, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_ha_alarm_label, &ui_font_font0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_ha_alarm_label, &ui_font_font2, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Container1 = lv_obj_create(ui_ha_alarm_keypad);
     lv_obj_remove_style_all(ui_Container1);
-    lv_obj_set_width(ui_Container1, 392);
-    lv_obj_set_height(ui_Container1, 320);
-    lv_obj_set_x(ui_Container1, 7);
-    lv_obj_set_y(ui_Container1, 61);
+    lv_obj_set_width(ui_Container1, 450);
+    lv_obj_set_height(ui_Container1, 349);
+    lv_obj_set_x(ui_Container1, 4);
+    lv_obj_set_y(ui_Container1, 42);
     lv_obj_set_align(ui_Container1, LV_ALIGN_CENTER);
     lv_obj_set_flex_flow(ui_Container1, LV_FLEX_FLOW_ROW_WRAP);
     lv_obj_set_flex_align(ui_Container1, LV_FLEX_ALIGN_SPACE_EVENLY, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_SPACE_AROUND);
     lv_obj_clear_flag(ui_Container1, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
     ui_Button1 = lv_btn_create(ui_Container1);
-    lv_obj_set_width(ui_Button1, 100);
-    lv_obj_set_height(ui_Button1, 50);
+    lv_obj_set_width(ui_Button1, 120);
+    lv_obj_set_height(ui_Button1, 70);
     lv_obj_set_x(ui_Button1, -175);
     lv_obj_set_y(ui_Button1, -164);
     lv_obj_set_align(ui_Button1, LV_ALIGN_CENTER);
@@ -51,8 +50,8 @@ void ui_ha_alarm_keypad_screen_init(void)
     lv_obj_set_style_text_font(ui_Label1, &lv_font_montserrat_34, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Button2 = lv_btn_create(ui_Container1);
-    lv_obj_set_width(ui_Button2, 100);
-    lv_obj_set_height(ui_Button2, 50);
+    lv_obj_set_width(ui_Button2, 120);
+    lv_obj_set_height(ui_Button2, 70);
     lv_obj_set_x(ui_Button2, -66);
     lv_obj_set_y(ui_Button2, -164);
     lv_obj_set_align(ui_Button2, LV_ALIGN_CENTER);
@@ -67,8 +66,8 @@ void ui_ha_alarm_keypad_screen_init(void)
     lv_obj_set_style_text_font(ui_Label2, &lv_font_montserrat_34, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Button3 = lv_btn_create(ui_Container1);
-    lv_obj_set_width(ui_Button3, 100);
-    lv_obj_set_height(ui_Button3, 50);
+    lv_obj_set_width(ui_Button3, 120);
+    lv_obj_set_height(ui_Button3, 70);
     lv_obj_set_x(ui_Button3, 43);
     lv_obj_set_y(ui_Button3, -164);
     lv_obj_set_align(ui_Button3, LV_ALIGN_CENTER);
@@ -83,8 +82,8 @@ void ui_ha_alarm_keypad_screen_init(void)
     lv_obj_set_style_text_font(ui_Label3, &lv_font_montserrat_34, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Button4 = lv_btn_create(ui_Container1);
-    lv_obj_set_width(ui_Button4, 100);
-    lv_obj_set_height(ui_Button4, 50);
+    lv_obj_set_width(ui_Button4, 120);
+    lv_obj_set_height(ui_Button4, 70);
     lv_obj_set_x(ui_Button4, -175);
     lv_obj_set_y(ui_Button4, -99);
     lv_obj_set_align(ui_Button4, LV_ALIGN_CENTER);
@@ -99,8 +98,8 @@ void ui_ha_alarm_keypad_screen_init(void)
     lv_obj_set_style_text_font(ui_Label4, &lv_font_montserrat_34, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Button5 = lv_btn_create(ui_Container1);
-    lv_obj_set_width(ui_Button5, 100);
-    lv_obj_set_height(ui_Button5, 50);
+    lv_obj_set_width(ui_Button5, 120);
+    lv_obj_set_height(ui_Button5, 70);
     lv_obj_set_x(ui_Button5, -66);
     lv_obj_set_y(ui_Button5, -99);
     lv_obj_set_align(ui_Button5, LV_ALIGN_CENTER);
@@ -115,8 +114,8 @@ void ui_ha_alarm_keypad_screen_init(void)
     lv_obj_set_style_text_font(ui_Label5, &lv_font_montserrat_34, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Button6 = lv_btn_create(ui_Container1);
-    lv_obj_set_width(ui_Button6, 100);
-    lv_obj_set_height(ui_Button6, 50);
+    lv_obj_set_width(ui_Button6, 120);
+    lv_obj_set_height(ui_Button6, 70);
     lv_obj_set_x(ui_Button6, 43);
     lv_obj_set_y(ui_Button6, -99);
     lv_obj_set_align(ui_Button6, LV_ALIGN_CENTER);
@@ -131,8 +130,8 @@ void ui_ha_alarm_keypad_screen_init(void)
     lv_obj_set_style_text_font(ui_Label6, &lv_font_montserrat_34, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Button7 = lv_btn_create(ui_Container1);
-    lv_obj_set_width(ui_Button7, 100);
-    lv_obj_set_height(ui_Button7, 50);
+    lv_obj_set_width(ui_Button7, 120);
+    lv_obj_set_height(ui_Button7, 70);
     lv_obj_set_x(ui_Button7, -156);
     lv_obj_set_y(ui_Button7, 58);
     lv_obj_set_align(ui_Button7, LV_ALIGN_CENTER);
@@ -147,8 +146,8 @@ void ui_ha_alarm_keypad_screen_init(void)
     lv_obj_set_style_text_font(ui_Label7, &lv_font_montserrat_34, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Button8 = lv_btn_create(ui_Container1);
-    lv_obj_set_width(ui_Button8, 100);
-    lv_obj_set_height(ui_Button8, 50);
+    lv_obj_set_width(ui_Button8, 120);
+    lv_obj_set_height(ui_Button8, 70);
     lv_obj_set_x(ui_Button8, -41);
     lv_obj_set_y(ui_Button8, 56);
     lv_obj_set_align(ui_Button8, LV_ALIGN_CENTER);
@@ -163,8 +162,8 @@ void ui_ha_alarm_keypad_screen_init(void)
     lv_obj_set_style_text_font(ui_Label8, &lv_font_montserrat_34, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Button9 = lv_btn_create(ui_Container1);
-    lv_obj_set_width(ui_Button9, 100);
-    lv_obj_set_height(ui_Button9, 50);
+    lv_obj_set_width(ui_Button9, 120);
+    lv_obj_set_height(ui_Button9, 70);
     lv_obj_set_x(ui_Button9, 65);
     lv_obj_set_y(ui_Button9, 60);
     lv_obj_set_align(ui_Button9, LV_ALIGN_CENTER);
@@ -179,13 +178,15 @@ void ui_ha_alarm_keypad_screen_init(void)
     lv_obj_set_style_text_font(ui_Label9, &lv_font_montserrat_34, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Button11 = lv_btn_create(ui_Container1);
-    lv_obj_set_width(ui_Button11, 100);
-    lv_obj_set_height(ui_Button11, 50);
+    lv_obj_set_width(ui_Button11, 120);
+    lv_obj_set_height(ui_Button11, 70);
     lv_obj_set_x(ui_Button11, -159);
     lv_obj_set_y(ui_Button11, 135);
     lv_obj_set_align(ui_Button11, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_Button11, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_Button11, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_Button11, lv_color_hex(0x9F2B2B), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Button11, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Label11 = lv_label_create(ui_Button11);
     lv_obj_set_width(ui_Label11, LV_SIZE_CONTENT);   /// 1
@@ -195,8 +196,8 @@ void ui_ha_alarm_keypad_screen_init(void)
     lv_obj_set_style_text_font(ui_Label11, &lv_font_montserrat_24, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Button10 = lv_btn_create(ui_Container1);
-    lv_obj_set_width(ui_Button10, 100);
-    lv_obj_set_height(ui_Button10, 50);
+    lv_obj_set_width(ui_Button10, 120);
+    lv_obj_set_height(ui_Button10, 70);
     lv_obj_set_x(ui_Button10, -41);
     lv_obj_set_y(ui_Button10, 136);
     lv_obj_set_align(ui_Button10, LV_ALIGN_CENTER);
@@ -211,13 +212,15 @@ void ui_ha_alarm_keypad_screen_init(void)
     lv_obj_set_style_text_font(ui_Label10, &lv_font_montserrat_34, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Button12 = lv_btn_create(ui_Container1);
-    lv_obj_set_width(ui_Button12, 100);
-    lv_obj_set_height(ui_Button12, 50);
-    lv_obj_set_x(ui_Button12, 71);
-    lv_obj_set_y(ui_Button12, 144);
+    lv_obj_set_width(ui_Button12, 120);
+    lv_obj_set_height(ui_Button12, 70);
+    lv_obj_set_x(ui_Button12, 74);
+    lv_obj_set_y(ui_Button12, 164);
     lv_obj_set_align(ui_Button12, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_Button12, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_Button12, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_Button12, lv_color_hex(0x0F693E), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Button12, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Label12 = lv_label_create(ui_Button12);
     lv_obj_set_width(ui_Label12, LV_SIZE_CONTENT);   /// 1
@@ -229,9 +232,10 @@ void ui_ha_alarm_keypad_screen_init(void)
     ui_LabelCode = lv_label_create(ui_ha_alarm_keypad);
     lv_obj_set_width(ui_LabelCode, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_LabelCode, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_LabelCode, -3);
-    lv_obj_set_y(ui_LabelCode, -132);
+    lv_obj_set_x(ui_LabelCode, -1);
+    lv_obj_set_y(ui_LabelCode, -172);
     lv_obj_set_align(ui_LabelCode, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_LabelCode, "Code empty");
     lv_obj_set_style_text_color(ui_LabelCode, lv_color_hex(0x808080), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_LabelCode, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_LabelCode, &lv_font_montserrat_26, LV_PART_MAIN | LV_STATE_DEFAULT);

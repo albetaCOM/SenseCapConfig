@@ -26,6 +26,12 @@ char display_data[MAX_ALARM_CODE] = {0};
 int alarm_code_index = 0;
 
 
+void ClearCode(void)
+{
+	alarm_code_index = 0;
+	memset(alarm_code, 0, MAX_ALARM_CODE);
+}
+
 void DisplayAlarmCode( void )
 {
 	// char display_data[MAX_ALARM_CODE] = {0};
@@ -46,8 +52,7 @@ void DisplayAlarmCode( void )
 
 void AlarmCodeScreenLoadedAction(lv_event_t * e)
 {
-	alarm_code_index = 0;
-	memset(alarm_code, 0, MAX_ALARM_CODE);
+	ClearCode();
 	DisplayAlarmCode();
 }
 
@@ -62,16 +67,24 @@ void Button1ClickedAction(lv_event_t * e)
 
 void ButtonClearClickedAction(lv_event_t * e)
 {
-	alarm_code_index = 0;
-	memset(alarm_code, 0, MAX_ALARM_CODE);
+	ClearCode();
 	DisplayAlarmCode();
 }
 
 void ButtonSendClickedAction(lv_event_t * e)
 {
 	// Your code here
-	printf("Sending alarm code event");
-    esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_ALARM_CODE_CHANGE, &alarm_code, strlen(alarm_code) + 1, portMAX_DELAY);
+	if(alarm_code_index > 0)
+	{
+		printf("Sending alarm code event");
+		lv_label_set_text(ui_LabelCode, "Code sent!");
+		esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_ALARM_CODE_CHANGE, &alarm_code, strlen(alarm_code) + 1, portMAX_DELAY);
+		ClearCode();
+	}
+	else
+	{
+		lv_label_set_text(ui_LabelCode, "Code is empty");
+	}	
 }
 
 void Button2ClickedAction(lv_event_t * e)

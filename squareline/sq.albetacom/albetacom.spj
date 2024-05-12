@@ -46,8 +46,8 @@
                 "flags": 17,
                 "strtype": "OBJECT/Position",
                 "intarray": [
-                  82,
-                  58
+                  0,
+                  0
                 ],
                 "InheritedType": 7
               },
@@ -56,15 +56,15 @@
                 "flags": 17,
                 "strtype": "OBJECT/Size",
                 "intarray": [
-                  316,
-                  38
+                  476,
+                  17
                 ],
                 "InheritedType": 7
               },
               {
                 "nid": -1248490367,
                 "strtype": "OBJECT/Align",
-                "strval": "TOP_LEFT",
+                "strval": "TOP_MID",
                 "InheritedType": 3
               },
               {
@@ -304,7 +304,7 @@
                       {
                         "nid": -2064522392,
                         "strtype": "_style/Text_Font",
-                        "strval": "font0",
+                        "strval": "font2",
                         "InheritedType": 3
                       }
                     ],
@@ -681,8 +681,8 @@
                     "flags": 17,
                     "strtype": "OBJECT/Size",
                     "intarray": [
-                      100,
-                      50
+                      120,
+                      70
                     ],
                     "InheritedType": 7
                   },
@@ -1312,8 +1312,8 @@
                     "flags": 17,
                     "strtype": "OBJECT/Size",
                     "intarray": [
-                      100,
-                      50
+                      120,
+                      70
                     ],
                     "InheritedType": 7
                   },
@@ -1943,8 +1943,8 @@
                     "flags": 17,
                     "strtype": "OBJECT/Size",
                     "intarray": [
-                      100,
-                      50
+                      120,
+                      70
                     ],
                     "InheritedType": 7
                   },
@@ -2574,8 +2574,8 @@
                     "flags": 17,
                     "strtype": "OBJECT/Size",
                     "intarray": [
-                      100,
-                      50
+                      120,
+                      70
                     ],
                     "InheritedType": 7
                   },
@@ -3205,8 +3205,8 @@
                     "flags": 17,
                     "strtype": "OBJECT/Size",
                     "intarray": [
-                      100,
-                      50
+                      120,
+                      70
                     ],
                     "InheritedType": 7
                   },
@@ -3836,8 +3836,8 @@
                     "flags": 17,
                     "strtype": "OBJECT/Size",
                     "intarray": [
-                      100,
-                      50
+                      120,
+                      70
                     ],
                     "InheritedType": 7
                   },
@@ -4467,8 +4467,8 @@
                     "flags": 17,
                     "strtype": "OBJECT/Size",
                     "intarray": [
-                      100,
-                      50
+                      120,
+                      70
                     ],
                     "InheritedType": 7
                   },
@@ -5098,8 +5098,8 @@
                     "flags": 17,
                     "strtype": "OBJECT/Size",
                     "intarray": [
-                      100,
-                      50
+                      120,
+                      70
                     ],
                     "InheritedType": 7
                   },
@@ -5729,8 +5729,8 @@
                     "flags": 17,
                     "strtype": "OBJECT/Size",
                     "intarray": [
-                      100,
-                      50
+                      120,
+                      70
                     ],
                     "InheritedType": 7
                   },
@@ -6360,8 +6360,8 @@
                     "flags": 17,
                     "strtype": "OBJECT/Size",
                     "intarray": [
-                      100,
-                      50
+                      120,
+                      70
                     ],
                     "InheritedType": 7
                   },
@@ -6373,7 +6373,6 @@
                   },
                   {
                     "nid": 1220738649,
-                    "flags": 1048576,
                     "strtype": "OBJECT/Flags",
                     "InheritedType": 1
                   },
@@ -6565,7 +6564,27 @@
                   },
                   {
                     "part": "lv.PART.MAIN",
-                    "childs": [],
+                    "childs": [
+                      {
+                        "nid": -2022712926,
+                        "strtype": "_style/StyleState",
+                        "strval": "DEFAULT",
+                        "childs": [
+                          {
+                            "nid": -1683316594,
+                            "strtype": "_style/Bg_Color",
+                            "intarray": [
+                              159,
+                              43,
+                              43,
+                              255
+                            ],
+                            "InheritedType": 7
+                          }
+                        ],
+                        "InheritedType": 1
+                      }
+                    ],
                     "nid": -443031909,
                     "strtype": "BUTTON/Style_main",
                     "strval": "lv.PART.MAIN, Rectangle, Pad, Text ",
@@ -6991,8 +7010,8 @@
                     "flags": 17,
                     "strtype": "OBJECT/Size",
                     "intarray": [
-                      100,
-                      50
+                      120,
+                      70
                     ],
                     "InheritedType": 7
                   },
@@ -7612,8 +7631,8 @@
                     "flags": 17,
                     "strtype": "OBJECT/Position",
                     "intarray": [
-                      71,
-                      144
+                      74,
+                      164
                     ],
                     "InheritedType": 7
                   },
@@ -7622,8 +7641,8 @@
                     "flags": 17,
                     "strtype": "OBJECT/Size",
                     "intarray": [
-                      100,
-                      50
+                      120,
+                      70
                     ],
                     "InheritedType": 7
                   },
@@ -7635,7 +7654,6 @@
                   },
                   {
                     "nid": -874860695,
-                    "flags": 1048576,
                     "strtype": "OBJECT/Flags",
                     "InheritedType": 1
                   },
@@ -7773,7 +7791,6 @@
                   },
                   {
                     "nid": -1747868115,
-                    "flags": 1048576,
                     "strtype": "OBJECT/States",
                     "InheritedType": 1
                   },
@@ -7827,7 +7844,27 @@
                   },
                   {
                     "part": "lv.PART.MAIN",
-                    "childs": [],
+                    "childs": [
+                      {
+                        "nid": -1860708749,
+                        "strtype": "_style/StyleState",
+                        "strval": "DEFAULT",
+                        "childs": [
+                          {
+                            "nid": -434618989,
+                            "strtype": "_style/Bg_Color",
+                            "intarray": [
+                              15,
+                              105,
+                              62,
+                              255
+                            ],
+                            "InheritedType": 7
+                          }
+                        ],
+                        "InheritedType": 1
+                      }
+                    ],
                     "nid": -1698506536,
                     "strtype": "BUTTON/Style_main",
                     "strval": "lv.PART.MAIN, Rectangle, Pad, Text ",
@@ -7938,8 +7975,8 @@
                 "flags": 17,
                 "strtype": "OBJECT/Position",
                 "intarray": [
-                  7,
-                  61
+                  4,
+                  42
                 ],
                 "InheritedType": 7
               },
@@ -7948,8 +7985,8 @@
                 "flags": 17,
                 "strtype": "OBJECT/Size",
                 "intarray": [
-                  392,
-                  320
+                  450,
+                  349
                 ],
                 "InheritedType": 7
               },
@@ -8209,8 +8246,8 @@
                 "flags": 17,
                 "strtype": "OBJECT/Position",
                 "intarray": [
-                  -3,
-                  -132
+                  -1,
+                  -172
                 ],
                 "InheritedType": 7
               },
@@ -8436,7 +8473,7 @@
               {
                 "nid": -1302117148,
                 "strtype": "LABEL/Text",
-                "strval": "Text",
+                "strval": "Code empty",
                 "InheritedType": 10
               },
               {
@@ -8819,7 +8856,7 @@
     "theme_color2": 0,
     "uiExportFolderPath": "C:/Users/albap/OneDrive/Projects/SenseCAPConfigAlbetaCOM/squareline/sq.albetacom/export/ASIS/./ui",
     "projectExportFolderPath": "C:/Users/albap/OneDrive/Projects/SenseCAPConfigAlbetaCOM/squareline/sq.albetacom/export/ASIS",
-    "backup_cnt": 78,
+    "backup_cnt": 90,
     "autosave_cnt": 0,
     "lvgl_version": "8.3.6",
     "callfuncsexport": "C_FILE",

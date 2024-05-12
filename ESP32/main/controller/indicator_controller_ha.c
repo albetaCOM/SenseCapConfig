@@ -61,7 +61,8 @@ void ui_event_screen_ha(lv_event_t *e)
             if (screen_index == 0)
             {
                 // go to sensor
-                _ui_screen_change(ui_screen_sensor, LV_SCR_LOAD_ANIM_MOVE_RIGHT, 200, 0);
+                //_ui_screen_change(ui_screen_sensor, LV_SCR_LOAD_ANIM_MOVE_RIGHT, 200, 0);
+                _ui_screen_change(ui_screen_time, LV_SCR_LOAD_ANIM_MOVE_RIGHT, 200, 0);
             }
             else
             {

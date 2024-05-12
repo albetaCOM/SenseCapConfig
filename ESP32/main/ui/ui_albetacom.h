@@ -60,9 +60,6 @@ extern lv_obj_t * ui_Label12;
 extern lv_obj_t * ui_LabelCode;
 
 
-
-
-
 void ui_albetacom_init(void);
 
 #ifdef __cplusplus

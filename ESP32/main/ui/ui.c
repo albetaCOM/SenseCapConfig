@@ -203,7 +203,14 @@ void ui_event_screen_time(lv_event_t *e)
     lv_obj_t *target = lv_event_get_target(e);
     if (event_code == LV_EVENT_GESTURE && lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_LEFT)
     {
-        _ui_screen_change(ui_screen_sensor, LV_SCR_LOAD_ANIM_MOVE_LEFT, 200, 0);
+        //_ui_screen_change(ui_screen_sensor, LV_SCR_LOAD_ANIM_MOVE_LEFT, 200, 0);
+        if (screen_count == 0)
+        {
+            // dont change screen
+            return;
+        }
+        _ui_screen_change(screens[0].page_obj, LV_SCR_LOAD_ANIM_MOVE_LEFT, 200, 0);
+        //_ui_screen_change(ui_page_obj, LV_SCR_LOAD_ANIM_MOVE_LEFT, 200, 0);
     }
     if (event_code == LV_EVENT_GESTURE && lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_RIGHT)
     {

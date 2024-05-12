@@ -171,9 +171,7 @@ void ui_event_Button12(lv_event_t * e)
 
 ///////////////////// SCREENS ////////////////////
 
-void ui_init(void)
+void ui_albetacom_init(void)
 {
-
     ui_ha_alarm_keypad_screen_init();
-
 }
