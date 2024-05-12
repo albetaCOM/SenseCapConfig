@@ -907,6 +907,18 @@ static void __sensor_shutdown(void)
     }
 }
 
+static void __sensor_beep(void* data, int len)
+{
+    int ret = 0;
+
+    ret = __cmd_send(PKT_TYPE_CMD_BEEP_ON, data, len);
+    if (ret <= 0)
+    {
+        ESP_LOGE(TAG, "Beep on error (%d). ", ret);
+    }
+}
+
+
 static void __view_event_handler(void *handler_args, esp_event_base_t base, int32_t id, void *event_data)
 {
     int i;
@@ -968,6 +980,17 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
         ESP_LOGI(TAG, "event: VIEW_EVENT_SHUTDOWN");
 #endif
         __sensor_shutdown();
+        break;
+    }
+
+    case VIEW_EVENT_BEEP:
+    {
+        ESP_LOGI(TAG, "event: VIEW_EVENT_BEEP");
+        /*char *p_data = (char *)event_data;
+        printf("data 1= %d\n",p_data[0]);
+        printf("data 2= %d\n",p_data[1]);
+        printf("data 3= %d\n",p_data[2]);*/
+        __sensor_beep(event_data,3*sizeof(int));
         break;
     }
 // debug ui
@@ -1210,5 +1233,8 @@ int indicator_sensor_init(void)
                                                              __view_event_handler, NULL, NULL));
     ESP_ERROR_CHECK(esp_event_handler_instance_register_with(view_event_handle,
                                                              VIEW_EVENT_BASE, VIEW_EVENT_SHUTDOWN,
+                                                             __view_event_handler, NULL, NULL));
+    ESP_ERROR_CHECK(esp_event_handler_instance_register_with(view_event_handle,
+                                                             VIEW_EVENT_BASE, VIEW_EVENT_BEEP,
                                                              __view_event_handler, NULL, NULL));
 }

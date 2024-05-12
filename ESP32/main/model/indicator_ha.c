@@ -242,6 +242,35 @@ static int mqtt_msg_handler(const char *p_topic, int topic_len, const char *p_da
         }
     }
 
+    // Added MQTT topic for BEEEEP
+    
+    if (0 == strncmp(p_topic, "indicator/beep", topic_len)){
+
+        int beep_info[3] = {1,50,0};
+        cjson_item = cJSON_GetObjectItem(root, "beep_repetitions");
+        if (cjson_item != NULL){
+            beep_info[0] = cjson_item->valueint;
+            ESP_LOGI(TAG, "MQTT -> BEEP repetitions = %d", beep_info[0]);
+        }
+
+        cjson_item = cJSON_GetObjectItem(root, "beep_duration");
+        if (cjson_item != NULL){
+            beep_info[1] = cjson_item->valueint;
+            ESP_LOGI(TAG, "MQTT -> BEEP duration = %d", beep_info[1]);
+        }
+
+        cjson_item = cJSON_GetObjectItem(root, "beep_repetition_ms");
+        if (cjson_item != NULL){
+            beep_info[2] = cjson_item->valueint;
+            ESP_LOGI(TAG, "MQTT -> BEEP beep_repetition_ms = %d", beep_info[2]);
+        }
+        //printf("Sizeof(beepinfo) -> %d\n",sizeof(beep_info));
+        //printf("Sizeof(3*sizeof(int)) -> %d\n",3*sizeof(int));
+        esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_BEEP, &beep_info[0], sizeof(beep_info), portMAX_DELAY);
+        //esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_BEEP, NULL, 0, portMAX_DELAY);
+        
+    }
+
 
 prase_end:
     cJSON_Delete(root);
@@ -296,6 +325,7 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 
         // New topic subscription for changing the screens from HA (JCL + Alba)
         msg_id = esp_mqtt_client_subscribe(client, "indicator/screen", 0);
+        msg_id = esp_mqtt_client_subscribe(client, "indicator/beep", 0);
 
         //  restore switch state for UI and HA.
         struct view_data_ha_switch_data switch_data;

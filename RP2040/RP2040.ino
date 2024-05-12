@@ -479,11 +479,16 @@ void beep_off(void)
 /**
  * Turns on the beep sound.
  */
-void beep_on(void)
+void beep_on(int rep, int duration, int rep_ms)
 {
-    analogWrite(Buzzer, 127);
-    delay(50);
-    analogWrite(Buzzer, 0);
+  if(rep < 10){
+    for(i=0;i<rep;i++){
+      analogWrite(Buzzer, 127);
+      delay(duration);
+      analogWrite(Buzzer, 0);
+      if(i < (rep-1)) delay(rep_ms);
+    }
+  }
 }
 
 /************************ grove  ****************************/
@@ -535,6 +540,33 @@ void onPacketReceived(const uint8_t *buffer, size_t size)
     }
     switch (buffer[0])
     {
+
+    case PKT_TYPE_CMD_BEEP_ON:
+    {
+        int buf_int[3] = {1,50,0};
+        
+        if(size>1){
+          memcpy((uint8_t *)(&buf_int[0]),&buffer[1],size-1);
+        }
+
+
+        //int *buf_int = (int*) &buffer[1];
+        //beep_on(buffer[1],buffer[2],buffer[3]);
+
+        //Serial.printf("int: %d ", sizeof(int));Serial.println("");
+        /*Serial.printf("Rep: %d ", buf_int[0]);Serial.println("");
+        Serial.printf("Dur: %d ", buf_int[1]);Serial.println("");
+        Serial.printf("Dur_rep: %d ", buf_int[2]);Serial.println("");*/
+        
+        if(size>(3*sizeof(int))){
+          beep_on(buf_int[0],buf_int[1],buf_int[2]);
+        }
+        else{
+          beep_on(1,50,0);
+        }
+        break;
+    }
+
     case PKT_TYPE_CMD_SHUTDOWN:
     {
         Serial.println("cmd shutdown");
@@ -681,7 +713,7 @@ void setup()
 
     beep_init();
     delay(500);
-    beep_on();
+    beep_on(1,50,0);
 
     Serial.printf(SENSECAP, VERSION);
 

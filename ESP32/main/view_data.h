@@ -175,6 +175,8 @@ extern "C"
         VIEW_EVENT_HA_SCREEN_CHANGE, 
         VIEW_EVENT_HA_ALARM_CODE_CHANGE, 
 
+        VIEW_EVENT_BEEP,
+
         VIEW_EVENT_ALL,
     };
 

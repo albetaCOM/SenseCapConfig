@@ -52,6 +52,7 @@ void DisplayAlarmCode( void )
 
 void AlarmCodeScreenLoadedAction(lv_event_t * e)
 {
+	//esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_BEEP, NULL, 0, portMAX_DELAY);
 	ClearCode();
 	DisplayAlarmCode();
 }
