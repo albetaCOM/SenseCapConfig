@@ -22,7 +22,7 @@ void ui_ha_alarm_keypad_screen_init(void)
     lv_obj_set_style_text_align(ui_ha_alarm_label, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_ha_alarm_label, &ui_font_font2, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    sensor_add(ui_ha_alarm_label, "indicator/alarmStatus");
+    sensor_add(ui_ha_alarm_label, "alarmStatus", StatusCallback);
 
     ui_Container1 = lv_obj_create(ui_ha_alarm_keypad);
     lv_obj_remove_style_all(ui_Container1);
@@ -43,6 +43,8 @@ void ui_ha_alarm_keypad_screen_init(void)
     lv_obj_set_align(ui_Button1, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_Button1, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_Button1, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+
+    switch_add(ui_ha_alarm_keypad, ui_Button1, "button1", IHAC_SWITCH_TYPE_BUTTON);
 
     ui_Label1 = lv_label_create(ui_Button1);
     lv_obj_set_width(ui_Label1, LV_SIZE_CONTENT);   /// 1

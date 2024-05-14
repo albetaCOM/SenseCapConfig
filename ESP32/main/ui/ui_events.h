@@ -23,6 +23,7 @@ void Button9ClickedAction(lv_event_t * e);
 void ButtonClearClickedAction(lv_event_t * e);
 void Button0ClickedAction(lv_event_t * e);
 void ButtonSendClickedAction(lv_event_t * e);
+void StatusCallback(char * status);
 
 #ifdef __cplusplus
 } /*extern "C"*/

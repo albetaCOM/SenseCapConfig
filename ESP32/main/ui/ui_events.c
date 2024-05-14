@@ -159,3 +159,9 @@ void Button0ClickedAction(lv_event_t * e)
 	}
 	DisplayAlarmCode();
 }
+
+
+void StatusCallback(char * status) 
+{
+	printf("Status callback = %s\n", status);
+}

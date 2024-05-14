@@ -36,6 +36,10 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
         struct view_data_ha_sensor_data *p_data = (struct view_data_ha_sensor_data *)event_data;
 
         lv_label_set_text(all_sensors[p_data->index].data, p_data->value);
+
+        if (all_sensors[p_data->index].callback != NULL) {
+            all_sensors[p_data->index].callback(p_data->value);
+        }
         break;
     }
 
@@ -46,9 +50,13 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
 
         ESP_LOGI(TAG, "set switch %d: %d", (p_data->index) + 1, p_data->value);
 
+
         switch (all_switches[p_data->index].type)
         {
         case IHAC_SWITCH_TYPE_TOGGLE:
+            if (p_data->value != 0 && p_data->value != 1) {
+                p_data->value = 0;
+            }
             if (p_data->value)
             {
                 // lv_obj_add_state(all_switches[p_data->index].btn, LV_STATE_CHECKED);
@@ -68,13 +76,16 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
             break;
 
         case IHAC_SWITCH_TYPE_BUTTON:
+            if (p_data->value != 0 && p_data->value != 1) {
+                p_data->value = 0;
+            }
             if (p_data->value)
             {
-                lv_obj_add_state(all_switches[p_data->index].btn, LV_STATE_CHECKED);
+                lv_obj_add_state(all_switches[p_data->index].btn, LV_STATE_PRESSED);
             }
             else
             {
-                lv_obj_clear_state(all_switches[p_data->index].btn, LV_STATE_CHECKED);
+                lv_obj_clear_state(all_switches[p_data->index].btn, LV_STATE_PRESSED);
             }
             lv_event_send((lv_obj_t *)all_switches[p_data->index].btn, LV_EVENT_CLICKED, NULL);
             break;

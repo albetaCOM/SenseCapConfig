@@ -13,6 +13,8 @@ extern "C" {
 #include "lvgl/lvgl.h"
 #include "screens/ui_screen_ha_auto.h"
 #include "ui_albetacom.h"
+#include "../model/indicator_ha_config.h"
+
 
 void up_Animation( lv_obj_t *TargetObject, int delay);
 void ui_event_screen_time( lv_event_t * e);

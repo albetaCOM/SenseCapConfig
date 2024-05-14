@@ -14,12 +14,12 @@ int screen_count = 0;
 ha_sensor_t *all_sensors;
 int all_sensors_count = 0;
 int sensor_count = 0;
-int switch_count = 0;
 
 
 // global array of switches
 ha_switch_t *all_switches;
 int all_switches_count = 0;
+int switch_count = 0;
 
 // Function to init pages based on the config
 void ui_ha_init(void)
@@ -52,8 +52,6 @@ void ui_ha_init(void)
     screens = malloc(__g_ha_config.page_count * sizeof(screen_t));
 
     // calculate the number of sensors
-    sensor_count = 0;
-    switch_count = 0;
     for (int i = 0; i < __g_ha_config.page_count; i++)
     {
 #if DEBUG_UI
@@ -68,9 +66,10 @@ void ui_ha_init(void)
     }
 
     // allocate memory for sensors
-    all_sensors = malloc(sensor_count * sizeof(ha_sensor_t));
+    all_sensors = realloc(all_sensors, sensor_count * sizeof(ha_sensor_t));
+ 
     // allocate memory for switches
-    all_switches = malloc(switch_count * sizeof(ha_switch_t));
+    all_switches = realloc(all_switches, switch_count * sizeof(ha_switch_t));
 
     // sprintf(buffer, "   Biggest /     Free /    Total\n"
     //                 "\t  DRAM : [%8d / %8d / %8d]\n"
@@ -290,6 +289,8 @@ void sensor_create(lv_obj_t *parent, char *name, char *label, char *unit, char *
     // copy the ha key
     strcpy(all_sensors[i].ha_key, key);
 
+    all_sensors[i].callback = NULL;
+
     ESP_LOGI(TAG, "sensor_create: %s - %s", key, all_sensors[i].ha_key);
     ESP_LOGI(TAG, "sensor_create: size: %d", size);
     ESP_LOGI(TAG, "sensor_create: x: %d", x);
@@ -302,13 +303,13 @@ void sensor_create(lv_obj_t *parent, char *name, char *label, char *unit, char *
     create_sensor_button(size, parent, &all_sensors[i], x, y, 0xECBF41, name, label, unit, icon);
 }
 
-void sensor_add(lv_obj_t * labelObj, char *key)
+void sensor_add(lv_obj_t * labelObj, char *key, void (*_callback)(char *))
 {
-    sensor_count++;
     // Reallocate memory to accommodate the additional slot
-    ha_sensor_t all_sensors = realloc(all_sensors, sensor_count * sizeof(ha_sensor_t));
+    sensor_count++;
+    all_sensors = realloc(all_sensors, sensor_count * sizeof(ha_sensor_t));
 
-    // sensor counter
+    // Add the new sensor
     int i = all_sensors_count;
 
     // increment sensor counter
@@ -318,7 +319,8 @@ void sensor_add(lv_obj_t * labelObj, char *key)
     all_sensors[i].ha_key = malloc(strlen(key) + 1);
     // copy the ha key
     strcpy(all_sensors[i].ha_key, key);
-    all_sensors[i]->data = labelObj;
+    all_sensors[i].data = labelObj;
+    all_sensors[i].callback = _callback;
 }
 
 // function to create a switch
@@ -357,6 +359,53 @@ void switch_create(lv_obj_t *parent, char *name, char *label, char *icon, int si
     case IHAC_SWITCH_TYPE_ARC:
         ESP_LOGI(TAG, "switch_create: create_switch_arc");
         create_switch_arc(size, parent, &all_switches[i], x, y, label, unit);
+        break;
+    default:
+        break;
+    }
+}
+
+void switch_add(lv_obj_t *parent, lv_obj_t * switchObj, char *key, int type)
+{
+    // Reallocate memory to accommodate the additional slot
+    ESP_LOGI(TAG, "switch_add: sensor_count: %d", switch_count);
+    ESP_LOGI(TAG, "switch_add: all_sensors_count: %d", all_switches_count);
+    switch_count++;
+    all_switches = realloc(all_switches, switch_count * sizeof(ha_switch_t));
+    ESP_LOGI(TAG, "all_switches: reallocated: %d", switch_count);
+
+    // Add the switch
+    int i = all_switches_count;
+
+    // increment sensor counter
+    all_switches_count++;
+
+
+    memset(&all_switches[i], 0, sizeof(ha_switch_t));
+    all_switches[i].page = parent;
+    all_switches[i].type = type;
+    // store the ha key
+    strcpy(all_switches[i].ha_key, key);
+
+    ESP_LOGI(TAG, "Assigning object to switch %i", i);
+ // create switch based on type
+    switch (type)
+    {
+    case IHAC_SWITCH_TYPE_BUTTON:
+        ESP_LOGI(TAG, "switch_create: create_switch_button");
+        all_switches[i].btn = switchObj;
+        break;
+    case IHAC_SWITCH_TYPE_TOGGLE:
+        ESP_LOGI(TAG, "switch_add: create_switch_toggle");
+        all_switches[i].data = switchObj;
+        break;
+    case IHAC_SWITCH_TYPE_SLIDER:
+        ESP_LOGI(TAG, "switch_create: create_switch_slider");
+        all_switches[i].data = switchObj;
+        break;
+    case IHAC_SWITCH_TYPE_ARC:
+        ESP_LOGI(TAG, "switch_create: create_switch_arc");
+        all_switches[i].data = switchObj;
         break;
     default:
         break;

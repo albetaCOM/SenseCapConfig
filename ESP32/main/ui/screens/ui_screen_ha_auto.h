@@ -4,6 +4,8 @@
 #include "ha_config.h"
 #include "lvgl/lvgl.h"
 #include "ui_helpers.h"
+#include "../ui.h"
+
 
 typedef struct screen
 {
@@ -23,6 +25,7 @@ typedef struct
     lv_obj_t *data;  // data label for sensor
     lv_obj_t *unit;  // unit label for sensor
     char *ha_key;    // ha key
+    void (*callback)(char *); // callback whenever changed
 } ha_sensor_t;
 
 //  switch struct
@@ -53,7 +56,8 @@ extern int all_switches_count;
 
 // Function to init pages based on the config
 void ui_ha_init(void);
-void sensor_add(lv_obj_t * labelObj, char *key);
+void sensor_add(lv_obj_t * labelObj, char *key, void (*_callback)(char *));
+void switch_add(lv_obj_t *parent, lv_obj_t * switchObj, char *key, int type);
 
 
 extern char buffer[128];

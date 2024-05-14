@@ -131,17 +131,23 @@ void ui_event_switch_button(lv_event_t *e)
 
         struct view_data_ha_switch_data switch_data;
         switch_data.index = *index;
+
         // switch_data.key = all_switches[*index].ha_key;
         if (lv_obj_has_state(all_switches[*index].btn, LV_STATE_CHECKED))
         {
             switch_data.value = 1;
-            lv_img_set_src(all_switches[*index].img, &ui_img_round_png); // TODO: work on the image size based on switch size
+            if (all_switches[*index].img != NULL) {
+                lv_img_set_src(all_switches[*index].img, &ui_img_round_png); // TODO: work on the image size based on switch size
+            }
         }
         else
         {
             switch_data.value = 0;
-            lv_img_set_src(all_switches[*index].img, &ui_img_round_png); // TODO: work on the image size based on switch size
+            if (all_switches[*index].img != NULL) {
+                lv_img_set_src(all_switches[*index].img, &ui_img_round_png); // TODO: work on the image size based on switch size
+            }
         }
+        
         ESP_LOGI(TAG, " switch %d: %d", switch_data.index, switch_data.value);
         esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SWITCH_ST, &switch_data, sizeof(switch_data), portMAX_DELAY);
     }
