@@ -22,6 +22,8 @@ void ui_ha_alarm_keypad_screen_init(void)
     lv_obj_set_style_text_align(ui_ha_alarm_label, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_ha_alarm_label, &ui_font_font2, LV_PART_MAIN | LV_STATE_DEFAULT);
 
+    sensor_add(ui_ha_alarm_label, "indicator/alarmStatus");
+
     ui_Container1 = lv_obj_create(ui_ha_alarm_keypad);
     lv_obj_remove_style_all(ui_Container1);
     lv_obj_set_width(ui_Container1, 450);

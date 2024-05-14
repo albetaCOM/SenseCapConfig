@@ -13,6 +13,9 @@ int screen_count = 0;
 // global array of sensors
 ha_sensor_t *all_sensors;
 int all_sensors_count = 0;
+int sensor_count = 0;
+int switch_count = 0;
+
 
 // global array of switches
 ha_switch_t *all_switches;
@@ -49,8 +52,8 @@ void ui_ha_init(void)
     screens = malloc(__g_ha_config.page_count * sizeof(screen_t));
 
     // calculate the number of sensors
-    int sensor_count = 0;
-    int switch_count = 0;
+    sensor_count = 0;
+    switch_count = 0;
     for (int i = 0; i < __g_ha_config.page_count; i++)
     {
 #if DEBUG_UI
@@ -297,6 +300,25 @@ void sensor_create(lv_obj_t *parent, char *name, char *label, char *unit, char *
     ESP_LOGI(TAG, "sensor_create: icon: %s", icon);
 
     create_sensor_button(size, parent, &all_sensors[i], x, y, 0xECBF41, name, label, unit, icon);
+}
+
+void sensor_add(lv_obj_t * labelObj, char *key)
+{
+    sensor_count++;
+    // Reallocate memory to accommodate the additional slot
+    ha_sensor_t all_sensors = realloc(all_sensors, sensor_count * sizeof(ha_sensor_t));
+
+    // sensor counter
+    int i = all_sensors_count;
+
+    // increment sensor counter
+    all_sensors_count++;
+
+    // allocate memory for the ha key
+    all_sensors[i].ha_key = malloc(strlen(key) + 1);
+    // copy the ha key
+    strcpy(all_sensors[i].ha_key, key);
+    all_sensors[i]->data = labelObj;
 }
 
 // function to create a switch

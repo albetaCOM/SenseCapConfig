@@ -53,6 +53,8 @@ extern int all_switches_count;
 
 // Function to init pages based on the config
 void ui_ha_init(void);
+void sensor_add(lv_obj_t * labelObj, char *key);
+
 
 extern char buffer[128];
 
