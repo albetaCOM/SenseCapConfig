@@ -17,23 +17,23 @@ extern "C" {
 
 
 void up_Animation( lv_obj_t *TargetObject, int delay);
-void ui_event_screen_time( lv_event_t * e);
-extern lv_obj_t *ui_screen_time;
-extern lv_obj_t *ui_background;
-extern lv_obj_t *ui_hour;
-extern lv_obj_t *ui_hour_dis;
-extern lv_obj_t *ui_min;
-extern lv_obj_t *ui_min_dis;
-extern lv_obj_t *ui_colon;
-extern lv_obj_t *ui_adorn;
-extern lv_obj_t *ui_wifi_st_1;
-extern lv_obj_t *ui_date_panel;
-extern lv_obj_t *ui_date;
-extern lv_obj_t *ui_location;
-extern lv_obj_t *ui_location_Icon;
-extern lv_obj_t *ui_city;
-void ui_event_screen_sensor( lv_event_t * e);
-extern lv_obj_t *ui_screen_sensor;
+// void ui_event_screen_time( lv_event_t * e);
+// extern lv_obj_t *ui_screen_time;
+// extern lv_obj_t *ui_background;
+// extern lv_obj_t *ui_hour;
+// extern lv_obj_t *ui_hour_dis;
+// extern lv_obj_t *ui_min;
+// extern lv_obj_t *ui_min_dis;
+// extern lv_obj_t *ui_colon;
+// extern lv_obj_t *ui_adorn;
+// extern lv_obj_t *ui_wifi_st_1;
+// extern lv_obj_t *ui_date_panel;
+// extern lv_obj_t *ui_date;
+// extern lv_obj_t *ui_location;
+// extern lv_obj_t *ui_location_Icon;
+// extern lv_obj_t *ui_city;
+// void ui_event_screen_sensor( lv_event_t * e);
+// extern lv_obj_t *ui_screen_sensor;
 void ui_event_wifi__st_button_2( lv_event_t * e);
 extern lv_obj_t *ui_wifi__st_button_2;
 extern lv_obj_t *ui_wifi_st_2;
@@ -229,7 +229,7 @@ LV_FONT_DECLARE( ui_font_font4);
 extern lv_obj_t *ui_screen_last;
 void creat_scrolldots(lv_obj_t * parent, int screen_index, int totals);
 
-void ui_init(void);
+void ui_hardcoded_init(void);
 
 #ifdef __cplusplus
 } /*extern "C"*/

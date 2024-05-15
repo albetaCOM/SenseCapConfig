@@ -1268,7 +1268,7 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
 
 int indicator_view_init(void)
 {
-    ui_init();
+    ui_hardcoded_init();
 
     wifi_list_event_init();
     sensor_chart_event_init();
