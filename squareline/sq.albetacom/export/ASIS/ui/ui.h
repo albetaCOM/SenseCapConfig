@@ -59,8 +59,39 @@ extern lv_obj_t * ui_Button12;
 extern lv_obj_t * ui_Label12;
 extern lv_obj_t * ui_LabelCode;
 extern lv_obj_t * ui_LabelCode1;
+// SCREEN: ui_ha_covers
+void ui_ha_covers_screen_init(void);
+void ui_event_ha_covers(lv_event_t * e);
+extern lv_obj_t * ui_ha_covers;
+extern lv_obj_t * ui_ha_covers_label;
+extern lv_obj_t * ui_Slider1;
+extern lv_obj_t * ui_ImgButton1;
+// SCREEN: ui_time
+void ui_time_screen_init(void);
+extern lv_obj_t * ui_time;
+// SCREEN: ui_ha_alarm
+void ui_ha_alarm_screen_init(void);
+void ui_event_ha_alarm(lv_event_t * e);
+extern lv_obj_t * ui_ha_alarm;
+extern lv_obj_t * ui_ha_alarm_activation_label;
+extern lv_obj_t * ui_ImgButton3;
+extern lv_obj_t * ui____initial_actions0;
 
-void ui_albetacom_init(void);
+
+LV_IMG_DECLARE(ui_img_shutter_open_png);    // assets/shutter_open.png
+LV_IMG_DECLARE(ui_img_shutter_png);    // assets/shutter.png
+LV_IMG_DECLARE(ui_img_shield_lock_png);    // assets/shield_lock.png
+
+
+
+LV_FONT_DECLARE(ui_font_font0);
+LV_FONT_DECLARE(ui_font_font2);
+LV_FONT_DECLARE(ui_font_font3);
+LV_FONT_DECLARE(ui_font_font4);
+
+
+
+void ui_init(void);
 
 #ifdef __cplusplus
 } /*extern "C"*/

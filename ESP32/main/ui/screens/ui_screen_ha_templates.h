@@ -29,6 +29,7 @@ typedef struct switch_ui {
     // Global
     int width;
     int height;
+    int zoom;
 
     // Button
     int b_icon_x;
@@ -75,7 +76,7 @@ enum template_type {
 
 // FUCNTIONS
 void create_sensor_button(int type, lv_obj_t *parent, ha_sensor_t *sensor, int bt_x, int bt_y, int text_color, char *name, char *label, char *unit, char *icon);
-void create_switch_button(int size, lv_obj_t *parent, ha_switch_t *switch_, int bt_x, int bt_y, char *label);
+void create_switch_button(int size, lv_obj_t *parent, ha_switch_t *switch_, int bt_x, int bt_y, char *label, char *icon);
 void create_switch_toggle(int size, lv_obj_t *parent, ha_switch_t *switch_, int bt_x, int bt_y, char *label);
 void create_switch_arc(int size, lv_obj_t *parent, ha_switch_t *switch_, int bt_x, int bt_y, char *label, char *unit);
 void create_switch_slider(int size, lv_obj_t *parent, ha_switch_t *switch_, int bt_x, int bt_y, char *label, char *unit);

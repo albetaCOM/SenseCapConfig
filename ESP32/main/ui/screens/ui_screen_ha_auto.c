@@ -346,7 +346,7 @@ void switch_create(lv_obj_t *parent, char *name, char *label, char *icon, int si
     {
     case IHAC_SWITCH_TYPE_BUTTON:
         ESP_LOGI(TAG, "switch_create: create_switch_button");
-        create_switch_button(size, parent, &all_switches[i], x, y, label);
+        create_switch_button(size, parent, &all_switches[i], x, y, label, icon);
         break;
     case IHAC_SWITCH_TYPE_TOGGLE:
         ESP_LOGI(TAG, "switch_create: create_switch_toggle");

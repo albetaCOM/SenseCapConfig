@@ -282,9 +282,12 @@ void config_read()
                             switchItem->y = atoi(cjson_y->valuestring);
                         }
                         
+                        ESP_LOGW(TAG, "Config cjson_item_switch");
+
                         cjson_item = cJSON_GetObjectItem(cjson_item_switch, "icon");
                         if (cjson_item != NULL && cjson_item->valuestring != NULL)
                         {
+                            ESP_LOGW(TAG, "Config cjson_item_switch: '%s\n", cjson_item->valuestring);
                             strcpy(switchItem->icon, cjson_item->valuestring);
                         }
 

@@ -14,7 +14,9 @@ void ui_ha_alarm_keypad_screen_init(void)
 
     ui_ha_alarm_label = lv_label_create(ui_ha_alarm_keypad);
     lv_obj_set_width(ui_ha_alarm_label, 476);
-    lv_obj_set_height(ui_ha_alarm_label, 17);
+    lv_obj_set_height(ui_ha_alarm_label, 25);
+    lv_obj_set_x(ui_ha_alarm_label, 0);
+    lv_obj_set_y(ui_ha_alarm_label, 47);
     lv_obj_set_align(ui_ha_alarm_label, LV_ALIGN_TOP_MID);
     lv_label_set_text(ui_ha_alarm_label, "Alarm Code");
     lv_obj_set_style_text_color(ui_ha_alarm_label, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -22,14 +24,12 @@ void ui_ha_alarm_keypad_screen_init(void)
     lv_obj_set_style_text_align(ui_ha_alarm_label, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_ha_alarm_label, &ui_font_font2, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    sensor_add(ui_ha_alarm_label, "alarmStatus", StatusCallback);
-
     ui_Container1 = lv_obj_create(ui_ha_alarm_keypad);
     lv_obj_remove_style_all(ui_Container1);
     lv_obj_set_width(ui_Container1, 450);
     lv_obj_set_height(ui_Container1, 349);
-    lv_obj_set_x(ui_Container1, 4);
-    lv_obj_set_y(ui_Container1, 42);
+    lv_obj_set_x(ui_Container1, 0);
+    lv_obj_set_y(ui_Container1, 49);
     lv_obj_set_align(ui_Container1, LV_ALIGN_CENTER);
     lv_obj_set_flex_flow(ui_Container1, LV_FLEX_FLOW_ROW_WRAP);
     lv_obj_set_flex_align(ui_Container1, LV_FLEX_ALIGN_SPACE_EVENLY, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_SPACE_AROUND);
@@ -43,8 +43,6 @@ void ui_ha_alarm_keypad_screen_init(void)
     lv_obj_set_align(ui_Button1, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_Button1, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_Button1, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-
-    switch_add(ui_ha_alarm_keypad, ui_Button1, "button1", IHAC_SWITCH_TYPE_BUTTON);
 
     ui_Label1 = lv_label_create(ui_Button1);
     lv_obj_set_width(ui_Label1, LV_SIZE_CONTENT);   /// 1
@@ -223,7 +221,7 @@ void ui_ha_alarm_keypad_screen_init(void)
     lv_obj_set_align(ui_Button12, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_Button12, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_Button12, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_bg_color(ui_Button12, lv_color_hex(0x0F693E), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_Button12, lv_color_hex(0x171D85), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_Button12, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Label12 = lv_label_create(ui_Button12);
@@ -237,12 +235,22 @@ void ui_ha_alarm_keypad_screen_init(void)
     lv_obj_set_width(ui_LabelCode, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_LabelCode, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_x(ui_LabelCode, -1);
-    lv_obj_set_y(ui_LabelCode, -172);
+    lv_obj_set_y(ui_LabelCode, -147);
     lv_obj_set_align(ui_LabelCode, LV_ALIGN_CENTER);
     lv_label_set_text(ui_LabelCode, "Code empty");
     lv_obj_set_style_text_color(ui_LabelCode, lv_color_hex(0x808080), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_LabelCode, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_LabelCode, &lv_font_montserrat_26, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_LabelCode1 = lv_label_create(ui_ha_alarm_keypad);
+    lv_obj_set_width(ui_LabelCode1, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_LabelCode1, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_LabelCode1, 2);
+    lv_obj_set_y(ui_LabelCode1, 6);
+    lv_label_set_text(ui_LabelCode1, "Status");
+    lv_obj_set_style_text_color(ui_LabelCode1, lv_color_hex(0x808080), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_LabelCode1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_LabelCode1, &lv_font_montserrat_26, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     lv_obj_add_event_cb(ui_Button1, ui_event_Button1, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Button2, ui_event_Button2, LV_EVENT_ALL, NULL);

@@ -136,16 +136,16 @@ void ui_event_switch_button(lv_event_t *e)
         if (lv_obj_has_state(all_switches[*index].btn, LV_STATE_CHECKED))
         {
             switch_data.value = 1;
-            if (all_switches[*index].img != NULL) {
-                lv_img_set_src(all_switches[*index].img, &ui_img_round_png); // TODO: work on the image size based on switch size
-            }
+            // if (all_switches[*index].img != NULL) {
+            //     lv_img_set_src(all_switches[*index].img, &ui_img_round_png); // TODO: work on the image size based on switch size
+            // }
         }
         else
         {
             switch_data.value = 0;
-            if (all_switches[*index].img != NULL) {
-                lv_img_set_src(all_switches[*index].img, &ui_img_round_png); // TODO: work on the image size based on switch size
-            }
+            // if (all_switches[*index].img != NULL) {
+            //     lv_img_set_src(all_switches[*index].img, &ui_img_round_png); // TODO: work on the image size based on switch size
+            // }
         }
         
         ESP_LOGI(TAG, " switch %d: %d", switch_data.index, switch_data.value);

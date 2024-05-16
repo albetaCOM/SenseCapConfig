@@ -41,10 +41,11 @@ void init_templates()
     // small switches
     ui_templates[BT_SMALL].switch_ui.width = 214;
     ui_templates[BT_SMALL].switch_ui.height = 78;
+    ui_templates[BT_SMALL].switch_ui.zoom = 72;
 
     // Small Button
     ui_templates[BT_SMALL].switch_ui.b_icon_x = 0;
-    ui_templates[BT_SMALL].switch_ui.b_icon_y = -10;
+    ui_templates[BT_SMALL].switch_ui.b_icon_y = 0;
 
     // small toggle
     ui_templates[BT_SMALL].switch_ui.t_label_x = 0;
@@ -87,6 +88,7 @@ void init_templates()
     // small switches
     ui_templates[BT_XSMALL].switch_ui.width = 143;
     ui_templates[BT_XSMALL].switch_ui.height = 78;
+    ui_templates[BT_XSMALL].switch_ui.zoom = 80;
 
     // Small Button
     ui_templates[BT_XSMALL].switch_ui.b_icon_x = 0;
@@ -132,10 +134,11 @@ void init_templates()
     // large switches
     ui_templates[BT_LARGE].switch_ui.width = 214;
     ui_templates[BT_LARGE].switch_ui.height = 164;
+    ui_templates[BT_LARGE].switch_ui.zoom = 128;
 
     // Button
     ui_templates[BT_LARGE].switch_ui.b_icon_x = 0;
-    ui_templates[BT_LARGE].switch_ui.b_icon_y = -10;
+    ui_templates[BT_LARGE].switch_ui.b_icon_y = 0;
 
     // toggle
     ui_templates[BT_LARGE].switch_ui.t_label_x = 0;
@@ -180,6 +183,8 @@ void create_sensor_button(int size, lv_obj_t *parent, ha_sensor_t *sensor, int b
     // ESP_LOGI(TAG, "create_sensor_button: x, y %d, %d", bt_x, bt_y);
 
     lv_img_dsc_t *icon_img;
+
+    ESP_LOGW(TAG, "Sensor icon = %s", icon);
 
     if (strcmp(icon, 'temperature') == 0)
     {
@@ -268,13 +273,56 @@ void create_sensor_button(int size, lv_obj_t *parent, ha_sensor_t *sensor, int b
  * @param bt_y The y-coordinate of the switch button's position.
  * @param label The label to display next to the switch button.
  */
-void create_switch_button(int size, lv_obj_t *parent, ha_switch_t *switch_, int bt_x, int bt_y, char *label)
+void create_switch_button(int size, lv_obj_t *parent, ha_switch_t *switch_, int bt_x, int bt_y, char *label, char *icon)
 {
     // ESP_LOGI(TAG, "create_switch_button: label %s", label);
     // ESP_LOGI(TAG, "create_switch_button: size %d", size);
     // ESP_LOGI(TAG, "create_switch_button: x, y %d, %d", bt_x, bt_y);
     // ESP_LOGI(TAG, "create_switch_button: parent %p", parent);
     // ESP_LOGI(TAG, "create_switch_button: switch_ %p", switch_);
+
+    lv_img_dsc_t *icon_img;
+
+    ESP_LOGW(TAG, "Button icon = %s", icon);
+
+    if (icon[0] == 0)
+    {
+        ESP_LOGW(TAG, "Button icon defaulting to round");
+        icon_img = &ui_img_round_png; // default icon
+    }
+    else if (strcmp(icon, 'temperature') == 0)
+    {
+        icon_img = &ui_img_ic_temp_png;
+    }
+    else if (strcmp(icon, "humidity") == 0)
+    {
+        icon_img = &ui_img_ic_hum_png;
+    }
+    else if (strcmp(icon, "co2") == 0)
+    {
+        icon_img = &ui_img_ic_co2_png;
+    }
+    else if (strcmp(icon, "tvoc") == 0)
+    {
+        icon_img = &ui_img_ic_tvoc_png;
+    }
+    else if (strcmp(icon, "shutter_up") == 0)
+    {
+        icon_img = &ui_img_shutter_open_png;
+    }
+    else if (strcmp(icon, "shutter_down") == 0)
+    {
+        icon_img = &ui_img_shutter_png;
+    }
+    else if (strcmp(icon, "alarm") == 0)
+    {
+        icon_img = &ui_img_shield_lock_png;
+    }
+    else
+    {
+        ESP_LOGW(TAG, "Button icon defaulting to round");
+        icon_img = &ui_img_round_png; // default icon
+    }
 
     switch_->btn = lv_btn_create(parent);
     lv_obj_set_width(switch_->btn, ui_templates[size].switch_ui.width);
@@ -288,9 +336,11 @@ void create_switch_button(int size, lv_obj_t *parent, ha_switch_t *switch_, int 
     lv_obj_set_style_bg_opa(switch_->btn, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     switch_->img = lv_img_create(switch_->btn);
-    lv_img_set_src(switch_->img, &ui_img_round_png);
+    lv_img_set_src(switch_->img, icon_img);
+    lv_img_set_zoom(switch_->img,  ui_templates[size].switch_ui.zoom);
     lv_obj_set_width(switch_->img, LV_SIZE_CONTENT);  /// 45
     lv_obj_set_height(switch_->img, LV_SIZE_CONTENT); /// 45
+
     lv_obj_set_x(switch_->img, ui_templates[size].switch_ui.b_icon_x);
     lv_obj_set_y(switch_->img, ui_templates[size].switch_ui.b_icon_y);
     lv_obj_set_align(switch_->img, LV_ALIGN_CENTER);
