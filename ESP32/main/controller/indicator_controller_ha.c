@@ -136,22 +136,57 @@ void ui_event_switch_button(lv_event_t *e)
         if (lv_obj_has_state(all_switches[*index].btn, LV_STATE_CHECKED))
         {
             switch_data.value = 1;
-            // if (all_switches[*index].img != NULL) {
-            //     lv_img_set_src(all_switches[*index].img, &ui_img_round_png); // TODO: work on the image size based on switch size
-            // }
+            if (all_switches[*index].img != NULL) {
+                lv_img_set_src(all_switches[*index].img, &ui_img_round_png); // TODO: work on the image size based on switch size
+            }
         }
         else
         {
             switch_data.value = 0;
-            // if (all_switches[*index].img != NULL) {
-            //     lv_img_set_src(all_switches[*index].img, &ui_img_round_png); // TODO: work on the image size based on switch size
-            // }
+            if (all_switches[*index].img != NULL) {
+                lv_img_set_src(all_switches[*index].img, &ui_img_round_png); // TODO: work on the image size based on switch size
+            }
         }
         
         ESP_LOGI(TAG, " switch %d: %d", switch_data.index, switch_data.value);
         esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SWITCH_ST, &switch_data, sizeof(switch_data), portMAX_DELAY);
     }
 }
+
+/**
+ * The function `ui_event_switch` handles events related to switches in a user interface.
+ *
+ * @param e The parameter `e` is a pointer to an `lv_event_t` structure, which represents an event in
+ * the LittlevGL library.
+ *
+ * @return The function does not return any value.
+ */
+void ui_event_switch_pushbutton(lv_event_t *e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t *target = lv_event_get_target(e);
+    lv_obj_t *cur_screen = lv_scr_act();
+    int *index = e->user_data;
+
+    if (event_code == LV_EVENT_CLICKED && cur_screen == all_switches[*index].page)
+    {
+        ESP_LOGW(TAG, "Pushbutton clicked");
+        ESP_LOGI(TAG, "ui_event_switch: index %p", index);
+        ESP_LOGI(TAG, "ui_event_switch: index %d", *index);
+        ESP_LOGI(TAG, "ui_event_switch: event_code %d", event_code);
+
+        struct view_data_ha_switch_data switch_data;
+        switch_data.index = *index;
+
+        switch_data.value = 1;
+        ESP_LOGI(TAG, " switch %d: %d", switch_data.index, switch_data.value);
+        esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SWITCH_ST, &switch_data, sizeof(switch_data), portMAX_DELAY);
+        switch_data.value = 0;
+        ESP_LOGI(TAG, " switch %d: %d", switch_data.index, switch_data.value);
+        esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SWITCH_ST, &switch_data, sizeof(switch_data), portMAX_DELAY);
+    }
+}
+
 
 /**
  * The function `ui_event_switch_arc` handles the LV_EVENT_VALUE_CHANGED event for a specific arc
@@ -311,6 +346,13 @@ void ui_event_ha_init(void)
             int *index = malloc(sizeof(int));
             *index = i;
             lv_obj_add_event_cb(all_switches[i].btn, ui_event_switch_button, LV_EVENT_ALL, index);
+            break;
+        }
+        case IHAC_SWITCH_TYPE_PUSHBUTTON:
+        {
+            int *index = malloc(sizeof(int));
+            *index = i;
+            lv_obj_add_event_cb(all_switches[i].btn, ui_event_switch_pushbutton, LV_EVENT_ALL, index);
             break;
         }
         default:

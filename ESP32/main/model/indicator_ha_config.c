@@ -255,6 +255,10 @@ void config_read()
                             {
                                 switchItem->type = IHAC_SWITCH_TYPE_SLIDER;
                             }
+                            else if (strcmp(cjson_item_type->valuestring, "pushbutton") == 0)
+                            {
+                                switchItem->type = IHAC_SWITCH_TYPE_PUSHBUTTON;
+                            }
                             else if (strcmp(cjson_item_type->valuestring, "button") == 0)
                             {
                                 switchItem->type = IHAC_SWITCH_TYPE_BUTTON;

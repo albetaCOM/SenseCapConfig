@@ -75,7 +75,7 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
             lv_event_send((lv_obj_t *)all_switches[p_data->index].data, LV_EVENT_VALUE_CHANGED, NULL);
             break;
 
-        case IHAC_SWITCH_TYPE_BUTTON:
+        case IHAC_SWITCH_TYPE_PUSHBUTTON:
             if (p_data->value != 0 && p_data->value != 1) {
                 p_data->value = 0;
             }
@@ -86,6 +86,20 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
             else
             {
                 lv_obj_clear_state(all_switches[p_data->index].btn, LV_STATE_PRESSED);
+            }
+            lv_event_send((lv_obj_t *)all_switches[p_data->index].btn, LV_EVENT_CLICKED, NULL);
+            break;
+        case IHAC_SWITCH_TYPE_BUTTON:
+            if (p_data->value != 0 && p_data->value != 1) {
+                p_data->value = 0;
+            }
+            if (p_data->value)
+            {
+                lv_obj_add_state(all_switches[p_data->index].btn, LV_STATE_CHECKED);
+            }
+            else
+            {
+                lv_obj_clear_state(all_switches[p_data->index].btn, LV_STATE_CHECKED);
             }
             lv_event_send((lv_obj_t *)all_switches[p_data->index].btn, LV_EVENT_CLICKED, NULL);
             break;

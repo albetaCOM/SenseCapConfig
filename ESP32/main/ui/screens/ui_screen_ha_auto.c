@@ -344,6 +344,7 @@ void switch_create(lv_obj_t *parent, char *name, char *label, char *icon, int si
     // create switch based on type
     switch (type)
     {
+    case IHAC_SWITCH_TYPE_PUSHBUTTON:
     case IHAC_SWITCH_TYPE_BUTTON:
         ESP_LOGI(TAG, "switch_create: create_switch_button");
         create_switch_button(size, parent, &all_switches[i], x, y, label, icon);
@@ -391,6 +392,7 @@ void switch_add(lv_obj_t *parent, lv_obj_t * switchObj, char *key, int type)
  // create switch based on type
     switch (type)
     {
+    case IHAC_SWITCH_TYPE_PUSHBUTTON:
     case IHAC_SWITCH_TYPE_BUTTON:
         ESP_LOGI(TAG, "switch_create: create_switch_button");
         all_switches[i].btn = switchObj;

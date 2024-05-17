@@ -46,7 +46,8 @@ enum ha_config_page_switch_type
     IHAC_SWITCH_TYPE_TOGGLE,
     IHAC_SWITCH_TYPE_SLIDER,
     IHAC_SWITCH_TYPE_BUTTON,
-    IHAC_SWITCH_TYPE_ARC
+    IHAC_SWITCH_TYPE_ARC,
+    IHAC_SWITCH_TYPE_PUSHBUTTON
 };
 
 // Define enum for the page type
