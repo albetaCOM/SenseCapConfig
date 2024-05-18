@@ -22,9 +22,9 @@ typedef struct ha_config_page_sensor
 
 typedef struct ha_config_page_switch_states
 {
-    char state_value[20];
-    char state_icon[20];
-    char state_action[20];
+    char state_value[MAX_LENGTH_STATE_STRING];
+    char state_icon[MAX_LENGTH_STATE_STRING];
+    char state_action[MAX_LENGTH_STATE_STRING];
 } ha_config_page_switch_states_t;
 // Define struct for switches in a page
 typedef struct ha_config_page_switch

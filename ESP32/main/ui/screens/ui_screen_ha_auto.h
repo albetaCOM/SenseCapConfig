@@ -6,8 +6,7 @@
 #include "ui_helpers.h"
 #include "../ui.h"
 
-#define MAX_STATES 5
-#define MAX_LENGTH_STATE_STRING 20
+
 
 typedef struct screen
 {

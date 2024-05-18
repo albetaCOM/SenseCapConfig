@@ -8,6 +8,9 @@
 extern "C" {
 #endif
 
+#define MAX_STATES 5
+#define MAX_LENGTH_STATE_STRING 20
+
 //topic
 #define CONFIG_TOPIC_SENSOR_DATA       "indicator/sensor"
 #define CONFIG_TOPIC_SENSOR_DATA_QOS   0
