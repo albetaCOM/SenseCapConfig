@@ -152,7 +152,7 @@ void ui_ha_init(void)
             getXYfromPageType(page.type, switch_->x - 1, switch_->y - 1, &x, &y);
 
             // Create switch
-            switch_create(screens[i].page_obj, switch_->name, switch_->label, switch_->icon, switch_->size, switch_->ha_key, switch_->unit, switch_->type, x, y);
+            switch_create(screens[i].page_obj, switch_->name, switch_->label, switch_->icon, switch_->size, switch_->ha_key, switch_->unit, switch_->type, x, y, switch_->states);
         }
 
         if (screens[i].page_obj == NULL)
@@ -324,7 +324,7 @@ void sensor_add(lv_obj_t * labelObj, char *key, void (*_callback)(char *))
 }
 
 // function to create a switch
-void switch_create(lv_obj_t *parent, char *name, char *label, char *icon, int size, char *ha_key, char *unit, int type, int x, int y)
+void switch_create(lv_obj_t *parent, char *name, char *label, char *icon, int size, char *ha_key, char *unit, int type, int x, int y, void * states)
 {
     // switch counter
     int i = all_switches_count;
@@ -335,6 +335,12 @@ void switch_create(lv_obj_t *parent, char *name, char *label, char *icon, int si
     // store the page in the switch struct
     all_switches[i].page = parent;
     all_switches[i].type = type;
+        
+    memcpy(all_switches[i].states, states, sizeof(ha_switch_states_t)*MAX_STATES);
+    for (int j = 0; j<MAX_STATES; j++) {
+        ESP_LOGW(TAG, "States[%d].state_value = '%s'", j, ((ha_switch_states_t*)states)[j].state_value);
+        ESP_LOGW(TAG, "Switch[%d].states[%d].state_value = '%s'", i,j,all_switches[i].states[j].state_value);
+    }
     // store the ha key
     strcpy(all_switches[i].ha_key, ha_key);
 
@@ -394,7 +400,7 @@ void switch_add(lv_obj_t *parent, lv_obj_t * switchObj, char *key, int type)
     {
     case IHAC_SWITCH_TYPE_PUSHBUTTON:
     case IHAC_SWITCH_TYPE_BUTTON:
-        ESP_LOGI(TAG, "switch_create: create_switch_button");
+        ESP_LOGI(TAG, "switch_add: create_switch_button");
         all_switches[i].btn = switchObj;
         break;
     case IHAC_SWITCH_TYPE_TOGGLE:
@@ -402,11 +408,11 @@ void switch_add(lv_obj_t *parent, lv_obj_t * switchObj, char *key, int type)
         all_switches[i].data = switchObj;
         break;
     case IHAC_SWITCH_TYPE_SLIDER:
-        ESP_LOGI(TAG, "switch_create: create_switch_slider");
+        ESP_LOGI(TAG, "switch_add: create_switch_slider");
         all_switches[i].data = switchObj;
         break;
     case IHAC_SWITCH_TYPE_ARC:
-        ESP_LOGI(TAG, "switch_create: create_switch_arc");
+        ESP_LOGI(TAG, "switch_add: create_switch_arc");
         all_switches[i].data = switchObj;
         break;
     default:

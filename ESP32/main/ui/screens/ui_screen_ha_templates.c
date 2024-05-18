@@ -182,30 +182,7 @@ void create_sensor_button(int size, lv_obj_t *parent, ha_sensor_t *sensor, int b
     // ESP_LOGI(TAG, "create_sensor_button: size %d", size);
     // ESP_LOGI(TAG, "create_sensor_button: x, y %d, %d", bt_x, bt_y);
 
-    lv_img_dsc_t *icon_img;
-
-    ESP_LOGW(TAG, "Sensor icon = %s", icon);
-
-    if (strcmp(icon, 'temperature') == 0)
-    {
-        icon_img = &ui_img_ic_temp_png;
-    }
-    else if (strcmp(icon, "humidity") == 0)
-    {
-        icon_img = &ui_img_ic_hum_png;
-    }
-    else if (strcmp(icon, "co2") == 0)
-    {
-        icon_img = &ui_img_ic_co2_png;
-    }
-    else if (strcmp(icon, "tvoc") == 0)
-    {
-        icon_img = &ui_img_ic_tvoc_png;
-    }
-    else
-    {
-        icon_img = &ui_img_ic_temp_png; // default icon
-    }
+    lv_img_dsc_t *icon_img = get_icon_img(icon);
 
     sensor->btn = lv_btn_create(parent);
     lv_obj_set_width(sensor->btn, ui_templates[size].sensor_ui.width);
@@ -263,24 +240,8 @@ void create_sensor_button(int size, lv_obj_t *parent, ha_sensor_t *sensor, int b
     lv_obj_set_style_text_font(sensor->unit, &lv_font_montserrat_24, LV_PART_MAIN | LV_STATE_DEFAULT);
 }
 
-/**
- * Creates a switch button with the specified size, label, and position, and adds it to the specified parent object.
- *
- * @param size The size of the switch button.
- * @param parent The parent object to which the switch button will be added.
- * @param switch_ A pointer to the ha_switch_t struct that contains the switch button's data.
- * @param bt_x The x-coordinate of the switch button's position.
- * @param bt_y The y-coordinate of the switch button's position.
- * @param label The label to display next to the switch button.
- */
-void create_switch_button(int size, lv_obj_t *parent, ha_switch_t *switch_, int bt_x, int bt_y, char *label, char *icon)
+lv_img_dsc_t *get_icon_img(char * icon) 
 {
-    // ESP_LOGI(TAG, "create_switch_button: label %s", label);
-    // ESP_LOGI(TAG, "create_switch_button: size %d", size);
-    // ESP_LOGI(TAG, "create_switch_button: x, y %d, %d", bt_x, bt_y);
-    // ESP_LOGI(TAG, "create_switch_button: parent %p", parent);
-    // ESP_LOGI(TAG, "create_switch_button: switch_ %p", switch_);
-
     lv_img_dsc_t *icon_img;
 
     ESP_LOGW(TAG, "Button icon = %s", icon);
@@ -318,11 +279,57 @@ void create_switch_button(int size, lv_obj_t *parent, ha_switch_t *switch_, int 
     {
         icon_img = &ui_img_shield_lock_png;
     }
+    else if (strcmp(icon, "light_off") == 0)
+    {
+        icon_img = &ui_img_lightoff_png;
+    }
+    else if (strcmp(icon, "light_on") == 0)
+    {
+        icon_img = &ui_img_lighton_png;
+    }
+    else if (strcmp(icon, "cover_opened") == 0)
+    {
+        icon_img = &ui_img_coveropen_png;
+    }
+    else if (strcmp(icon, "cover_closed") == 0)
+    {
+        icon_img = &ui_img_coverclosed_png;
+    }
+    else if (strcmp(icon, "cover_opening") == 0)
+    {
+        icon_img = &ui_img_up_png;
+    }    
+    else if (strcmp(icon, "cover_closing") == 0)
+    {
+        icon_img = &ui_img_down_png;
+    }
     else
     {
         ESP_LOGW(TAG, "Button icon defaulting to round");
         icon_img = &ui_img_round_png; // default icon
     }
+    return icon_img;
+}
+
+/**
+ * Creates a switch button with the specified size, label, and position, and adds it to the specified parent object.
+ *
+ * @param size The size of the switch button.
+ * @param parent The parent object to which the switch button will be added.
+ * @param switch_ A pointer to the ha_switch_t struct that contains the switch button's data.
+ * @param bt_x The x-coordinate of the switch button's position.
+ * @param bt_y The y-coordinate of the switch button's position.
+ * @param label The label to display next to the switch button.
+ */
+void create_switch_button(int size, lv_obj_t *parent, ha_switch_t *switch_, int bt_x, int bt_y, char *label, char *icon)
+{
+    ESP_LOGI(TAG, "create_switch_button: label %s", label);
+    ESP_LOGI(TAG, "create_switch_button: size %d", size);
+    ESP_LOGI(TAG, "create_switch_button: x, y %d, %d", bt_x, bt_y);
+    ESP_LOGI(TAG, "create_switch_button: parent %p", parent);
+    ESP_LOGI(TAG, "create_switch_button: switch_ %p", switch_);
+
+    lv_img_dsc_t *icon_img = get_icon_img(icon);
 
     switch_->btn = lv_btn_create(parent);
     lv_obj_set_width(switch_->btn, ui_templates[size].switch_ui.width);

@@ -188,5 +188,5 @@ void ui_albetacom_init(void)
 {
     ui_ha_alarm_keypad_screen_init();
     sensor_add(ui_LabelCode1, "alarmStatus", StatusCallback);
-    switch_add(ui_ha_alarm_keypad, ui_Button1, "button1", IHAC_SWITCH_TYPE_PUSHBUTTON);
+    //switch_add(ui_ha_alarm_keypad, ui_Button1, "button1", IHAC_SWITCH_TYPE_PUSHBUTTON);
 }

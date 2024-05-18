@@ -983,7 +983,7 @@ void creat_scrolldots(lv_obj_t *parent, int screen_index, int totals)
     lv_obj_t *dots[totals];
 
     int x_offset = 7 + 20;
-    int x = 240 - 3 * x_offset + 20 / 2;
+    int x = 240 - 1 * x_offset + 20 / 2;
     int y = 455;
 
     ESP_LOGI(TAG, "creat_scrolldots: %d / %d", screen_index, totals);

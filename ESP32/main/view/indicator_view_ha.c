@@ -54,22 +54,21 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
         ESP_LOGI(TAG, "event: VIEW_EVENT_HA_SWITCH_SET");
         struct view_data_ha_switch_data *p_data = (struct view_data_ha_switch_data *)event_data;
 
-        ESP_LOGI(TAG, "set switch %d: %d", (p_data->index) + 1, p_data->value);
+        ESP_LOGI(TAG, "set switch %d: %s - type: %d", (p_data->index), p_data->value_str, all_switches[p_data->index].type);
 
 
         switch (all_switches[p_data->index].type)
         {
         case IHAC_SWITCH_TYPE_TOGGLE:
-            if (p_data->value != 0 && p_data->value != 1) {
-                p_data->value = 0;
+            if ((strcmp(p_data->value_str,"0") != 0) && (strcmp(p_data->value_str,"0") != 1) ) {
+                sprintf(p_data->value_str,"0");
             }
-            if (p_data->value)
-            {
+            
+            if (strcmp(p_data->value_str,"0") == 0) {
                 // lv_obj_add_state(all_switches[p_data->index].btn, LV_STATE_CHECKED);
                 lv_obj_add_state(all_switches[p_data->index].data, LV_STATE_CHECKED);
             }
-            else
-            {
+            else{
                 // lv_obj_clear_state(all_switches[p_data->index].btn, LV_STATE_CHECKED);
                 lv_obj_clear_state(all_switches[p_data->index].data, LV_STATE_CHECKED);
             }
@@ -77,30 +76,41 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
             break;
 
         case IHAC_SWITCH_TYPE_SLIDER:
-            lv_slider_set_value(all_switches[p_data->index].data, p_data->value, true); // todo check value
+        {
+            int value_int = atoi(p_data->value_str);
+            lv_slider_set_value(all_switches[p_data->index].data, value_int, true); // todo check value
             lv_event_send((lv_obj_t *)all_switches[p_data->index].data, LV_EVENT_VALUE_CHANGED, NULL);
             break;
-
+        }
         case IHAC_SWITCH_TYPE_PUSHBUTTON:
-            if (p_data->value != 0 && p_data->value != 1) {
-                p_data->value = 0;
+        {
+            ESP_LOGI(TAG, "set switch %d: '%.10s'", (p_data->index), p_data->value_str);
+
+            strncpy(all_switches[p_data->index].value, p_data->value_str,MAX_LENGTH_STATE_STRING); // TODO
+
+
+            ESP_LOGI(TAG, "Before loop (%s)", all_switches[p_data->index].value);
+
+            // loop for all possible states
+            for (int i = 0; i<MAX_STATES; i++) {
+                ESP_LOGI(TAG, "Switch[%d].states[%d].state_value = '%s'", p_data->index,i,all_switches[p_data->index].states[i].state_value);
+                if ((all_switches[p_data->index].states[i].state_value[0] != 0) && 
+                    (strcmp(all_switches[p_data->index].value,all_switches[p_data->index].states[i].state_value) == 0) ){
+                     ESP_LOGW(TAG, "MQTT State found %s\n", all_switches[p_data->index].states[i].state_value);
+
+                     char * icon = all_switches[p_data->index].states[i].state_icon;
+                     lv_img_dsc_t *icon_img = get_icon_img(icon);
+                     lv_img_set_src(all_switches[p_data->index].img, icon_img);
+                } 
             }
-            if (p_data->value)
-            {
-                lv_obj_add_state(all_switches[p_data->index].btn, LV_STATE_PRESSED);
-            }
-            else
-            {
-                lv_obj_clear_state(all_switches[p_data->index].btn, LV_STATE_PRESSED);
-            }
-            lv_event_send((lv_obj_t *)all_switches[p_data->index].btn, LV_EVENT_CLICKED, NULL);
+            //lv_event_send((lv_obj_t *)all_switches[p_data->index].btn, LV_EVENT_CLICKED, NULL);
+        }
             break;
         case IHAC_SWITCH_TYPE_BUTTON:
-            if (p_data->value != 0 && p_data->value != 1) {
-                p_data->value = 0;
+            if ((strcmp(p_data->value_str,"0") != 0) && (strcmp(p_data->value_str,"1") != 0)) {
+                sprintf(p_data->value_str,"0");
             }
-            if (p_data->value)
-            {
+            if (strcmp(p_data->value_str,"0") == 0) {
                 lv_obj_add_state(all_switches[p_data->index].btn, LV_STATE_CHECKED);
             }
             else
@@ -111,10 +121,13 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
             break;
 
         case IHAC_SWITCH_TYPE_ARC:
-            lv_arc_set_value(all_switches[p_data->index].data, p_data->value); // todo check value
+        {
+            int value_int = atoi(p_data->value_str);
+
+            lv_arc_set_value(all_switches[p_data->index].data, value_int); // todo check value
             lv_event_send((lv_obj_t *)all_switches[p_data->index].data, LV_EVENT_VALUE_CHANGED, NULL);
             break;
-
+        }
         default:
             break;
         }

@@ -6,6 +6,8 @@
 #include "ui_helpers.h"
 #include "../ui.h"
 
+#define MAX_STATES 5
+#define MAX_LENGTH_STATE_STRING 20
 
 typedef struct screen
 {
@@ -28,6 +30,12 @@ typedef struct
     void (*callback)(char *); // callback whenever changed
 } ha_sensor_t;
 
+typedef struct ha_switch_states
+{
+    char state_value[MAX_LENGTH_STATE_STRING];
+    char state_icon[MAX_LENGTH_STATE_STRING];
+    char state_action[MAX_LENGTH_STATE_STRING];
+} ha_switch_states_t;
 //  switch struct
 typedef struct
 {
@@ -40,6 +48,8 @@ typedef struct
     int type;             // 0 - button, 1 - toggle, 2 - slider, 3 - arc
     lv_obj_t *page;       // parent
     char ha_key[100];     // ha key
+    char value[32];
+    ha_switch_states_t states[MAX_STATES];
 } ha_switch_t;
 
 // screen_t **screens;

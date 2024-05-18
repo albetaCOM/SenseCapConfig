@@ -162,7 +162,7 @@ LV_IMG_DECLARE( ui_img_time_png);   // assets/time.png
 LV_IMG_DECLARE( ui_img_back_png);   // assets/back.png
 LV_IMG_DECLARE( ui_img_high_light_png);   // assets/high_light.png
 LV_IMG_DECLARE( ui_img_low_light_png);   // assets/low_light.png
-LV_IMG_DECLARE( ui_img_background_png);
+//LV_IMG_DECLARE( ui_img_background_png);
 LV_IMG_DECLARE( ui_img_location2_png);
 LV_IMG_DECLARE( ui_img_ic_temp_png);   // assets/ic_temp.png
 LV_IMG_DECLARE( ui_img_ic_hum_png);   // assets/ic_hum.png
@@ -176,6 +176,12 @@ LV_IMG_DECLARE( ui_img_round_png);   // assets/ic_switch2_off.png
 LV_IMG_DECLARE( ui_img_shutter_open_png);
 LV_IMG_DECLARE( ui_img_shutter_png);
 LV_IMG_DECLARE( ui_img_shield_lock_png);
+LV_IMG_DECLARE( ui_img_lightoff_png);
+LV_IMG_DECLARE( ui_img_lighton_png);
+LV_IMG_DECLARE( ui_img_coveropen_png);
+LV_IMG_DECLARE( ui_img_coverclosed_png);
+LV_IMG_DECLARE( ui_img_up_png);
+LV_IMG_DECLARE( ui_img_down_png);
 
 
 

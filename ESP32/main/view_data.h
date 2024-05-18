@@ -126,9 +126,16 @@ extern "C"
     struct view_data_ha_switch_data
     {
         uint8_t index;
-        int value;
+    //    int value;
+        char value_str[10];
         // char key[100];
     };
+
+    // struct view_data_ha_pushbutton_data
+    // {
+    //     uint8_t index;
+    //     char value[10];
+    // };
 
     enum
     {
@@ -171,6 +178,7 @@ extern "C"
         VIEW_EVENT_HA_SENSOR,     // struct view_data_ha_sensor_data
         VIEW_EVENT_HA_SWITCH_ST,  // struct view_data_ha_switch_data
         VIEW_EVENT_HA_SWITCH_SET, // struct view_data_ha_switch_data
+        VIEW_EVENT_HA_SWITCH_ACTION,
 
         VIEW_EVENT_HA_SCREEN_CHANGE, 
         VIEW_EVENT_HA_ALARM_CODE_CHANGE, 

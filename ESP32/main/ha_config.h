@@ -16,6 +16,7 @@ extern "C" {
 #define CONFIG_TOPIC_ALARM_CODE    "indicator/alarm"
 #define CONFIG_TOPIC_SWITCH_STATE    "indicator/switch/state"
 #define CONFIG_TOPIC_SWITCH_SET      "indicator/switch/set"
+#define CONFIG_TOPIC_SWITCH_ACTION      "indicator/switch/action"
 #define CONFIG_TOPIC_SWITCH_QOS         1
 
 

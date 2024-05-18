@@ -4,6 +4,9 @@
 #include "config.h"
 #include "view_data.h"
 
+#define MAX_SWITCHES_PER_PAGE 8
+#define MAX_SENSORS_PER_PAGE 8
+
 // Define struct for sensors in a page
 typedef struct ha_config_page_sensor
 {
@@ -17,6 +20,12 @@ typedef struct ha_config_page_sensor
     int y;
 } ha_config_page_sensor_t;
 
+typedef struct ha_config_page_switch_states
+{
+    char state_value[20];
+    char state_icon[20];
+    char state_action[20];
+} ha_config_page_switch_states_t;
 // Define struct for switches in a page
 typedef struct ha_config_page_switch
 {
@@ -29,6 +38,8 @@ typedef struct ha_config_page_switch
     int type; // enum ha_config_page_switch_type
     int x;
     int y;
+    ha_config_page_switch_states_t  states[3];
+
 } ha_config_page_switch_t;
 
 // Enum for item size
@@ -79,10 +90,10 @@ typedef struct ha_config_page
     char label[32];
     int type; // enum ha_config_page_type
 
-    ha_config_page_sensor_t sensors[16]; // Max 16 sensors per page
+    ha_config_page_sensor_t sensors[MAX_SENSORS_PER_PAGE]; // Max 16 sensors per page
     int sensor_count;
 
-    ha_config_page_switch_t switches[16]; // Max 16 switches per page
+    ha_config_page_switch_t switches[MAX_SWITCHES_PER_PAGE]; // Max 16 switches per page
     int switch_count;
 
 } ha_config_page_t;

@@ -102,7 +102,7 @@ void ui_event_switch_slider(lv_event_t *e)
         struct view_data_ha_switch_data switch_data;
         switch_data.index = *index;
         // switch_data.key = all_switches[*index].ha_key;
-        switch_data.value = value;
+        sprintf(switch_data.value_str,"%d",value);
         esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SWITCH_ST, &switch_data, sizeof(switch_data), portMAX_DELAY);
     }
 }
@@ -134,20 +134,22 @@ void ui_event_switch_button(lv_event_t *e)
         // switch_data.key = all_switches[*index].ha_key;
         if (lv_obj_has_state(all_switches[*index].btn, LV_STATE_CHECKED))
         {
-            switch_data.value = 1;
+            //switch_data.value = 1;
+            sprintf(switch_data.value_str,"1");
             if (all_switches[*index].img != NULL) {
                 lv_img_set_src(all_switches[*index].img, &ui_img_round_png); // TODO: work on the image size based on switch size
             }
         }
         else
         {
-            switch_data.value = 0;
+            //switch_data.value = 0;
+            sprintf(switch_data.value_str,"0");
             if (all_switches[*index].img != NULL) {
                 lv_img_set_src(all_switches[*index].img, &ui_img_round_png); // TODO: work on the image size based on switch size
             }
         }
         
-        ESP_LOGI(TAG, " switch %d: %d", switch_data.index, switch_data.value);
+        ESP_LOGI(TAG, " switch %d: %s", switch_data.index, switch_data.value_str);
         esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SWITCH_ST, &switch_data, sizeof(switch_data), portMAX_DELAY);
     }
 }
@@ -176,13 +178,28 @@ void ui_event_switch_pushbutton(lv_event_t *e)
 
         struct view_data_ha_switch_data switch_data;
         switch_data.index = *index;
+        sprintf(switch_data.value_str,"");
 
-        switch_data.value = 1;
-        ESP_LOGI(TAG, " switch %d: %d", switch_data.index, switch_data.value);
-        esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SWITCH_ST, &switch_data, sizeof(switch_data), portMAX_DELAY);
-        switch_data.value = 0;
-        ESP_LOGI(TAG, " switch %d: %d", switch_data.index, switch_data.value);
-        esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SWITCH_ST, &switch_data, sizeof(switch_data), portMAX_DELAY);
+        // loop for all possible states
+        for (int i = 0; i < MAX_STATES; i++) {
+            ESP_LOGW(TAG, "Switch %i - State '%s' - StateValue '%s'\n", *index, all_switches[*index].value, all_switches[*index].states[i].state_value);
+            if ((all_switches[*index].states[i].state_value[0] != 0) && 
+                (strcmp(all_switches[*index].value,all_switches[*index].states[i].state_value) == 0) ){
+                ESP_LOGW(TAG, "State found '%s'\n", all_switches[*index].states[i].state_value);
+
+                if(all_switches[*index].states[i].state_action[0] != 0){
+                    strcpy(switch_data.value_str, all_switches[*index].states[i].state_value);
+                    ESP_LOGW(TAG, " switch %d: '%s'", switch_data.index, switch_data.value_str);
+                    esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SWITCH_ST, &switch_data, sizeof(switch_data), portMAX_DELAY);
+                    
+                    strcpy(switch_data.value_str, all_switches[*index].states[i].state_action);
+                    ESP_LOGW(TAG, " switch %d: '%s'", switch_data.index, switch_data.value_str);
+                    esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SWITCH_ACTION, &switch_data, sizeof(switch_data), portMAX_DELAY);
+                }
+                break;
+            } 
+        }
+        
     }
 }
 
@@ -216,7 +233,8 @@ void ui_event_switch_arc(lv_event_t *e)
         struct view_data_ha_switch_data switch_data;
         switch_data.index = *index;
         // switch_data.key = all_switches[*index].ha_key;
-        switch_data.value = value;
+        //switch_data.value = value;
+        sprintf(switch_data.value_str,"%d",value);
         esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SWITCH_ST, &switch_data, sizeof(switch_data), portMAX_DELAY);
     }
 }
@@ -243,13 +261,14 @@ void ui_event_switch_toggle(lv_event_t *e)
 
         if (lv_obj_has_state(target, LV_STATE_CHECKED))
         {
-            switch_data.value = 1;
+            //switch_data.value = 1;
+            sprintf(switch_data.value_str,"1");
             lv_obj_add_state(all_switches[*index].data, LV_STATE_CHECKED);
             lv_obj_add_state(all_switches[*index].btn, LV_STATE_CHECKED);
         }
         else
         {
-            switch_data.value = 0;
+            sprintf(switch_data.value_str,"0");
             lv_obj_clear_state(all_switches[*index].data, LV_STATE_CHECKED);
             lv_obj_clear_state(all_switches[*index].btn, LV_STATE_CHECKED);
         }
