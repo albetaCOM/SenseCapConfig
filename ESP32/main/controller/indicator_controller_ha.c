@@ -175,14 +175,18 @@ void ui_event_switch_pushbutton(lv_event_t *e)
         ESP_LOGI(TAG, "ui_event_switch: index %d", *index);
         ESP_LOGI(TAG, "ui_event_switch: event_code %d", event_code);
 
-        struct view_data_ha_switch_data switch_data;
+        struct view_data_ha_pushbutton_data switch_data;
         switch_data.index = *index;
+        switch_data.value = "";
 
-        switch_data.value = 1;
-        ESP_LOGI(TAG, " switch %d: %d", switch_data.index, switch_data.value);
-        esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SWITCH_ST, &switch_data, sizeof(switch_data), portMAX_DELAY);
-        switch_data.value = 0;
-        ESP_LOGI(TAG, " switch %d: %d", switch_data.index, switch_data.value);
+        // loop for all possible states
+        for (int i = 0; i<sizeof(all_switches[*index].states); i++) {
+            if (strcmp(all_switches[*index].value,all_switches[*index].states[i].state_value) == 0) {
+                ESP_LOGW(TAG, "State found %s\n", all_switches[*index].states[i].state_value);
+                strcpy(switch_data.value, all_switches[*index].states[i].state_action);
+            } 
+        }
+        ESP_LOGW(TAG, " switch %d: %d", switch_data.index, switch_data.value);
         esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SWITCH_ST, &switch_data, sizeof(switch_data), portMAX_DELAY);
     }
 }

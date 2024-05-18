@@ -76,18 +76,22 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
             break;
 
         case IHAC_SWITCH_TYPE_PUSHBUTTON:
-            if (p_data->value != 0 && p_data->value != 1) {
-                p_data->value = 0;
+        {
+            struct view_data_ha_pushbutton_data *p_data = (struct view_data_ha_pushbutton_data *)event_data;
+
+            stcpy(all_switches[p_data->index].value, p_data->value);
+            // loop for all possible states
+            for (int i = 0; i<sizeof(all_switches[p_data->index].states); i++) {
+                if (strcmp(all_switches[p_data->index].value,all_switches[p_data->index].states[i].state_value) == 0) {
+                    ESP_LOGW(TAG, "State found %s\n", all_switches[p_data->index].states[i].state_value);
+
+                    char * icon = all_switches[p_data->index].states[i].state_icon;
+                    lv_img_dsc_t *icon_img = get_icon_img(icon);
+                    lv_img_set_src(all_switches[p_data->index].img, icon_img);
+                } 
             }
-            if (p_data->value)
-            {
-                lv_obj_add_state(all_switches[p_data->index].btn, LV_STATE_PRESSED);
-            }
-            else
-            {
-                lv_obj_clear_state(all_switches[p_data->index].btn, LV_STATE_PRESSED);
-            }
-            lv_event_send((lv_obj_t *)all_switches[p_data->index].btn, LV_EVENT_CLICKED, NULL);
+            //lv_event_send((lv_obj_t *)all_switches[p_data->index].btn, LV_EVENT_CLICKED, NULL);
+        }
             break;
         case IHAC_SWITCH_TYPE_BUTTON:
             if (p_data->value != 0 && p_data->value != 1) {

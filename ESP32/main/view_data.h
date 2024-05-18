@@ -130,6 +130,12 @@ extern "C"
         // char key[100];
     };
 
+    struct view_data_ha_pushbutton_data
+    {
+        uint8_t index;
+        char value[32];
+    };
+
     enum
     {
         VIEW_EVENT_SCREEN_START = 0, // uint8_t, enum start_screen, which screen when start

@@ -81,5 +81,6 @@ void create_switch_toggle(int size, lv_obj_t *parent, ha_switch_t *switch_, int 
 void create_switch_arc(int size, lv_obj_t *parent, ha_switch_t *switch_, int bt_x, int bt_y, char *label, char *unit);
 void create_switch_slider(int size, lv_obj_t *parent, ha_switch_t *switch_, int bt_x, int bt_y, char *label, char *unit);
 void ui_event_btn(lv_event_t *e);
+lv_img_dsc_t get_icon_img(char * icon);
 
 #endif
