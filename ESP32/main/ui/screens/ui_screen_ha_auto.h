@@ -30,9 +30,9 @@ typedef struct
 
 typedef struct ha_switch_states
 {
-    char state_value[32];
-    char state_icon[32];
-    char state_action[32];
+    char state_value[10];
+    char state_icon[10];
+    char state_action[10];
 } ha_switch_states_t;
 //  switch struct
 typedef struct
@@ -47,7 +47,7 @@ typedef struct
     lv_obj_t *page;       // parent
     char ha_key[100];     // ha key
     char value[32];
-    ha_switch_states_t states[10];
+    ha_switch_states_t states[3];
 } ha_switch_t;
 
 // screen_t **screens;

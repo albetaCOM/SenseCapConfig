@@ -42,7 +42,7 @@ void app_main(void)
         .queue_size = 10,
         .task_name = "view_event_task",
         .task_priority = uxTaskPriorityGet(NULL),
-        .task_stack_size = 10240,
+        .task_stack_size = 20*1024,//10240,
         .task_core_id = tskNO_AFFINITY};
 
     ESP_ERROR_CHECK(esp_event_loop_create(&view_event_task_args, &view_event_handle));

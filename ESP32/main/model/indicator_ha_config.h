@@ -19,9 +19,9 @@ typedef struct ha_config_page_sensor
 
 typedef struct ha_config_page_switch_states
 {
-    char state_value[32];
-    char state_icon[32];
-    char state_action[32];
+    char state_value[10];
+    char state_icon[10];
+    char state_action[10];
 } ha_config_page_switch_states_t;
 // Define struct for switches in a page
 typedef struct ha_config_page_switch
@@ -35,7 +35,7 @@ typedef struct ha_config_page_switch
     int type; // enum ha_config_page_switch_type
     int x;
     int y;
-    ha_config_page_switch_states_t  states[10];
+    ha_config_page_switch_states_t  states[3];
 
 } ha_config_page_switch_t;
 

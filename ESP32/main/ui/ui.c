@@ -1590,6 +1590,7 @@ void ui_init(void)
     lv_theme_t *theme = lv_theme_default_init(dispp, lv_color_hex(0x529d53), lv_palette_main(LV_PALETTE_RED), true, LV_FONT_DEFAULT);
     lv_disp_set_theme(dispp, theme);
     ui_albetacom_init();
+    ESP_LOGW(TAG, "ui_albetacom_init done\n");
     ui_screen_time_screen_init();
     ui_screen_sensor_screen_init();
     ui_screen_setting_screen_init();
@@ -1608,7 +1609,7 @@ void ui_init(void)
     //         heap_caps_get_free_size(MALLOC_CAP_SPIRAM),
     //         heap_caps_get_total_size(MALLOC_CAP_SPIRAM));
     // ESP_LOGI("MEM-1", "%s", buffer);
-
+    ESP_LOGW(TAG, "ui_screen_sensor_chart_screen_init done\n");
     ui_ha_init();
     lv_disp_load_scr(ui_screen_time);
 }

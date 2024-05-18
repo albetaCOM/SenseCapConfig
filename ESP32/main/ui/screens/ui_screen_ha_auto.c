@@ -3,7 +3,7 @@
 #include "ui_helpers.h"
 #include "ui_screen_ha_templates.h"
 
-#define DEBUG_UI 0
+#define DEBUG_UI 1
 static const char *TAG = "HA_UI_AUTO";
 
 // screen_t **screens;
@@ -34,7 +34,9 @@ void ui_ha_init(void)
     //         heap_caps_get_free_size(MALLOC_CAP_DEFAULT),
     //         heap_caps_get_total_size(MALLOC_CAP_DEFAULT));
     // ESP_LOGI("MEM-3", "%s", buffer);
+ESP_LOGW(TAG, "pre init_templates");
     init_templates();
+ESP_LOGW(TAG, "post init_templates");
     // sprintf(buffer, "   Biggest /     Free /    Total\n"
     //                 "\t  DRAM : [%8d / %8d / %8d]\n"
     //                 "\t PSRAM : [%8d / %8d / %8d]",
@@ -45,22 +47,22 @@ void ui_ha_init(void)
     //         heap_caps_get_free_size(MALLOC_CAP_DEFAULT),
     //         heap_caps_get_total_size(MALLOC_CAP_DEFAULT));
     // ESP_LOGI("MEM-31", "%s", buffer);
-#if DEBUG_UI
+#//if DEBUG_UI
     ESP_LOGI(TAG, "ui init: Start (count: %d)", __g_ha_config.page_count);
-#endif
+//#endif
     // allocate screens based on number of pages
     screens = malloc(__g_ha_config.page_count * sizeof(screen_t));
 
     // calculate the number of sensors
     for (int i = 0; i < __g_ha_config.page_count; i++)
     {
-#if DEBUG_UI
+//#if DEBUG_UI
         ESP_LOGI(TAG,
                  "ui init: Page id: %d - sensors: %d - switches: %d",
                  i,
                  __g_ha_config.pages[i].sensor_count,
                  __g_ha_config.pages[i].switch_count);
-#endif
+//#endif
         sensor_count += __g_ha_config.pages[i].sensor_count;
         switch_count += __g_ha_config.pages[i].switch_count;
     }
@@ -82,11 +84,11 @@ void ui_ha_init(void)
     //         heap_caps_get_total_size(MALLOC_CAP_DEFAULT));
     // ESP_LOGI("MEM-32", "%s", buffer);
 
-#if DEBUG_UI
+//#if DEBUG_UI
     ESP_LOGI(TAG, "ui init: Screen count: %d", __g_ha_config.page_count);
     ESP_LOGI(TAG, "ui init: Sensor count: %d", sensor_count);
     ESP_LOGI(TAG, "ui init: Switch count: %d", switch_count);
-#endif
+//#endif
 
     // Loop through all pages
     for (int i = 0; i < __g_ha_config.page_count; i++)
@@ -94,13 +96,13 @@ void ui_ha_init(void)
         // Get page
         ha_config_page_t page = __g_ha_config.pages[i];
 
-#if DEBUG_UI
+//#if DEBUG_UI
         ESP_LOGI(TAG, "ui init: Create page name: %s", page.name);
         ESP_LOGI(TAG, "ui init: Create page label: %s", page.label);
         ESP_LOGI(TAG, "ui init: Create page type: %d", page.type);
         ESP_LOGI(TAG, "ui init: Create page sensor count: %d", page.sensor_count);
         ESP_LOGI(TAG, "ui init: Create page switch count: %d", page.switch_count);
-#endif
+//#endif
         // sprintf(buffer, "   Biggest /     Free /    Total\n"
         //                 "\t  DRAM : [%8d / %8d / %8d]\n"
         //                 "\tDefault: [%8d / %8d / %8d]",
@@ -120,14 +122,14 @@ void ui_ha_init(void)
             // Get sensor
             ha_config_page_sensor_t *sensor = &(page.sensors[j]);
 
-#if DEBUG_UI
+//#if DEBUG_UI
             ESP_LOGI(TAG, "ui init: Create sensor name: %s", sensor->name);
             ESP_LOGI(TAG, "ui init: Create sensor label: %s", sensor->label);
             ESP_LOGI(TAG, "ui init: Create sensor unit: %s", sensor->unit);
             ESP_LOGI(TAG, "ui init: Create sensor icon: %s", sensor->icon);
             ESP_LOGI(TAG, "ui init: Create sensor size: %d", sensor->size);
             ESP_LOGI(TAG, "ui init: Create sensor key: %s", sensor->ha_key);
-#endif
+//#endif
 
             int x = 0;
             int y = 0;
@@ -143,9 +145,9 @@ void ui_ha_init(void)
         {
             // Get switch
             ha_config_page_switch_t *switch_ = &(page.switches[j]);
-#if DEBUG_UI
+//#if DEBUG_UI
             ESP_LOGI(TAG, "ui init: Create switch name: %s", switch_->name);
-#endif
+//#endif
             int x = 0;
             int y = 0;
             // Call function to get the x, y based on page type
@@ -161,9 +163,9 @@ void ui_ha_init(void)
         }
         else
         {
-#if DEBUG_UI
+//#if DEBUG_UI
             ESP_LOGI(TAG, "creat_scrolldots: %d\n", screens[i].page_obj);
-#endif
+//#endif
             creat_scrolldots(screens[i].page_obj, i + 2, __g_ha_config.page_count + 3); // first dynamic page is 2, first one is clock page
         }
     }
@@ -335,9 +337,9 @@ void switch_create(lv_obj_t *parent, char *name, char *label, char *icon, int si
     // store the page in the switch struct
     all_switches[i].page = parent;
     all_switches[i].type = type;
-    if (states != NULL) {
+    // if (states != NULL) {
         memcpy(all_switches[i].states, states, sizeof(all_switches[i].states));
-    }
+    // }
     // store the ha key
     strcpy(all_switches[i].ha_key, ha_key);
 
@@ -351,6 +353,7 @@ void switch_create(lv_obj_t *parent, char *name, char *label, char *icon, int si
     case IHAC_SWITCH_TYPE_BUTTON:
         ESP_LOGI(TAG, "switch_create: create_switch_button");
         create_switch_button(size, parent, &all_switches[i], x, y, label, icon);
+        ESP_LOGW(TAG, "switch_created: create_switch_button");
         break;
     case IHAC_SWITCH_TYPE_TOGGLE:
         ESP_LOGI(TAG, "switch_create: create_switch_toggle");
@@ -397,7 +400,7 @@ void switch_add(lv_obj_t *parent, lv_obj_t * switchObj, char *key, int type)
     {
     case IHAC_SWITCH_TYPE_PUSHBUTTON:
     case IHAC_SWITCH_TYPE_BUTTON:
-        ESP_LOGI(TAG, "switch_create: create_switch_button");
+        ESP_LOGI(TAG, "switch_add: create_switch_button");
         all_switches[i].btn = switchObj;
         break;
     case IHAC_SWITCH_TYPE_TOGGLE:
@@ -405,11 +408,11 @@ void switch_add(lv_obj_t *parent, lv_obj_t * switchObj, char *key, int type)
         all_switches[i].data = switchObj;
         break;
     case IHAC_SWITCH_TYPE_SLIDER:
-        ESP_LOGI(TAG, "switch_create: create_switch_slider");
+        ESP_LOGI(TAG, "switch_add: create_switch_slider");
         all_switches[i].data = switchObj;
         break;
     case IHAC_SWITCH_TYPE_ARC:
-        ESP_LOGI(TAG, "switch_create: create_switch_arc");
+        ESP_LOGI(TAG, "switch_add: create_switch_arc");
         all_switches[i].data = switchObj;
         break;
     default:

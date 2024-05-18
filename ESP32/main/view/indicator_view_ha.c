@@ -79,7 +79,7 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
         {
             struct view_data_ha_pushbutton_data *p_data = (struct view_data_ha_pushbutton_data *)event_data;
 
-            stcpy(all_switches[p_data->index].value, p_data->value);
+            strcpy(all_switches[p_data->index].value, p_data->value);
             // loop for all possible states
             for (int i = 0; i<sizeof(all_switches[p_data->index].states); i++) {
                 if (strcmp(all_switches[p_data->index].value,all_switches[p_data->index].states[i].state_value) == 0) {

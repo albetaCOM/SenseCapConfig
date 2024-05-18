@@ -313,6 +313,8 @@ void config_read()
                                 switchItem->size = IHAC_ITEM_SIZE_XSMALL;
                             }
                         }
+                        ESP_LOGW(TAG, "Extracting states\n");
+
                         // Extract the "states" array
                         cjson_item = cJSON_GetObjectItem(cjson_item_switch, "states");
                         if (cjson_item != NULL)
@@ -327,7 +329,7 @@ void config_read()
                                         strcpy(switchItem->states[iState].state_value, state_name->string);  
                                         ESP_LOGW(TAG, "Switch state %i: '%s\n", iState, switchItem->states[iState].state_value);
 
-                                        state_cjson_item = cJSON_GetObjectItem(state_item, "icon");
+                                        cJSON *state_cjson_item = cJSON_GetObjectItem(state_item, "icon");
                                         if (state_cjson_item != NULL && state_cjson_item->valuestring != NULL)
                                         {
                                             strcpy(switchItem->states[iState].state_icon, state_cjson_item->valuestring);
@@ -365,6 +367,8 @@ void config_read()
 
     // free config_json memory
     free(config_json);
+    ESP_LOGW(TAG, "Config decoded\n");
+
 }
 
 // Function to store configuration to json string

@@ -240,7 +240,7 @@ void create_sensor_button(int size, lv_obj_t *parent, ha_sensor_t *sensor, int b
     lv_obj_set_style_text_font(sensor->unit, &lv_font_montserrat_24, LV_PART_MAIN | LV_STATE_DEFAULT);
 }
 
-lv_img_dsc_t get_icon_img(char * icon) 
+lv_img_dsc_t *get_icon_img(char * icon) 
 {
     lv_img_dsc_t *icon_img;
 
@@ -299,11 +299,11 @@ lv_img_dsc_t get_icon_img(char * icon)
  */
 void create_switch_button(int size, lv_obj_t *parent, ha_switch_t *switch_, int bt_x, int bt_y, char *label, char *icon)
 {
-    // ESP_LOGI(TAG, "create_switch_button: label %s", label);
-    // ESP_LOGI(TAG, "create_switch_button: size %d", size);
-    // ESP_LOGI(TAG, "create_switch_button: x, y %d, %d", bt_x, bt_y);
-    // ESP_LOGI(TAG, "create_switch_button: parent %p", parent);
-    // ESP_LOGI(TAG, "create_switch_button: switch_ %p", switch_);
+    ESP_LOGI(TAG, "create_switch_button: label %s", label);
+    ESP_LOGI(TAG, "create_switch_button: size %d", size);
+    ESP_LOGI(TAG, "create_switch_button: x, y %d, %d", bt_x, bt_y);
+    ESP_LOGI(TAG, "create_switch_button: parent %p", parent);
+    ESP_LOGI(TAG, "create_switch_button: switch_ %p", switch_);
 
     lv_img_dsc_t *icon_img = get_icon_img(icon);
 

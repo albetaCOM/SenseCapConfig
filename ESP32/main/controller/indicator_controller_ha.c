@@ -177,7 +177,7 @@ void ui_event_switch_pushbutton(lv_event_t *e)
 
         struct view_data_ha_pushbutton_data switch_data;
         switch_data.index = *index;
-        switch_data.value = "";
+        switch_data.value[0] = 0;
 
         // loop for all possible states
         for (int i = 0; i<sizeof(all_switches[*index].states); i++) {
