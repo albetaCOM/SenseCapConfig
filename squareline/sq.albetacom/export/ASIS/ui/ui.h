@@ -59,28 +59,25 @@ extern lv_obj_t * ui_Button12;
 extern lv_obj_t * ui_Label12;
 extern lv_obj_t * ui_LabelCode;
 extern lv_obj_t * ui_LabelCode1;
-// SCREEN: ui_ha_covers
-void ui_ha_covers_screen_init(void);
-void ui_event_ha_covers(lv_event_t * e);
-extern lv_obj_t * ui_ha_covers;
-extern lv_obj_t * ui_ha_covers_label;
-extern lv_obj_t * ui_Slider1;
-extern lv_obj_t * ui_ImgButton1;
-// SCREEN: ui_time
-void ui_time_screen_init(void);
-extern lv_obj_t * ui_time;
-// SCREEN: ui_ha_alarm
-void ui_ha_alarm_screen_init(void);
-void ui_event_ha_alarm(lv_event_t * e);
-extern lv_obj_t * ui_ha_alarm;
-extern lv_obj_t * ui_ha_alarm_activation_label;
-extern lv_obj_t * ui_ImgButton3;
 extern lv_obj_t * ui____initial_actions0;
 
 
-LV_IMG_DECLARE(ui_img_shutter_open_png);    // assets/shutter_open.png
-LV_IMG_DECLARE(ui_img_shutter_png);    // assets/shutter.png
-LV_IMG_DECLARE(ui_img_shield_lock_png);    // assets/shield_lock.png
+LV_IMG_DECLARE(ui_img_acoff_png);    // assets/acoff.png
+LV_IMG_DECLARE(ui_img_acon_png);    // assets/acon.png
+LV_IMG_DECLARE(ui_img_alarmarmedaway_png);    // assets/alarmarmedaway.png
+LV_IMG_DECLARE(ui_img_alarmarmedhome_png);    // assets/alarmarmedhome.png
+LV_IMG_DECLARE(ui_img_alarmdisarmed_png);    // assets/alarmdisarmed.png
+LV_IMG_DECLARE(ui_img_alarmwarning_png);    // assets/alarmwarning.png
+LV_IMG_DECLARE(ui_img_ceilingfanoff_png);    // assets/ceilingfanoff.png
+LV_IMG_DECLARE(ui_img_ceilingfanon_png);    // assets/ceilingfanon.png
+LV_IMG_DECLARE(ui_img_coverclosed_png);    // assets/coverclosed.png
+LV_IMG_DECLARE(ui_img_coveropen_png);    // assets/coveropen.png
+LV_IMG_DECLARE(ui_img_curtainclosed_png);    // assets/curtainclosed.png
+LV_IMG_DECLARE(ui_img_curtainopen_png);    // assets/curtainopen.png
+LV_IMG_DECLARE(ui_img_lightoff_png);    // assets/lightoff.png
+LV_IMG_DECLARE(ui_img_lighton_png);    // assets/lighton.png
+LV_IMG_DECLARE(ui_img_down_png);    // assets/down.png
+LV_IMG_DECLARE(ui_img_up_png);    // assets/up.png
 
 
 

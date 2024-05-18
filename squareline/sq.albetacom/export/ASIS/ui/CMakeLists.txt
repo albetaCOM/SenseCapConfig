@@ -1,14 +1,24 @@
 SET(SOURCES screens/ui_ha_alarm_keypad.c
-    screens/ui_ha_covers.c
-    screens/ui_time.c
-    screens/ui_ha_alarm.c
     ui.c
     components/ui_comp_hook.c
     ui_helpers.c
     ui_events.c
-    images/ui_img_shutter_open_png.c
-    images/ui_img_shutter_png.c
-    images/ui_img_shield_lock_png.c
+    images/ui_img_acoff_png.c
+    images/ui_img_acon_png.c
+    images/ui_img_alarmarmedaway_png.c
+    images/ui_img_alarmarmedhome_png.c
+    images/ui_img_alarmdisarmed_png.c
+    images/ui_img_alarmwarning_png.c
+    images/ui_img_ceilingfanoff_png.c
+    images/ui_img_ceilingfanon_png.c
+    images/ui_img_coverclosed_png.c
+    images/ui_img_coveropen_png.c
+    images/ui_img_curtainclosed_png.c
+    images/ui_img_curtainopen_png.c
+    images/ui_img_lightoff_png.c
+    images/ui_img_lighton_png.c
+    images/ui_img_down_png.c
+    images/ui_img_up_png.c
     fonts/ui_font_font0.c
     fonts/ui_font_font2.c
     fonts/ui_font_font3.c
