@@ -60,9 +60,8 @@ void ui_event_screen_ha(lv_event_t *e)
         {
             if (screen_index == 0)
             {
-                // go to sensor
-                //_ui_screen_change(ui_screen_sensor, LV_SCR_LOAD_ANIM_MOVE_RIGHT, 200, 0);
-                _ui_screen_change(ui_screen_time, LV_SCR_LOAD_ANIM_MOVE_RIGHT, 200, 0);
+                // go to settings
+                _ui_screen_change(ui_screen_setting, LV_SCR_LOAD_ANIM_MOVE_RIGHT, 200, 0);
             }
             else
             {
@@ -72,7 +71,7 @@ void ui_event_screen_ha(lv_event_t *e)
         }
         if (lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_TOP)
         {
-            _ui_screen_change(ui_screen_time, LV_SCR_LOAD_ANIM_MOVE_TOP, 200, 0);
+            _ui_screen_change(ui_screen_setting, LV_SCR_LOAD_ANIM_MOVE_TOP, 200, 0);
         }
     }
 }

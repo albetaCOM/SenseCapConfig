@@ -164,7 +164,7 @@ void ui_ha_init(void)
 #if DEBUG_UI
             ESP_LOGI(TAG, "creat_scrolldots: %d\n", screens[i].page_obj);
 #endif
-            creat_scrolldots(screens[i].page_obj, i + 2, __g_ha_config.page_count + 3); // first dynamic page is 2, first one is clock page
+            creat_scrolldots(screens[i].page_obj, i, __g_ha_config.page_count + 1); // first dynamic page is 0, last one is settings page
         }
     }
 }

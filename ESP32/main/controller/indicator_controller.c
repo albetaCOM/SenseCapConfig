@@ -363,95 +363,7 @@ static void __display_cfg_event_init(void)
     lv_obj_add_event_cb(ui_back1, __display_cfg_apply_event_cb, LV_EVENT_PRESSED, NULL);
 }
 
-/**********************  sensor chart **********************/
 
-/**
- * The function `ui_event_sensor_co2_chart` handles a click event on a CO2 chart in a user interface,
- * and changes the screen to a CO2 history screen.
- * 
- * @param e The parameter "e" is a pointer to the lv_event_t structure, which contains information
- * about the event that occurred.
- */
-static void ui_event_sensor_co2_chart(lv_event_t *e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t *target = lv_event_get_target(e);
-    lv_obj_t *cur_screen = lv_scr_act();
-    if (event_code == LV_EVENT_CLICKED && cur_screen == ui_screen_sensor)
-    {
-        esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_SENSOR_CO2_HISTORY, NULL, 0, portMAX_DELAY);
-
-        _ui_screen_change(ui_screen_sensor_chart, LV_SCR_LOAD_ANIM_OVER_LEFT, 200, 0);
-    }
-}
-
-/**
- * The function `ui_event_sensor_tvoc_chart` handles a click event on a target object and changes the
- * screen to display a TVOC history chart.
- * 
- * @param e The parameter "e" is a pointer to the lv_event_t structure, which contains information
- * about the event that occurred.
- */
-static void ui_event_sensor_tvoc_chart(lv_event_t *e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t *target = lv_event_get_target(e);
-    lv_obj_t *cur_screen = lv_scr_act();
-    if (event_code == LV_EVENT_CLICKED && cur_screen == ui_screen_sensor)
-    {
-        esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_SENSOR_TVOC_HISTORY, NULL, 0, portMAX_DELAY);
-        _ui_screen_change(ui_screen_sensor_chart, LV_SCR_LOAD_ANIM_OVER_LEFT, 200, 0);
-    }
-}
-
-/**
- * The function `ui_event_sensor_temp_chart` handles a click event on a UI element and changes the
- * screen to display a temperature chart.
- * 
- * @param e The parameter "e" is a pointer to the lv_event_t structure, which contains information
- * about the event that occurred.
- */
-static void ui_event_sensor_temp_chart(lv_event_t *e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t *target = lv_event_get_target(e);
-    lv_obj_t *cur_screen = lv_scr_act();
-    if (event_code == LV_EVENT_CLICKED && cur_screen == ui_screen_sensor)
-    {
-        esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_SENSOR_TEMP_HISTORY, NULL, 0, portMAX_DELAY);
-        _ui_screen_change(ui_screen_sensor_chart, LV_SCR_LOAD_ANIM_OVER_LEFT, 200, 0);
-    }
-}
-
-/**
- * The function `ui_event_sensor_humidity_chart` handles a click event on a UI element and changes the
- * screen to display a humidity chart.
- * 
- * @param e The parameter "e" is a pointer to the event object that triggered the event handler
- * function. It contains information about the event, such as the event code and the target object.
- */
-static void ui_event_sensor_humidity_chart(lv_event_t *e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t *target = lv_event_get_target(e);
-    lv_obj_t *cur_screen = lv_scr_act();
-    if (event_code == LV_EVENT_CLICKED && cur_screen == ui_screen_sensor)
-    {
-        esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_SENSOR_HUMIDITY_HISTORY, NULL, 0, portMAX_DELAY);
-        _ui_screen_change(ui_screen_sensor_chart, LV_SCR_LOAD_ANIM_OVER_LEFT, 200, 0);
-    }
-}
-
-/**
- * The function initializes event callbacks for sensor charts.
- */
-static void __sensor_chart_event_init(void)
-{
-    lv_obj_add_event_cb(ui_co2, ui_event_sensor_co2_chart, LV_EVENT_ALL, NULL);
-    lv_obj_add_event_cb(ui_tvoc_2, ui_event_sensor_tvoc_chart, LV_EVENT_ALL, NULL);
-    lv_obj_add_event_cb(ui_temp2, ui_event_sensor_temp_chart, LV_EVENT_ALL, NULL);
-    lv_obj_add_event_cb(ui_humidity2, ui_event_sensor_humidity_chart, LV_EVENT_ALL, NULL);
-}
 
 /**
  * The function initializes the indicator controller by initializing various events and the indicator
@@ -463,7 +375,6 @@ int indicator_controller_init(void)
 {
     __time_cfg_envent_init();
     __display_cfg_event_init();
-    __sensor_chart_event_init();
 
     indicator_controller_ha_init();
     return 0;

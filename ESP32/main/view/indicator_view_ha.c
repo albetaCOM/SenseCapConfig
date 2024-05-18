@@ -20,11 +20,17 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
         if(strcmp(p_data,"settings")==0){
             _ui_screen_change(ui_screen_setting, LV_SCR_LOAD_ANIM_FADE_IN, 200, 0);
         }
-        else if(strcmp(p_data,"clock")==0){
-            _ui_screen_change(ui_screen_time, LV_SCR_LOAD_ANIM_FADE_IN, 200, 0);
-        }
         else if(strcmp(p_data,"alarm_keypad")==0){
             _ui_screen_change(ui_ha_alarm_keypad, LV_SCR_LOAD_ANIM_FADE_IN, 200, 0);
+        }
+        else if(strcmp(p_data,"home")==0){
+            if (screen_count == 0)
+            {
+                _ui_screen_change(ui_screen_setting, LV_SCR_LOAD_ANIM_MOVE_RIGHT, 200, 0);
+            }
+            else{
+                _ui_screen_change(screens[0].page_obj, LV_SCR_LOAD_ANIM_MOVE_RIGHT, 200, 0);
+            }
         }
         
         break;    
