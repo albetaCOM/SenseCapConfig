@@ -335,12 +335,13 @@ void switch_create(lv_obj_t *parent, char *name, char *label, char *icon, int si
     // store the page in the switch struct
     all_switches[i].page = parent;
     all_switches[i].type = type;
+    memset(all_switches[i].value, 0, sizeof(all_switches[i].value)); 
         
     memcpy(all_switches[i].states, states, sizeof(ha_switch_states_t)*MAX_STATES);
-    for (int j = 0; j<MAX_STATES; j++) {
-        ESP_LOGW(TAG, "States[%d].state_value = '%s'", j, ((ha_switch_states_t*)states)[j].state_value);
-        ESP_LOGW(TAG, "Switch[%d].states[%d].state_value = '%s'", i,j,all_switches[i].states[j].state_value);
-    }
+    // for (int j = 0; j<MAX_STATES; j++) {
+    //     ESP_LOGW(TAG, "States[%d].state_value = '%s'", j, ((ha_switch_states_t*)states)[j].state_value);
+    //     ESP_LOGW(TAG, "Switch[%d].states[%d].state_value = '%s'", i,j,all_switches[i].states[j].state_value);
+    // }
     // store the ha key
     strcpy(all_switches[i].ha_key, ha_key);
 

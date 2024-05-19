@@ -48,6 +48,21 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
         }
         break;
     }
+    case VIEW_EVENT_HA_MQTT_CONNECTED:
+    {
+        for (int i = 0; i<all_switches_count; i++) {
+            if (all_switches[i].value[0] == 0) {
+                // lv_event_send((lv_obj_t *)all_switches[i].btn, LV_EVENT_CLICKED, NULL);
+
+                struct view_data_ha_switch_data switch_data;
+                switch_data.index = i;
+                sprintf(switch_data.value_str,"unknown");
+                esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SWITCH_ST, &switch_data, sizeof(switch_data), portMAX_DELAY);
+            }
+        }
+    }
+    break;
+
 
     case VIEW_EVENT_HA_SWITCH_SET:
     {
@@ -94,7 +109,7 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
             // loop for all possible states
             for (int i = 0; i<MAX_STATES; i++) {
                 ESP_LOGI(TAG, "Switch[%d].states[%d].state_value = '%s'", p_data->index,i,all_switches[p_data->index].states[i].state_value);
-                if ((all_switches[p_data->index].states[i].state_value[0] != 0) && 
+                if ((all_switches[p_data->index].states[i].state_value[0] != 0) && (all_switches[p_data->index].value[0] != 0) &&
                     (strcmp(all_switches[p_data->index].value,all_switches[p_data->index].states[i].state_value) == 0) ){
                      ESP_LOGW(TAG, "MQTT State found %s\n", all_switches[p_data->index].states[i].state_value);
 
@@ -152,4 +167,9 @@ int indicator_view_ha_init(void)
     ESP_ERROR_CHECK(esp_event_handler_instance_register_with(view_event_handle,
                                                              VIEW_EVENT_BASE, VIEW_EVENT_HA_SCREEN_CHANGE,
                                                              __view_event_handler, NULL, NULL));
+
+    ESP_ERROR_CHECK(esp_event_handler_instance_register_with(view_event_handle,
+                                                             VIEW_EVENT_BASE, VIEW_EVENT_HA_MQTT_CONNECTED,
+                                                             __view_event_handler, NULL, NULL));
+                                                             
 }
