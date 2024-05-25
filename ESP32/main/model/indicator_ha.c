@@ -551,7 +551,7 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
         struct view_data_ha_switch_data *p_data = (struct view_data_ha_switch_data *)event_data;
     
 
-        char data_buf[64];
+        char data_buf[100];
         int len = 0;
         memset(data_buf, 0, sizeof(data_buf));
 

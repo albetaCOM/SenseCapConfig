@@ -127,7 +127,7 @@ extern "C"
     {
         uint8_t index;
     //    int value;
-        char value_str[10];
+        char value_str[MAX_LENGTH_STATE_STRING];
         // char key[100];
     };
 

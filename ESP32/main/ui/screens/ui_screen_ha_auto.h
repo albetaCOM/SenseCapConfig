@@ -47,7 +47,7 @@ typedef struct
     int type;             // 0 - button, 1 - toggle, 2 - slider, 3 - arc
     lv_obj_t *page;       // parent
     char ha_key[100];     // ha key
-    char value[32];
+    char value[MAX_LENGTH_STATE_STRING];
     ha_switch_states_t states[MAX_STATES];
 } ha_switch_t;
 
