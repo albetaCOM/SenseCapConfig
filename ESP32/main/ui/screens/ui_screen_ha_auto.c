@@ -246,7 +246,8 @@ void page_create(int index, char *name, char *label)
 
     screens[index].ha_wifi_st = lv_img_create(screens[index].ha_wifi_btn);
     // ui_ha_wifi_st = lv_img_create(screens[index].ha_wifi_btn);
-    lv_img_set_src(screens[index].ha_wifi_st, &ui_img_wifi_disconet_png);
+    //lv_img_set_src(screens[index].ha_wifi_st, &ui_img_wifi_disconet_png);
+    lv_img_set_src(screens[index].ha_wifi_st, &ui_img_wifi_3_png);
     lv_obj_set_width(screens[index].ha_wifi_st, LV_SIZE_CONTENT);  /// 1
     lv_obj_set_height(screens[index].ha_wifi_st, LV_SIZE_CONTENT); /// 1
     lv_obj_set_align(screens[index].ha_wifi_st, LV_ALIGN_TOP_RIGHT);

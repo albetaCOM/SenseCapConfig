@@ -95,12 +95,22 @@ extern "C"
         SENSOR_DATA_TVOC,
         SENSOR_DATA_TEMP,
         SENSOR_DATA_HUMIDITY,
+        SENSOR_HA,
+    };
+
+    struct view_data_ha_sensor_data
+    {
+        uint8_t index;
+        char value[32];
     };
 
     struct view_data_sensor_data
     {
         enum sensor_data_type sensor_type;
-        float vaule;
+        union {
+            float vaule;
+            struct view_data_ha_sensor_data ha_data;
+        };
     };
 
     struct view_data_sensor_history_data
@@ -117,11 +127,6 @@ extern "C"
         float week_max;
     };
 
-    struct view_data_ha_sensor_data
-    {
-        uint8_t index;
-        char value[32];
-    };
 
     struct view_data_ha_switch_data
     {
@@ -176,6 +181,7 @@ extern "C"
 
         VIEW_EVENT_HA_MQTT_CONNECTED,
         VIEW_EVENT_HA_SENSOR,     // struct view_data_ha_sensor_data
+        VIEW_EVENT_HA_SENSOR_ST,
         VIEW_EVENT_HA_SWITCH_ST,  // struct view_data_ha_switch_data
         VIEW_EVENT_HA_SWITCH_SET, // struct view_data_ha_switch_data
         VIEW_EVENT_HA_SWITCH_ACTION,
@@ -184,6 +190,8 @@ extern "C"
         VIEW_EVENT_HA_ALARM_CODE_CHANGE, 
 
         VIEW_EVENT_BEEP,
+
+        VIEW_EVENT_HA_MESSAGE,
 
         VIEW_EVENT_ALL,
     };

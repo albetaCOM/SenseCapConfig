@@ -175,13 +175,17 @@ LV_IMG_DECLARE( ui_img_ic_switch1_off_png);   // assets/ic_switch1_off.png
 LV_IMG_DECLARE( ui_img_round_png);   // assets/ic_switch2_off.png
 LV_IMG_DECLARE( ui_img_shutter_open_png);
 LV_IMG_DECLARE( ui_img_shutter_png);
-LV_IMG_DECLARE( ui_img_shield_lock_png);
+LV_IMG_DECLARE( ui_img_alarmarmedaway_png);
 LV_IMG_DECLARE( ui_img_lightoff_png);
 LV_IMG_DECLARE( ui_img_lighton_png);
 LV_IMG_DECLARE( ui_img_coveropen_png);
 LV_IMG_DECLARE( ui_img_coverclosed_png);
 LV_IMG_DECLARE( ui_img_up_png);
 LV_IMG_DECLARE( ui_img_down_png);
+LV_IMG_DECLARE( ui_img_ceilingfanoff_png);
+LV_IMG_DECLARE( ui_img_ceilingfanon_png);
+LV_IMG_DECLARE( ui_img_wifi_3_png);
+
 
 
 

@@ -134,11 +134,11 @@ void init_templates()
     // large switches
     ui_templates[BT_LARGE].switch_ui.width = 214;
     ui_templates[BT_LARGE].switch_ui.height = 164;
-    ui_templates[BT_LARGE].switch_ui.zoom = 128;
+    ui_templates[BT_LARGE].switch_ui.zoom = 100;
 
     // Button
     ui_templates[BT_LARGE].switch_ui.b_icon_x = 0;
-    ui_templates[BT_LARGE].switch_ui.b_icon_y = 0;
+    ui_templates[BT_LARGE].switch_ui.b_icon_y = -10;
 
     // toggle
     ui_templates[BT_LARGE].switch_ui.t_label_x = 0;
@@ -244,14 +244,14 @@ lv_img_dsc_t *get_icon_img(char * icon)
 {
     lv_img_dsc_t *icon_img;
 
-    ESP_LOGW(TAG, "Button icon = %s", icon);
+    ESP_LOGI(TAG, "Button icon = %s", icon);
 
     if (icon[0] == 0)
     {
         ESP_LOGW(TAG, "Button icon defaulting to round");
         icon_img = &ui_img_round_png; // default icon
     }
-    else if (strcmp(icon, 'temperature') == 0)
+    else if (strcmp(icon, "temperature") == 0)
     {
         icon_img = &ui_img_ic_temp_png;
     }
@@ -277,7 +277,7 @@ lv_img_dsc_t *get_icon_img(char * icon)
     }
     else if (strcmp(icon, "alarm") == 0)
     {
-        icon_img = &ui_img_shield_lock_png;
+        icon_img = &ui_img_alarmarmedaway_png;
     }
     else if (strcmp(icon, "light_off") == 0)
     {
@@ -302,7 +302,15 @@ lv_img_dsc_t *get_icon_img(char * icon)
     else if (strcmp(icon, "cover_closing") == 0)
     {
         icon_img = &ui_img_down_png;
-    }
+    }    
+    else if (strcmp(icon, "fan_on") == 0)
+    {
+        icon_img = &ui_img_ceilingfanon_png;
+    }    
+    else if (strcmp(icon, "fan_off") == 0)
+    {
+        icon_img = &ui_img_ceilingfanoff_png;
+    }   
     else
     {
         ESP_LOGW(TAG, "Button icon defaulting to round");
@@ -347,6 +355,7 @@ void create_switch_button(int size, lv_obj_t *parent, ha_switch_t *switch_, int 
     lv_img_set_zoom(switch_->img,  ui_templates[size].switch_ui.zoom);
     lv_obj_set_width(switch_->img, LV_SIZE_CONTENT);  /// 45
     lv_obj_set_height(switch_->img, LV_SIZE_CONTENT); /// 45
+   
 
     lv_obj_set_x(switch_->img, ui_templates[size].switch_ui.b_icon_x);
     lv_obj_set_y(switch_->img, ui_templates[size].switch_ui.b_icon_y);
@@ -357,11 +366,35 @@ void create_switch_button(int size, lv_obj_t *parent, ha_switch_t *switch_, int 
     switch_->label = lv_label_create(switch_->btn);
     lv_obj_set_width(switch_->label, LV_SIZE_CONTENT);  /// 1
     lv_obj_set_height(switch_->label, LV_SIZE_CONTENT); /// 1
-    lv_obj_set_align(switch_->label, LV_ALIGN_CENTER); //LV_ALIGN_BOTTOM_MID);
+    lv_obj_set_align(switch_->label, LV_ALIGN_BOTTOM_MID); //LV_ALIGN_BOTTOM_MID);
     lv_label_set_text(switch_->label, label);
     lv_obj_set_style_text_color(switch_->label, lv_color_hex(0x9E9E9E), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(switch_->label, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(switch_->label, &lv_font_montserrat_38, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(switch_->label, &lv_font_montserrat_30, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+
+
+    // ----------------
+    // sensor->logo = lv_img_create(sensor->btn);
+    // lv_img_set_src(sensor->logo, icon_img);
+    // lv_obj_set_width(sensor->logo, LV_SIZE_CONTENT);  /// 45
+    // lv_obj_set_height(sensor->logo, LV_SIZE_CONTENT); /// 45
+    // lv_obj_set_x(sensor->logo, ui_templates[size].sensor_ui.logo_x);
+    // lv_obj_set_y(sensor->logo, ui_templates[size].sensor_ui.logo_y);
+    // lv_obj_add_flag(sensor->logo, LV_OBJ_FLAG_ADV_HITTEST);  /// Flags
+    // lv_obj_clear_flag(sensor->logo, LV_OBJ_FLAG_SCROLLABLE); /// Flags
+
+    // sensor->label = lv_label_create(sensor->btn);
+    // lv_obj_set_width(sensor->label, LV_SIZE_CONTENT);  /// 1
+    // lv_obj_set_height(sensor->label, LV_SIZE_CONTENT); /// 1
+    // lv_obj_set_x(sensor->label, ui_templates[size].sensor_ui.label_x);
+    // lv_obj_set_y(sensor->label, ui_templates[size].sensor_ui.label_y);
+    // lv_obj_set_align(sensor->label, LV_ALIGN_BOTTOM_MID);
+    // lv_label_set_text(sensor->label, label);
+    // lv_obj_set_style_text_color(sensor->label, lv_color_hex(0x9E9E9E), LV_PART_MAIN | LV_STATE_DEFAULT);
+    // lv_obj_set_style_text_opa(sensor->label, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    // lv_obj_set_style_text_font(sensor->label, &lv_font_montserrat_18, LV_PART_MAIN | LV_STATE_DEFAULT);
+
 }
 
 /**

@@ -313,7 +313,7 @@ void config_read()
                                 switchItem->size = IHAC_ITEM_SIZE_XSMALL;
                             }
                         }
-                        ESP_LOGW(TAG, "Extracting states\n");
+                        // ESP_LOGW(TAG, "Extracting states\n");
 
                         // Extract the "states" array
                         cjson_item = cJSON_GetObjectItem(cjson_item_switch, "states");
@@ -327,20 +327,20 @@ void config_read()
                                     if (state_cjson_item != NULL && state_cjson_item->valuestring != NULL)
                                     {
                                         strcpy(switchItem->states[iState].state_value, state_cjson_item->valuestring);  
-                                        ESP_LOGW(TAG, "Switch[%d] state %i: '%s'\n",j-1,iState, switchItem->states[iState].state_value);
+                                        // ESP_LOGW(TAG, "Switch[%d] state %i: '%s'\n",j-1,iState, switchItem->states[iState].state_value);
                                     }
 
                                     state_cjson_item = cJSON_GetObjectItem(state_item, "icon");
                                     if (state_cjson_item != NULL && state_cjson_item->valuestring != NULL)
                                     {
                                         strcpy(switchItem->states[iState].state_icon, state_cjson_item->valuestring);
-                                        ESP_LOGW(TAG, "Switch[%d] icon %i: '%s'\n",j-1, iState, switchItem->states[iState].state_icon);
+                                        // ESP_LOGW(TAG, "Switch[%d] icon %i: '%s'\n",j-1, iState, switchItem->states[iState].state_icon);
                                     }
                                     state_cjson_item = cJSON_GetObjectItem(state_item, "action");
                                     if (state_cjson_item != NULL && state_cjson_item->valuestring != NULL)
                                     {
                                         strcpy(switchItem->states[iState].state_action, state_cjson_item->valuestring);
-                                        ESP_LOGW(TAG, "Switch[%d] action %i: '%s\n",j-1, iState, switchItem->states[iState].state_action);
+                                        // ESP_LOGW(TAG, "Switch[%d] action %i: '%s\n",j-1, iState, switchItem->states[iState].state_action);
                                     }
                                     iState++;
                                 }

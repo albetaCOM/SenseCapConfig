@@ -6,11 +6,89 @@
 
 static const char *TAG = "view-ha";
 
+static lv_obj_t * ui_message_label = NULL;
+
+static void ClearMessage(void){
+    
+    if (ui_message_label != NULL) {
+        lv_obj_del(ui_message_label);
+        ui_message_label = NULL;
+    }
+}
+
+void ui_event_message_label(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        MessageLabelClicked(e);
+    }
+}
+
+void MessageLabelClicked(lv_event_t * e)
+{
+	ClearMessage();
+}
+
+static void SetMessage(char* text){
+    
+    if (ui_message_label == NULL) {
+        ui_message_label = lv_label_create(lv_scr_act());
+        //lv_obj_set_width(ui_message_label, LV_SIZE_CONTENT);  /// 1
+        //lv_obj_set_height(ui_message_label, LV_SIZE_CONTENT); /// 1
+        //lv_obj_set_x(ui_message_label, 30);
+        //lv_obj_set_y(ui_message_label, 20);
+        //lv_obj_set_style_text_font(ui_message_label, &ui_font_font1, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+
+        lv_obj_set_width(ui_message_label, LV_SIZE_CONTENT);   /// 1
+        lv_obj_set_height(ui_message_label, LV_SIZE_CONTENT);    /// 1
+        lv_obj_set_align(ui_message_label, LV_ALIGN_CENTER);
+        
+        lv_obj_add_state(ui_message_label, LV_STATE_FOCUSED);       /// States
+        lv_obj_add_flag(ui_message_label, LV_OBJ_FLAG_CLICKABLE);     /// Flags
+        lv_obj_clear_flag(ui_message_label,    LV_OBJ_FLAG_PRESS_LOCK | LV_OBJ_FLAG_CLICK_FOCUSABLE | LV_OBJ_FLAG_GESTURE_BUBBLE |
+                                        LV_OBJ_FLAG_SNAPPABLE | LV_OBJ_FLAG_SCROLLABLE | LV_OBJ_FLAG_SCROLL_ELASTIC | LV_OBJ_FLAG_SCROLL_MOMENTUM |
+                                        LV_OBJ_FLAG_SCROLL_CHAIN);     /// Flags
+        lv_obj_set_style_text_color(ui_message_label, lv_color_hex(0xF6DB36), LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_text_opa(ui_message_label, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_text_font(ui_message_label, &lv_font_montserrat_26, LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_bg_color(ui_message_label, lv_color_hex(0x4B4949), LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_bg_opa(ui_message_label, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_border_color(ui_message_label, lv_color_hex(0x9E0107), LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_border_opa(ui_message_label, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_border_width(ui_message_label, 4, LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_pad_left(ui_message_label, 10, LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_pad_right(ui_message_label, 10, LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_pad_top(ui_message_label, 10, LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_pad_bottom(ui_message_label, 10, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+        lv_obj_add_event_cb(ui_message_label, ui_event_message_label, LV_EVENT_ALL, NULL);
+    }
+    lv_label_set_text(ui_message_label, text);
+}
+
+
+
+
 static void __view_event_handler(void *handler_args, esp_event_base_t base, int32_t id, void *event_data)
 {
     lv_port_sem_take();
     switch (id)
     {
+    case VIEW_EVENT_HA_MESSAGE:
+    {
+        ESP_LOGI(TAG, "event: VIEW_EVENT_HA_SCREEN_CHANGE");
+        char *p_data = (char *)event_data;
+        ESP_LOGI(TAG, "data: %s",p_data);
+        if (p_data[0] == 0) {
+            ClearMessage();
+        } else if (p_data[0] != 0) {
+            SetMessage(p_data);
+        }
+        break;
+    }
+
     case VIEW_EVENT_HA_SCREEN_CHANGE:
     {
         ESP_LOGI(TAG, "event: VIEW_EVENT_HA_SCREEN_CHANGE");
@@ -50,6 +128,15 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
     }
     case VIEW_EVENT_HA_MQTT_CONNECTED:
     {
+        for (int i=0; i<all_sensors_count; i++)
+        {
+            // lv_event_send((lv_obj_t *)all_switches[i].btn, LV_EVENT_CLICKED, NULL);
+            struct view_data_ha_sensor_data sensor_data;
+            memset(&sensor_data, 0, sizeof(sensor_data));
+            sensor_data.index = i;
+            strncpy(sensor_data.value, "unknown", sizeof(sensor_data.value) - 1);
+            esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_SENSOR_DATA, &sensor_data, sizeof(sensor_data), portMAX_DELAY);
+        }
         for (int i = 0; i<all_switches_count; i++) {
             if (all_switches[i].value[0] == 0) {
                 // lv_event_send((lv_obj_t *)all_switches[i].btn, LV_EVENT_CLICKED, NULL);
@@ -108,10 +195,10 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
 
             // loop for all possible states
             for (int i = 0; i<MAX_STATES; i++) {
-                ESP_LOGI(TAG, "Switch[%d].states[%d].state_value = '%s'", p_data->index,i,all_switches[p_data->index].states[i].state_value);
+                // ESP_LOGI(TAG, "Switch[%d].states[%d].state_value = '%s'", p_data->index,i,all_switches[p_data->index].states[i].state_value);
                 if ((all_switches[p_data->index].states[i].state_value[0] != 0) && (all_switches[p_data->index].value[0] != 0) &&
                     (strcmp(all_switches[p_data->index].value,all_switches[p_data->index].states[i].state_value) == 0) ){
-                     ESP_LOGW(TAG, "MQTT State found %s\n", all_switches[p_data->index].states[i].state_value);
+                     ESP_LOGI(TAG, "MQTT State found %s\n", all_switches[p_data->index].states[i].state_value);
 
                      char * icon = all_switches[p_data->index].states[i].state_icon;
                      lv_img_dsc_t *icon_img = get_icon_img(icon);
@@ -170,6 +257,10 @@ int indicator_view_ha_init(void)
 
     ESP_ERROR_CHECK(esp_event_handler_instance_register_with(view_event_handle,
                                                              VIEW_EVENT_BASE, VIEW_EVENT_HA_MQTT_CONNECTED,
+                                                             __view_event_handler, NULL, NULL));
+
+    ESP_ERROR_CHECK(esp_event_handler_instance_register_with(view_event_handle,
+                                                             VIEW_EVENT_BASE, VIEW_EVENT_HA_MESSAGE,
                                                              __view_event_handler, NULL, NULL));
                                                              
 }

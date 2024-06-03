@@ -379,7 +379,7 @@ void ui_event_ha_init(void)
         {
             int *index = malloc(sizeof(int));
             *index = i;
-            lv_obj_add_event_cb(all_switches[i].btn, ui_event_switch_pushbutton, LV_EVENT_ALL, index);
+            lv_obj_add_event_cb(all_switches[i].btn, ui_event_switch_pushbutton, LV_EVENT_CLICKED, index);
             break;
         }
         default:

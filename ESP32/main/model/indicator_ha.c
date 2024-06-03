@@ -20,7 +20,7 @@
 
 #define HA_CFG_STORAGE "ha-cfg"
 #define MAX_LENGTH_SCREEN_TARGET 50
-
+#define MAX_LENGTH_MESSAGE_TEXT 100
 
 static const char *TAG = "HA";
 #define DEBUG_HA 0
@@ -222,65 +222,83 @@ static int mqtt_msg_handler(const char *p_topic, int topic_len, const char *p_da
     {
         cjson_item = cJSON_GetObjectItem(root, ha_switch_entites[i].key);
 
-        ESP_LOGW(TAG, "[mqtt_msg_handler] KEY: %s - topic: %s - ptopic: %s", ha_switch_entites[i].key, ha_switch_entites->topic_set, p_topic);
 
         if (cjson_item != NULL && 0 == strncmp(p_topic, ha_switch_entites->topic_set, topic_len))
         {
+            ESP_LOGI(TAG, "[mqtt_msg_handler] KEY: %s - topic: %s - ptopic: %.*s", ha_switch_entites[i].key, ha_switch_entites->topic_set, topic_len, p_topic);
             switch_data.index = i;
-            //switch_data.value = cjson_item->valueint;
-            //printf("valueint :%d", cjson_item->valueint);
+            // switch_data.value = cjson_item->valueint;
+            // printf("valueint :%d", cjson_item->valueint);
             if (cjson_item->valuestring != NULL)
             {
                 strcpy(switch_data.value_str, cjson_item->valuestring);
                 ESP_LOGI(TAG, "valuestring: %s", cjson_item->valuestring);
             }
-            else ESP_LOGI(TAG, "No valuestring");
-            
+            else
+                ESP_LOGW(TAG, "No valuestring");
+
             esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SWITCH_SET, &switch_data, sizeof(switch_data), portMAX_DELAY);
             // return 0;
         }
     }
 
     // Added MQTT topic for changinf the screen from home assistant
-    if (0 == strncmp(p_topic, "indicator/screen", topic_len)){
+    if (0 == strncmp(p_topic, "indicator/message", topic_len))
+    {
+        cjson_item = cJSON_GetObjectItem(root, "text");
+        if (cjson_item != NULL)
+        {
+            ESP_LOGI(TAG, "TEXT TO SHOW: %s", cjson_item->valuestring);
+            ESP_LOGI(TAG, "String size: %d", strnlen(cjson_item->valuestring, MAX_LENGTH_MESSAGE_TEXT));
+
+            esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_MESSAGE, cjson_item->valuestring, strnlen(cjson_item->valuestring, MAX_LENGTH_MESSAGE_TEXT) + 1, portMAX_DELAY);
+        }
+    }
+
+    // Added MQTT topic for changinf the screen from home assistant
+    if (0 == strncmp(p_topic, "indicator/screen", topic_len))
+    {
         cjson_item = cJSON_GetObjectItem(root, "target");
-        if (cjson_item != NULL){
+        if (cjson_item != NULL)
+        {
             ESP_LOGI(TAG, "CAMBIO DE PANTALLA: %s", cjson_item->valuestring);
-            ESP_LOGI(TAG, "String size: %d", strnlen(cjson_item->valuestring,MAX_LENGTH_SCREEN_TARGET));
-            
-            esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SCREEN_CHANGE, cjson_item->valuestring, strnlen(cjson_item->valuestring,MAX_LENGTH_SCREEN_TARGET)+1, portMAX_DELAY);
+            ESP_LOGI(TAG, "String size: %d", strnlen(cjson_item->valuestring, MAX_LENGTH_SCREEN_TARGET));
+
+            esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SCREEN_CHANGE, cjson_item->valuestring, strnlen(cjson_item->valuestring, MAX_LENGTH_SCREEN_TARGET) + 1, portMAX_DELAY);
         }
     }
 
     // Added MQTT topic for BEEEEP
-    
-    if (0 == strncmp(p_topic, "indicator/beep", topic_len)){
 
-        int beep_info[3] = {1,50,0};
+    if (0 == strncmp(p_topic, "indicator/beep", topic_len))
+    {
+
+        int beep_info[3] = {1, 50, 0};
         cjson_item = cJSON_GetObjectItem(root, "beep_repetitions");
-        if (cjson_item != NULL){
+        if (cjson_item != NULL)
+        {
             beep_info[0] = cjson_item->valueint;
             ESP_LOGI(TAG, "MQTT -> BEEP repetitions = %d", beep_info[0]);
         }
 
         cjson_item = cJSON_GetObjectItem(root, "beep_duration");
-        if (cjson_item != NULL){
+        if (cjson_item != NULL)
+        {
             beep_info[1] = cjson_item->valueint;
             ESP_LOGI(TAG, "MQTT -> BEEP duration = %d", beep_info[1]);
         }
 
         cjson_item = cJSON_GetObjectItem(root, "beep_repetition_ms");
-        if (cjson_item != NULL){
+        if (cjson_item != NULL)
+        {
             beep_info[2] = cjson_item->valueint;
             ESP_LOGI(TAG, "MQTT -> BEEP beep_repetition_ms = %d", beep_info[2]);
         }
-        //printf("Sizeof(beepinfo) -> %d\n",sizeof(beep_info));
-        //printf("Sizeof(3*sizeof(int)) -> %d\n",3*sizeof(int));
+        // printf("Sizeof(beepinfo) -> %d\n",sizeof(beep_info));
+        // printf("Sizeof(3*sizeof(int)) -> %d\n",3*sizeof(int));
         esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_BEEP, &beep_info[0], sizeof(beep_info), portMAX_DELAY);
-        //esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_BEEP, NULL, 0, portMAX_DELAY);
-        
+        // esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_BEEP, NULL, 0, portMAX_DELAY);
     }
-
 
 prase_end:
     cJSON_Delete(root);
@@ -336,6 +354,7 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
         // New topic subscription for changing the screens from HA (JCL + Alba)
         msg_id = esp_mqtt_client_subscribe(client, "indicator/screen", 0);
         msg_id = esp_mqtt_client_subscribe(client, "indicator/beep", 0);
+        msg_id = esp_mqtt_client_subscribe(client, "indicator/message", 0);
 
         //  restore switch state for UI and HA.
         /*struct view_data_ha_switch_data switch_data;
@@ -472,6 +491,23 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
 
         switch (p_data->sensor_type)
         {
+        case SENSOR_HA:
+        {
+            //   char *topic_state = ha_switch_entites[p_data->index].topic_state;
+            char *key = all_sensors[p_data->ha_data.index].ha_key;
+
+            ESP_LOGI(TAG, "MQTT data to send: %s", p_data->ha_data.value);
+
+            len = snprintf(data_buf, sizeof(data_buf), "{\"%s\": \"%s\"}", key, p_data->ha_data.value);
+
+            ESP_LOGI(TAG, "MQTT data to send (formated): %s", data_buf);
+
+            esp_mqtt_client_publish(mqtt_client, CONFIG_TOPIC_SENSOR_DATA, data_buf, len, 0, 0);
+
+            ESP_LOGI(TAG, "MQTT set sensor %d: %s", p_data->ha_data.index, p_data->ha_data.value);
+
+            break;
+        }
         case SENSOR_DATA_CO2:
         {
             len = snprintf(data_buf, sizeof(data_buf), "{\"%s\":\"%d\"}", CONFIG_SENSOR_BUILDIN_CO2_VALUE_KEY, (int)p_data->vaule);
@@ -520,11 +556,11 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
         //   char *topic_state = ha_switch_entites[p_data->index].topic_state;
         char *key = all_switches[p_data->index].ha_key;
 
-        ESP_LOGI(TAG, "MQTT data to send: %s",p_data->value_str);
+        ESP_LOGI(TAG, "MQTT data to send: %s", p_data->value_str);
 
         len = snprintf(data_buf, sizeof(data_buf), "{\"%s\": \"%s\"}", key, p_data->value_str);
 
-        ESP_LOGI(TAG, "MQTT data to send (formated): %s",data_buf);
+        ESP_LOGI(TAG, "MQTT data to send (formated): %s", data_buf);
 
         esp_mqtt_client_publish(mqtt_client, CONFIG_TOPIC_SWITCH_STATE, data_buf, len, 0, 0);
 
@@ -532,7 +568,7 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
 
         /*if (p_data->index < ha_switch_entites_num)
         {
-            sprintf(switch_state[p_data->index],"%s",p_data->value_str);            
+            sprintf(switch_state[p_data->index],"%s",p_data->value_str);
         }
         ha_ctrl_cfg_save(); // save switch state to flash*/
         break;
@@ -549,7 +585,6 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
 #endif
 
         struct view_data_ha_switch_data *p_data = (struct view_data_ha_switch_data *)event_data;
-    
 
         char data_buf[100];
         int len = 0;
@@ -560,8 +595,7 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
         len = snprintf(data_buf, sizeof(data_buf), "{\"key\": \"%s\",\"action\": \"%s\"}", key, p_data->value_str);
         esp_mqtt_client_publish(mqtt_client, CONFIG_TOPIC_SWITCH_ACTION, data_buf, len, 0, 0);
 
-        ESP_LOGI(TAG, "MQTT data to send (formated): %s",data_buf);
-    
+        ESP_LOGI(TAG, "MQTT data to send (formated): %s", data_buf);
     }
     break;
 
@@ -586,7 +620,7 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
 
         ESP_LOGI(TAG, "MQTT send alarm code: %s", p_data);
         break;
-    }    
+    }
     default:
         break;
     }
