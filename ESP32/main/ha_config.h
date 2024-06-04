@@ -10,15 +10,20 @@ extern "C" {
 
 #define MAX_STATES 3
 #define MAX_LENGTH_STATE_STRING 50
+#define MAX_LENGTH_MESSAGE_TEXT 100
+
 
 //topic
 #define CONFIG_TOPIC_SENSOR_DATA       "indicator/sensor"
 #define CONFIG_TOPIC_SENSOR_DATA_QOS   0
 
 
-#define CONFIG_TOPIC_ALARM_CODE    "indicator/alarm"
-#define CONFIG_TOPIC_SWITCH_STATE    "indicator/switch/state"
-#define CONFIG_TOPIC_SWITCH_SET      "indicator/switch/set"
+#define CONFIG_TOPIC_ALARM_CODE         "indicator/alarm"
+#define CONFIG_TOPIC_ALARMO_STATE       "alarmo/state"
+#define CONFIG_TOPIC_ALARMO_EVENT       "alarmo/event"
+#define CONFIG_TOPIC_ALARMO_COMMAND     "alarmo/command"
+#define CONFIG_TOPIC_SWITCH_STATE       "indicator/switch/state"
+#define CONFIG_TOPIC_SWITCH_SET         "indicator/switch/set"
 #define CONFIG_TOPIC_SWITCH_ACTION      "indicator/switch/action"
 #define CONFIG_TOPIC_SWITCH_QOS         1
 

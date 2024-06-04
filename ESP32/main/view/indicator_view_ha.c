@@ -30,16 +30,34 @@ void MessageLabelClicked(lv_event_t * e)
 	ClearMessage();
 }
 
-static void SetMessage(char* text){
+
+// TIMER TO CONTROL BEEPS DURING ALARMO STATES
+static esp_timer_handle_t __oneshot_timer_handle;
+static void oneshot_timer_callback(void *arg);
+
+static void create_and_start_timer(uint8_t seconds)
+{
+	const esp_timer_create_args_t timer_args = {
+		.callback = &oneshot_timer_callback,
+		.name = "clear message"};
+	ESP_ERROR_CHECK(esp_timer_create(&timer_args, &__oneshot_timer_handle));
+
+	ESP_LOGI(TAG, "-----------------------------------> TIMER START");
+	ESP_ERROR_CHECK(esp_timer_start_once(__oneshot_timer_handle, seconds * 1000000)); // 1s
+}
+
+static void oneshot_timer_callback(void *arg)
+{
+	ESP_LOGI(TAG, "CLEAR MESSAGE");
+    ClearMessage();
+    ESP_ERROR_CHECK(esp_timer_delete(__oneshot_timer_handle));
+}
+
+
+static void SetMessage(char* text, uint8_t seconds){
     
     if (ui_message_label == NULL) {
         ui_message_label = lv_label_create(lv_scr_act());
-        //lv_obj_set_width(ui_message_label, LV_SIZE_CONTENT);  /// 1
-        //lv_obj_set_height(ui_message_label, LV_SIZE_CONTENT); /// 1
-        //lv_obj_set_x(ui_message_label, 30);
-        //lv_obj_set_y(ui_message_label, 20);
-        //lv_obj_set_style_text_font(ui_message_label, &ui_font_font1, LV_PART_MAIN | LV_STATE_DEFAULT);
-
 
         lv_obj_set_width(ui_message_label, LV_SIZE_CONTENT);   /// 1
         lv_obj_set_height(ui_message_label, LV_SIZE_CONTENT);    /// 1
@@ -66,6 +84,10 @@ static void SetMessage(char* text){
         lv_obj_add_event_cb(ui_message_label, ui_event_message_label, LV_EVENT_ALL, NULL);
     }
     lv_label_set_text(ui_message_label, text);
+
+    if (seconds != 0) {
+        create_and_start_timer(seconds);
+    }
 }
 
 
@@ -79,12 +101,13 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
     case VIEW_EVENT_HA_MESSAGE:
     {
         ESP_LOGI(TAG, "event: VIEW_EVENT_HA_SCREEN_CHANGE");
-        char *p_data = (char *)event_data;
-        ESP_LOGI(TAG, "data: %s",p_data);
-        if (p_data[0] == 0) {
+        struct view_data_ha_message_data * message_data = (struct view_data_ha_message_data *)event_data;
+        //char *p_data = (char *)event_data;
+        ESP_LOGI(TAG, "data: %s",message_data->message);
+        if (message_data->message[0] == 0) {
             ClearMessage();
-        } else if (p_data[0] != 0) {
-            SetMessage(p_data);
+        } else if (message_data->message[0] != 0) {
+            SetMessage(message_data->message, message_data->seconds);
         }
         break;
     }
@@ -119,7 +142,7 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
         ESP_LOGI(TAG, "event: VIEW_EVENT_HA_SENSOR");
         struct view_data_ha_sensor_data *p_data = (struct view_data_ha_sensor_data *)event_data;
 
-        lv_label_set_text(all_sensors[p_data->index].data, p_data->value);
+        lv_label_set_text(all_sensors[p_data->index].data, (int)(p_data->value));
 
         if (all_sensors[p_data->index].callback != NULL) {
             all_sensors[p_data->index].callback(p_data->value);
@@ -262,5 +285,6 @@ int indicator_view_ha_init(void)
     ESP_ERROR_CHECK(esp_event_handler_instance_register_with(view_event_handle,
                                                              VIEW_EVENT_BASE, VIEW_EVENT_HA_MESSAGE,
                                                              __view_event_handler, NULL, NULL));
-                                                             
+    
+                
 }

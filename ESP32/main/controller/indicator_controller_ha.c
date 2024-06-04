@@ -185,19 +185,16 @@ void ui_event_switch_pushbutton(lv_event_t *e)
 
         // loop for all possible states
         for (int i = 0; i < MAX_STATES; i++) {
-            ESP_LOGW(TAG, "Switch %i - State '%s' - StateValue '%s'\n", *index, all_switches[*index].value, all_switches[*index].states[i].state_value);
             if ((all_switches[*index].states[i].state_value[0] != 0) && (all_switches[*index].value[0] != 0) &&
                 (strcmp(all_switches[*index].value,all_switches[*index].states[i].state_value) == 0) ){
-                ESP_LOGW(TAG, "State found '%s'\n", all_switches[*index].states[i].state_value);
                 state_found = true;
-
                 strcpy(switch_data.value_str, all_switches[*index].states[i].state_value);
-                ESP_LOGW(TAG, " switch %d: '%s'", switch_data.index, switch_data.value_str);
+                ESP_LOGI(TAG, " switch %d state:  '%s'", switch_data.index, switch_data.value_str);
                 esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SWITCH_ST, &switch_data, sizeof(switch_data), portMAX_DELAY);
 
                 if(all_switches[*index].states[i].state_action[0] != 0){
                     strcpy(switch_data.value_str, all_switches[*index].states[i].state_action);
-                    ESP_LOGW(TAG, " switch %d: '%s'", switch_data.index, switch_data.value_str);
+                    ESP_LOGI(TAG, " switch %d action: '%s'", switch_data.index, switch_data.value_str);
                     esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SWITCH_ACTION, &switch_data, sizeof(switch_data), portMAX_DELAY);
                 }
                 break;
@@ -205,7 +202,7 @@ void ui_event_switch_pushbutton(lv_event_t *e)
         }
         if (state_found == false) {
             strcpy(switch_data.value_str, "unknown");
-            ESP_LOGW(TAG, " switch %d: '%s'", switch_data.index, switch_data.value_str);
+            ESP_LOGW(TAG, " switch %d state: '%s'", switch_data.index, switch_data.value_str);
             esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SWITCH_ST, &switch_data, sizeof(switch_data), portMAX_DELAY);
         }
         

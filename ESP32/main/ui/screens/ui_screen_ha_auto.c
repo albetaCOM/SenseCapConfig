@@ -15,7 +15,6 @@ ha_sensor_t *all_sensors;
 int all_sensors_count = 0;
 int sensor_count = 0;
 
-
 // global array of switches
 ha_switch_t *all_switches;
 int all_switches_count = 0;
@@ -67,7 +66,7 @@ void ui_ha_init(void)
 
     // allocate memory for sensors
     all_sensors = realloc(all_sensors, sensor_count * sizeof(ha_sensor_t));
- 
+
     // allocate memory for switches
     all_switches = realloc(all_switches, switch_count * sizeof(ha_switch_t));
 
@@ -246,7 +245,7 @@ void page_create(int index, char *name, char *label)
 
     screens[index].ha_wifi_st = lv_img_create(screens[index].ha_wifi_btn);
     // ui_ha_wifi_st = lv_img_create(screens[index].ha_wifi_btn);
-    //lv_img_set_src(screens[index].ha_wifi_st, &ui_img_wifi_disconet_png);
+    // lv_img_set_src(screens[index].ha_wifi_st, &ui_img_wifi_disconet_png);
     lv_img_set_src(screens[index].ha_wifi_st, &ui_img_wifi_3_png);
     lv_obj_set_width(screens[index].ha_wifi_st, LV_SIZE_CONTENT);  /// 1
     lv_obj_set_height(screens[index].ha_wifi_st, LV_SIZE_CONTENT); /// 1
@@ -290,6 +289,7 @@ void sensor_create(lv_obj_t *parent, char *name, char *label, char *unit, char *
     // copy the ha key
     strcpy(all_sensors[i].ha_key, key);
 
+    all_sensors[i].ha_topic = NULL;
     all_sensors[i].callback = NULL;
 
     ESP_LOGI(TAG, "sensor_create: %s - %s", key, all_sensors[i].ha_key);
@@ -304,7 +304,7 @@ void sensor_create(lv_obj_t *parent, char *name, char *label, char *unit, char *
     create_sensor_button(size, parent, &all_sensors[i], x, y, 0xECBF41, name, label, unit, icon);
 }
 
-void sensor_add(lv_obj_t * labelObj, char *key, void (*_callback)(char *))
+void sensor_add(lv_obj_t *labelObj, char *key, char *topic, void (*_callback)(char *))
 {
     // Reallocate memory to accommodate the additional slot
     sensor_count++;
@@ -320,12 +320,22 @@ void sensor_add(lv_obj_t * labelObj, char *key, void (*_callback)(char *))
     all_sensors[i].ha_key = malloc(strlen(key) + 1);
     // copy the ha key
     strcpy(all_sensors[i].ha_key, key);
+
+    if (topic != NULL)
+    {
+        all_sensors[i].ha_topic = malloc(strlen(topic) + 1);
+        // copy the ha topic
+        strcpy(all_sensors[i].ha_topic, topic);
+        printf("ha_topic = '%s'\n", all_sensors[i].ha_topic);
+    } else {
+        all_sensors[i].ha_topic = NULL;
+    }
     all_sensors[i].data = labelObj;
     all_sensors[i].callback = _callback;
 }
 
 // function to create a switch
-void switch_create(lv_obj_t *parent, char *name, char *label, char *icon, int size, char *ha_key, char *unit, int type, int x, int y, void * states)
+void switch_create(lv_obj_t *parent, char *name, char *label, char *icon, int size, char *ha_key, char *unit, int type, int x, int y, void *states)
 {
     // switch counter
     int i = all_switches_count;
@@ -336,9 +346,9 @@ void switch_create(lv_obj_t *parent, char *name, char *label, char *icon, int si
     // store the page in the switch struct
     all_switches[i].page = parent;
     all_switches[i].type = type;
-    memset(all_switches[i].value, 0, sizeof(all_switches[i].value)); 
-        
-    memcpy(all_switches[i].states, states, sizeof(ha_switch_states_t)*MAX_STATES);
+    memset(all_switches[i].value, 0, sizeof(all_switches[i].value));
+
+    memcpy(all_switches[i].states, states, sizeof(ha_switch_states_t) * MAX_STATES);
     // for (int j = 0; j<MAX_STATES; j++) {
     //     ESP_LOGW(TAG, "States[%d].state_value = '%s'", j, ((ha_switch_states_t*)states)[j].state_value);
     //     ESP_LOGW(TAG, "Switch[%d].states[%d].state_value = '%s'", i,j,all_switches[i].states[j].state_value);
@@ -374,7 +384,7 @@ void switch_create(lv_obj_t *parent, char *name, char *label, char *icon, int si
     }
 }
 
-void switch_add(lv_obj_t *parent, lv_obj_t * switchObj, char *key, int type)
+void switch_add(lv_obj_t *parent, lv_obj_t *switchObj, char *key, int type)
 {
     // Reallocate memory to accommodate the additional slot
     ESP_LOGI(TAG, "switch_add: sensor_count: %d", switch_count);
@@ -389,7 +399,6 @@ void switch_add(lv_obj_t *parent, lv_obj_t * switchObj, char *key, int type)
     // increment sensor counter
     all_switches_count++;
 
-
     memset(&all_switches[i], 0, sizeof(ha_switch_t));
     all_switches[i].page = parent;
     all_switches[i].type = type;
@@ -397,7 +406,7 @@ void switch_add(lv_obj_t *parent, lv_obj_t * switchObj, char *key, int type)
     strcpy(all_switches[i].ha_key, key);
 
     ESP_LOGI(TAG, "Assigning object to switch %i", i);
- // create switch based on type
+    // create switch based on type
     switch (type)
     {
     case IHAC_SWITCH_TYPE_PUSHBUTTON:

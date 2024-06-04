@@ -26,6 +26,7 @@ typedef struct
     lv_obj_t *data;  // data label for sensor
     lv_obj_t *unit;  // unit label for sensor
     char *ha_key;    // ha key
+    char *ha_topic;
     void (*callback)(char *); // callback whenever changed
 } ha_sensor_t;
 
@@ -65,7 +66,7 @@ extern int all_switches_count;
 
 // Function to init pages based on the config
 void ui_ha_init(void);
-void sensor_add(lv_obj_t * labelObj, char *key, void (*_callback)(char *));
+void sensor_add(lv_obj_t * labelObj, char *key, char *topic, void (*_callback)(char *));
 void switch_add(lv_obj_t *parent, lv_obj_t * switchObj, char *key, int type);
 
 

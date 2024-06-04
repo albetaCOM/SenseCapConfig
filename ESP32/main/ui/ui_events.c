@@ -21,10 +21,56 @@
 
 #define MAX_ALARM_CODE 10
 
+static const char *TAG = "ui-events";
+
 char alarm_code[MAX_ALARM_CODE] = {0};
-char display_data[MAX_ALARM_CODE] = {0};
+// char display_data[MAX_ALARM_CODE] = {0};
 int alarm_code_index = 0;
 
+// TIMER TO CONTROL BEEPS DURING ALARMO STATES
+static esp_timer_handle_t __oneshot_timer_handle = NULL;
+static esp_timer_handle_t __periodic_timer_handle = NULL;
+
+static void create_and_start_oneshot_timer(uint8_t seconds, void (*callback)(void *args))
+{
+	if (__oneshot_timer_handle == NULL)
+	{
+		const esp_timer_create_args_t timer_args = {
+			.callback = callback,
+			.arg = (void *)__oneshot_timer_handle,
+			.name = "clear message"};
+		ESP_ERROR_CHECK(esp_timer_create(&timer_args, &__oneshot_timer_handle));
+		ESP_LOGI(TAG, "-----------------------------------> ONE SHOT TIMER START");
+		ESP_ERROR_CHECK(esp_timer_start_once(__oneshot_timer_handle, seconds * 1000000)); // 1s
+	}
+}
+
+// TIMER TO CONTROL BEEPS DURING ALARMO STATES
+
+static void create_and_start_periodic_timer(uint8_t seconds, void (*callback)(void *args))
+{
+	if (__periodic_timer_handle == NULL)
+	{
+		const esp_timer_create_args_t timer_args = {
+			.callback = callback,
+			.arg = (void *)__periodic_timer_handle,
+			.name = "beep update"};
+		ESP_ERROR_CHECK(esp_timer_create(&timer_args, &__periodic_timer_handle));
+		ESP_LOGI(TAG, "-----------------------------------> PERIODIC TIMER START");
+		ESP_ERROR_CHECK(esp_timer_start_periodic(__periodic_timer_handle, seconds * 1000000)); // 1s
+	}
+}
+
+static void stop_and_delete_periodic_timer()
+{
+	if (__periodic_timer_handle != NULL)
+	{
+		ESP_LOGI(TAG, "-----------------------------------> TIMER STOP");
+		ESP_ERROR_CHECK(esp_timer_stop(__periodic_timer_handle));
+		ESP_ERROR_CHECK(esp_timer_delete(__periodic_timer_handle));
+		__periodic_timer_handle = NULL;
+	}
+}
 
 void ClearCode(void)
 {
@@ -32,50 +78,61 @@ void ClearCode(void)
 	memset(alarm_code, 0, MAX_ALARM_CODE);
 }
 
-void DisplayAlarmCode( void )
+void DisplayHiddenCode(void *arg)
 {
-	// char display_data[MAX_ALARM_CODE] = {0};
-
-	// lv_label_set_text(ui_LabelCode, "                                    ");
-
-	for(int i=0;i<alarm_code_index;i++){
+	// esp_timer_handle_t timer = (esp_timer_handle_t)arg;
+	char display_data[MAX_ALARM_CODE] = {0};
+	for (int i = 0; i < alarm_code_index; i++)
+	{
 		display_data[i] = '*';
 	}
-	
-	
-	lv_label_set_text(ui_LabelCode, alarm_code);
-
-	printf("display_data = '%s'\n", display_data);
-	printf("alarm_code = '%s'\n", alarm_code);
-
+	lv_label_set_text(ui_LabelCode, display_data);
+	ESP_ERROR_CHECK(esp_timer_delete(__oneshot_timer_handle));
+	__oneshot_timer_handle = NULL;
 }
 
-void AlarmCodeScreenLoadedAction(lv_event_t * e)
+void DisplayAlarmCode(void)
 {
-	//esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_BEEP, NULL, 0, portMAX_DELAY);
+	char display_data[MAX_ALARM_CODE] = {0};
+	if (alarm_code_index > 0)
+	{
+		for (int i = 0; i < alarm_code_index - 1; i++)
+		{
+			display_data[i] = '*';
+		}
+		// Last one we show it for 1 seconds
+		display_data[alarm_code_index - 1] = alarm_code[alarm_code_index - 1];
+		create_and_start_oneshot_timer(1, &DisplayHiddenCode);
+	}
+	lv_label_set_text(ui_LabelCode, display_data);
+}
+
+void AlarmCodeScreenLoadedAction(lv_event_t *e)
+{
+	// esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_BEEP, NULL, 0, portMAX_DELAY);
 	ClearCode();
 	DisplayAlarmCode();
 }
 
-
-void Button1ClickedAction(lv_event_t * e)
+void Button1ClickedAction(lv_event_t *e)
 {
-	if(alarm_code_index < MAX_ALARM_CODE){
+	if (alarm_code_index < MAX_ALARM_CODE)
+	{
 		alarm_code[alarm_code_index++] = '1';
 	}
 	DisplayAlarmCode();
 }
 
-void ButtonClearClickedAction(lv_event_t * e)
+void ButtonClearClickedAction(lv_event_t *e)
 {
 	ClearCode();
 	DisplayAlarmCode();
 }
 
-void ButtonSendClickedAction(lv_event_t * e)
+void ButtonSendClickedAction(lv_event_t *e)
 {
 	// Your code here
-	if(alarm_code_index > 0)
+	if (alarm_code_index > 0)
 	{
 		printf("Sending alarm code event");
 		lv_label_set_text(ui_LabelCode, "Code sent!");
@@ -85,83 +142,131 @@ void ButtonSendClickedAction(lv_event_t * e)
 	else
 	{
 		lv_label_set_text(ui_LabelCode, "Code is empty");
-	}	
+	}
 }
 
-void Button2ClickedAction(lv_event_t * e)
+void Button2ClickedAction(lv_event_t *e)
 {
-	if(alarm_code_index < MAX_ALARM_CODE){
+	if (alarm_code_index < MAX_ALARM_CODE)
+	{
 		alarm_code[alarm_code_index++] = '2';
 	}
 	DisplayAlarmCode();
 }
 
-void Button3ClickedAction(lv_event_t * e)
+void Button3ClickedAction(lv_event_t *e)
 {
-	if(alarm_code_index < MAX_ALARM_CODE){
+	if (alarm_code_index < MAX_ALARM_CODE)
+	{
 		alarm_code[alarm_code_index++] = '3';
 	}
 	DisplayAlarmCode();
 }
 
-void Button4ClickedAction(lv_event_t * e)
+void Button4ClickedAction(lv_event_t *e)
 {
-	if(alarm_code_index < MAX_ALARM_CODE){
+	if (alarm_code_index < MAX_ALARM_CODE)
+	{
 		alarm_code[alarm_code_index++] = '4';
 	}
 	DisplayAlarmCode();
 }
 
-void Button5ClickedAction(lv_event_t * e)
+void Button5ClickedAction(lv_event_t *e)
 {
-	if(alarm_code_index < MAX_ALARM_CODE){
+	if (alarm_code_index < MAX_ALARM_CODE)
+	{
 		alarm_code[alarm_code_index++] = '5';
 	}
 	DisplayAlarmCode();
 }
 
-void Button6ClickedAction(lv_event_t * e)
+void Button6ClickedAction(lv_event_t *e)
 {
-	if(alarm_code_index < MAX_ALARM_CODE){
+	if (alarm_code_index < MAX_ALARM_CODE)
+	{
 		alarm_code[alarm_code_index++] = '6';
 	}
 	DisplayAlarmCode();
 }
 
-void Button7ClickedAction(lv_event_t * e)
+void Button7ClickedAction(lv_event_t *e)
 {
-	if(alarm_code_index < MAX_ALARM_CODE){
+	if (alarm_code_index < MAX_ALARM_CODE)
+	{
 		alarm_code[alarm_code_index++] = '7';
 	}
 	DisplayAlarmCode();
 }
 
-void Button8ClickedAction(lv_event_t * e)
+void Button8ClickedAction(lv_event_t *e)
 {
-	if(alarm_code_index < MAX_ALARM_CODE){
+	if (alarm_code_index < MAX_ALARM_CODE)
+	{
 		alarm_code[alarm_code_index++] = '8';
 	}
 	DisplayAlarmCode();
 }
 
-void Button9ClickedAction(lv_event_t * e)
+void Button9ClickedAction(lv_event_t *e)
 {
-	if(alarm_code_index < MAX_ALARM_CODE){
+	if (alarm_code_index < MAX_ALARM_CODE)
+	{
 		alarm_code[alarm_code_index++] = '9';
 	}
 	DisplayAlarmCode();
 }
 
-void Button0ClickedAction(lv_event_t * e)
+void Button0ClickedAction(lv_event_t *e)
 {
-	if(alarm_code_index < MAX_ALARM_CODE){
+	if (alarm_code_index < MAX_ALARM_CODE)
+	{
 		alarm_code[alarm_code_index++] = '0';
 	}
 	DisplayAlarmCode();
 }
 
-
-void StatusCallback(char * status) 
+static void send_beep(void *arg)
 {
-	printf("Status callback = %s\n", status);
+	ESP_LOGI(TAG, "TOCA BEEP");
+	int beep_data[3] = {1, 100, 0};
+	esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_BEEP, &beep_data[0], sizeof(beep_data), portMAX_DELAY);
+}
+
+void alarmStatusCallback(char *status)
+{
+	ESP_LOGW(TAG, "Status callback = %s\n", status);
+
+	// char *p_data = (char *)event_data;
+	int beep_data[3] = {5, 50, 200};
+
+	if (strcmp(status, "disarmed") == 0)
+	{
+		if (lv_scr_act() == ui_ha_alarm_keypad) {
+			stop_and_delete_periodic_timer();
+			int beep_data[3] = {5, 50, 200};
+			esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_BEEP, &beep_data[0], sizeof(beep_data), portMAX_DELAY);
+			esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SCREEN_CHANGE, "home", sizeof("home"), portMAX_DELAY);
+		}
+	}
+	else
+	{
+		esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SCREEN_CHANGE, "alarm_keypad", sizeof("alarm_keypad"), portMAX_DELAY);
+
+		if (strcmp(status, "arming") == 0)
+		{
+			create_and_start_periodic_timer(1, &send_beep);
+		} else if (strcmp(status, "pending") == 0)
+		{
+			create_and_start_periodic_timer(1, &send_beep);
+
+		} else if (strcmp(status, "armed_away") == 0) 
+		{
+			int beep_data[3] = {3, 20, 100};
+			esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_BEEP, &beep_data[0], sizeof(beep_data), portMAX_DELAY);
+			stop_and_delete_periodic_timer();
+		} else {
+			stop_and_delete_periodic_timer();
+		}
+	}
 }

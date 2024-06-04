@@ -136,6 +136,13 @@ extern "C"
         // char key[100];
     };
 
+
+    struct view_data_ha_message_data
+    {
+        uint8_t seconds;
+        char message[MAX_LENGTH_MESSAGE_TEXT];
+    };
+
     // struct view_data_ha_pushbutton_data
     // {
     //     uint8_t index;
@@ -181,7 +188,6 @@ extern "C"
 
         VIEW_EVENT_HA_MQTT_CONNECTED,
         VIEW_EVENT_HA_SENSOR,     // struct view_data_ha_sensor_data
-        VIEW_EVENT_HA_SENSOR_ST,
         VIEW_EVENT_HA_SWITCH_ST,  // struct view_data_ha_switch_data
         VIEW_EVENT_HA_SWITCH_SET, // struct view_data_ha_switch_data
         VIEW_EVENT_HA_SWITCH_ACTION,

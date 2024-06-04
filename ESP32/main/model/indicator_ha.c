@@ -44,6 +44,14 @@ typedef struct ha_switch_entity
     int qos;
 } ha_switch_entity_t;
 
+typedef struct
+{
+    char *topic_command;
+    char *topic_event;
+    char *topic_state;
+    int qos;
+} ha_alarm_entity_t;
+
 // ui  {"index": 1, vaule: "27.2"}  <==MQTT==  topic:/xxx/state {"key": "27.2"}  HA
 // ha_sensor_entity_t ha_sensor_entites[CONFIG_HA_SENSOR_ENTITY_NUM];
 ha_sensor_entity_t *ha_sensor_entites;
@@ -55,6 +63,8 @@ int ha_sensor_entites_num;
 ha_switch_entity_t *ha_switch_entites;
 int ha_switch_entites_num;
 char *switch_state;
+
+static ha_alarm_entity_t ha_alarm_entity;
 
 static esp_mqtt_client_handle_t mqtt_client;
 static bool mqtt_connected_flag = false;
@@ -74,7 +84,15 @@ static void ha_entites_init(void)
     {
         ha_sensor_entites[i].index = i;
         ha_sensor_entites[i].key = all_sensors[i].ha_key;
-        ha_sensor_entites[i].topic = CONFIG_TOPIC_SENSOR_DATA;
+        if (all_sensors[i].ha_topic != NULL) {
+            // printf("ha_topic = '%s'\n", all_sensors[i].ha_topic);
+            printf("i = %i\n", i);
+            printf("ha_key = '%s'\n", all_sensors[i].ha_key);
+            printf("ha_topic = not null\n");
+            ha_sensor_entites[i].topic = all_sensors[i].ha_topic;
+        } else {
+            ha_sensor_entites[i].topic = CONFIG_TOPIC_SENSOR_DATA;
+        }
         ha_sensor_entites[i].qos = CONFIG_TOPIC_SENSOR_DATA_QOS;
     }
 
@@ -91,6 +109,10 @@ static void ha_entites_init(void)
         ha_switch_entites[i].topic_state = CONFIG_TOPIC_SWITCH_STATE;
         ha_switch_entites[i].qos = CONFIG_TOPIC_SWITCH_QOS;
     }
+
+    // Alarm entity
+    ha_alarm_entity.topic_event = CONFIG_TOPIC_ALARMO_EVENT;
+    ha_alarm_entity.topic_command = CONFIG_TOPIC_ALARMO_COMMAND;
 }
 
 /**
@@ -177,131 +199,210 @@ static void log_error_if_nonzero(const char *message, int error_code)
  *
  * @return an integer value.
  */
+
 static int mqtt_msg_handler(const char *p_topic, int topic_len, const char *p_data, int data_len)
 {
     cJSON *root = NULL;
     cJSON *cjson_item = NULL;
 
-    root = cJSON_ParseWithLength(p_data, data_len);
-    if (root == NULL)
-    {
-        return -1;
-    }
     struct view_data_ha_sensor_data sensor_data;
     struct view_data_ha_switch_data switch_data;
 
     memset(&sensor_data, 0, sizeof(sensor_data));
     memset(&switch_data, 0, sizeof(switch_data));
 
-#if DEBUG_HA
-    ESP_LOGI(TAG, "mqtt_msg_handler topic:%s", p_topic);
-
-    // ESP_LOGI(TAG, "mqtt_msg_handler data:%s", p_data);
-
-    ESP_LOGI(TAG, "mqtt_msg_handler number of sensor entites:%d", ha_sensor_entites_num);
-#endif
-    for (int i = 0; i < ha_sensor_entites_num; i++)
+    root = cJSON_ParseWithLength(p_data, data_len);
+    if (root == NULL)
     {
-        cjson_item = cJSON_GetObjectItem(root, ha_sensor_entites[i].key);
-#if DEBUG_HA
-        ESP_LOGI(TAG, "mqtt_msg_handler check key :%s", ha_sensor_entites[i].key);
-#endif
-        if (cjson_item != NULL && cjson_item->valuestring != NULL && 0 == strncmp(p_topic, ha_sensor_entites->topic, topic_len))
+        // Analyze the topics that contains data without JSON format
+
+        for (int i = 0; i < ha_sensor_entites_num; i++)
         {
-#if DEBUG_HA
-            ESP_LOGI(TAG, "mqtt_msg_handler found item :%s", ha_sensor_entites[i].key);
-#endif
-            sensor_data.index = i;
-            strncpy(sensor_data.value, cjson_item->valuestring, sizeof(sensor_data.value) - 1);
-            esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SENSOR, &sensor_data, sizeof(sensor_data), portMAX_DELAY);
-            // return 0;
-        }
-    }
-
-    for (int i = 0; i < ha_switch_entites_num; i++)
-    {
-        cjson_item = cJSON_GetObjectItem(root, ha_switch_entites[i].key);
-
-
-        if (cjson_item != NULL && 0 == strncmp(p_topic, ha_switch_entites->topic_set, topic_len))
-        {
-            ESP_LOGI(TAG, "[mqtt_msg_handler] KEY: %s - topic: %s - ptopic: %.*s", ha_switch_entites[i].key, ha_switch_entites->topic_set, topic_len, p_topic);
-            switch_data.index = i;
-            // switch_data.value = cjson_item->valueint;
-            // printf("valueint :%d", cjson_item->valueint);
-            if (cjson_item->valuestring != NULL)
+            if (strncmp(ha_sensor_entites[i].key, p_topic, topic_len) == 0)
             {
-                strcpy(switch_data.value_str, cjson_item->valuestring);
-                ESP_LOGI(TAG, "valuestring: %s", cjson_item->valuestring);
+#if DEBUG_HA
+                ESP_LOGI(TAG, "mqtt_msg_handler found item :%s", ha_sensor_entites[i].key);
+#endif
+                sensor_data.index = i;
+                strncpy(sensor_data.value, p_data, data_len);
+                esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SENSOR, &sensor_data, sizeof(sensor_data), portMAX_DELAY);
             }
-            else
-                ESP_LOGW(TAG, "No valuestring");
-
-            esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SWITCH_SET, &switch_data, sizeof(switch_data), portMAX_DELAY);
-            // return 0;
+        }
+        for (int i = 0; i < ha_switch_entites_num; i++)
+        {
+            if (strncmp(ha_switch_entites[i].key, p_topic, topic_len) == 0)
+            {
+                ESP_LOGI(TAG, "[mqtt_msg_handler] KEY: %s - topic: %s - ptopic: %.*s", ha_switch_entites[i].key, ha_switch_entites->topic_set, topic_len, p_topic);
+                switch_data.index = i;
+                strncpy(switch_data.value_str, p_data, data_len);
+                esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SWITCH_SET, &switch_data, sizeof(switch_data), portMAX_DELAY);
+            }
         }
     }
-
-    // Added MQTT topic for changinf the screen from home assistant
-    if (0 == strncmp(p_topic, "indicator/message", topic_len))
+    else
     {
-        cjson_item = cJSON_GetObjectItem(root, "text");
-        if (cjson_item != NULL)
+        // // Analyze the topics that contains data with JSON format
+        // if (strncmp(ha_alarm_entity.topic_command, p_topic, topic_len) == 0)
+        // {
+        //     strncpy(switch_data.value_str, p_data, data_len);
+        //     esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SWITCH_SET, &switch_data, sizeof(switch_data), portMAX_DELAY);
+        // }
+        if (strncmp(ha_alarm_entity.topic_event, p_topic, topic_len) == 0)
         {
-            ESP_LOGI(TAG, "TEXT TO SHOW: %s", cjson_item->valuestring);
-            ESP_LOGI(TAG, "String size: %d", strnlen(cjson_item->valuestring, MAX_LENGTH_MESSAGE_TEXT));
+            cjson_item = cJSON_GetObjectItem(root, "event");
+            if (cjson_item != NULL && cjson_item->valuestring != NULL)
+            {
+                if (strcmp(cjson_item->valuestring, "FAILED_TO_ARM") == 0)
+                {
+                    // Obtener el array de sensores
+                    cJSON *sensors = cJSON_GetObjectItem(root, "sensors");
+                    if (!cJSON_IsArray(sensors))
+                    {
+                        ESP_LOGW(TAG, "No se encontró el array de sensores\n");
+                        cJSON_Delete(root);
+                        return NULL;
+                    }
+                    else
+                    {
+                        struct view_data_ha_message_data message_data;
+                        message_data.seconds = 10;
+                        strcpy(message_data.message, "No es pot activar l'alarma:");
 
-            esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_MESSAGE, cjson_item->valuestring, strnlen(cjson_item->valuestring, MAX_LENGTH_MESSAGE_TEXT) + 1, portMAX_DELAY);
+                        // Iterar sobre los sensores y calcular la longitud total
+                        cJSON *sensor = NULL;
+                        cJSON_ArrayForEach(sensor, sensors)
+                        {
+                            cJSON *name = cJSON_GetObjectItem(sensor, "name");
+                            if (cJSON_IsString(name))
+                            {
+                                strcat(message_data.message, "\n -");
+                                strcat(message_data.message, name->valuestring);
+                            }
+                        }
+                        esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_MESSAGE, &message_data, sizeof(message_data), portMAX_DELAY);
+                    }
+                } else if (strcmp(cjson_item->valuestring, "INVALID_CODE_PROVIDED") == 0)
+                {
+                    struct view_data_ha_message_data message_data;
+                    message_data.seconds = 5;
+                    strcpy(message_data.message, "Codi incorrecte");
+                    esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_MESSAGE, &message_data, sizeof(message_data), portMAX_DELAY);
+                } 
+            }
         }
+
+#if DEBUG_HA
+        ESP_LOGI(TAG, "mqtt_msg_handler topic:%s", p_topic);
+
+        // ESP_LOGI(TAG, "mqtt_msg_handler data:%s", p_data);
+
+        ESP_LOGI(TAG, "mqtt_msg_handler number of sensor entites:%d", ha_sensor_entites_num);
+#endif
+        for (int i = 0; i < ha_sensor_entites_num; i++)
+        {
+            cjson_item = cJSON_GetObjectItem(root, ha_sensor_entites[i].key);
+#if DEBUG_HA
+            ESP_LOGI(TAG, "mqtt_msg_handler check key :%s", ha_sensor_entites[i].key);
+#endif
+            if (cjson_item != NULL && cjson_item->valuestring != NULL && 0 == strncmp(p_topic, ha_sensor_entites->topic, topic_len))
+            {
+#if DEBUG_HA
+                ESP_LOGI(TAG, "mqtt_msg_handler found item :%s", ha_sensor_entites[i].key);
+#endif
+                sensor_data.index = i;
+                strncpy(sensor_data.value, cjson_item->valuestring, sizeof(sensor_data.value) - 1);
+                esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SENSOR, &sensor_data, sizeof(sensor_data), portMAX_DELAY);
+                // return 0;
+            }
+        }
+
+        for (int i = 0; i < ha_switch_entites_num; i++)
+        {
+            cjson_item = cJSON_GetObjectItem(root, ha_switch_entites[i].key);
+
+            if (cjson_item != NULL && 0 == strncmp(p_topic, ha_switch_entites->topic_set, topic_len))
+            {
+                ESP_LOGI(TAG, "[mqtt_msg_handler] KEY: %s - topic: %s - ptopic: %.*s", ha_switch_entites[i].key, ha_switch_entites->topic_set, topic_len, p_topic);
+                switch_data.index = i;
+                // switch_data.value = cjson_item->valueint;
+                // printf("valueint :%d", cjson_item->valueint);
+                if (cjson_item->valuestring != NULL)
+                {
+                    strcpy(switch_data.value_str, cjson_item->valuestring);
+                    ESP_LOGI(TAG, "valuestring: %s", cjson_item->valuestring);
+                }
+                else
+                    ESP_LOGW(TAG, "No valuestring");
+
+                esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SWITCH_SET, &switch_data, sizeof(switch_data), portMAX_DELAY);
+                // return 0;
+            }
+        }
+
+        // Added MQTT topic for changinf the screen from home assistant
+        if (0 == strncmp(p_topic, "indicator/message", topic_len))
+        {
+            struct view_data_ha_message_data message_data;
+            memset(&message_data, 0, sizeof(message_data));
+            cjson_item = cJSON_GetObjectItem(root, "text");
+            if (cjson_item != NULL)
+            {
+                strcpy(message_data.message, cjson_item->valuestring);
+            }
+            cjson_item = cJSON_GetObjectItem(root, "seconds");
+            if (cjson_item != NULL)
+            {
+                strcpy(message_data.seconds, cjson_item->valueint);
+            }
+
+            esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_MESSAGE, &message_data, sizeof(message_data), portMAX_DELAY);
+            
+        }
+
+        // Added MQTT topic for changinf the screen from home assistant
+        if (0 == strncmp(p_topic, "indicator/screen", topic_len))
+        {
+            cjson_item = cJSON_GetObjectItem(root, "target");
+            if (cjson_item != NULL)
+            {
+                ESP_LOGI(TAG, "CAMBIO DE PANTALLA: %s", cjson_item->valuestring);
+                ESP_LOGI(TAG, "String size: %d", strnlen(cjson_item->valuestring, MAX_LENGTH_SCREEN_TARGET));
+
+                esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SCREEN_CHANGE, cjson_item->valuestring, strnlen(cjson_item->valuestring, MAX_LENGTH_SCREEN_TARGET) + 1, portMAX_DELAY);
+            }
+        }
+
+        // Added MQTT topic for BEEEEP
+        if (0 == strncmp(p_topic, "indicator/beep", topic_len))
+        {
+
+            int beep_info[3] = {1, 50, 0};
+            cjson_item = cJSON_GetObjectItem(root, "beep_repetitions");
+            if (cjson_item != NULL)
+            {
+                beep_info[0] = cjson_item->valueint;
+                ESP_LOGI(TAG, "MQTT -> BEEP repetitions = %d", beep_info[0]);
+            }
+
+            cjson_item = cJSON_GetObjectItem(root, "beep_duration");
+            if (cjson_item != NULL)
+            {
+                beep_info[1] = cjson_item->valueint;
+                ESP_LOGI(TAG, "MQTT -> BEEP duration = %d", beep_info[1]);
+            }
+
+            cjson_item = cJSON_GetObjectItem(root, "beep_repetition_ms");
+            if (cjson_item != NULL)
+            {
+                beep_info[2] = cjson_item->valueint;
+                ESP_LOGI(TAG, "MQTT -> BEEP beep_repetition_ms = %d", beep_info[2]);
+            }
+            esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_BEEP, &beep_info[0], sizeof(beep_info), portMAX_DELAY);
+        }
+
+    prase_end:
+        cJSON_Delete(root);
     }
-
-    // Added MQTT topic for changinf the screen from home assistant
-    if (0 == strncmp(p_topic, "indicator/screen", topic_len))
-    {
-        cjson_item = cJSON_GetObjectItem(root, "target");
-        if (cjson_item != NULL)
-        {
-            ESP_LOGI(TAG, "CAMBIO DE PANTALLA: %s", cjson_item->valuestring);
-            ESP_LOGI(TAG, "String size: %d", strnlen(cjson_item->valuestring, MAX_LENGTH_SCREEN_TARGET));
-
-            esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SCREEN_CHANGE, cjson_item->valuestring, strnlen(cjson_item->valuestring, MAX_LENGTH_SCREEN_TARGET) + 1, portMAX_DELAY);
-        }
-    }
-
-    // Added MQTT topic for BEEEEP
-
-    if (0 == strncmp(p_topic, "indicator/beep", topic_len))
-    {
-
-        int beep_info[3] = {1, 50, 0};
-        cjson_item = cJSON_GetObjectItem(root, "beep_repetitions");
-        if (cjson_item != NULL)
-        {
-            beep_info[0] = cjson_item->valueint;
-            ESP_LOGI(TAG, "MQTT -> BEEP repetitions = %d", beep_info[0]);
-        }
-
-        cjson_item = cJSON_GetObjectItem(root, "beep_duration");
-        if (cjson_item != NULL)
-        {
-            beep_info[1] = cjson_item->valueint;
-            ESP_LOGI(TAG, "MQTT -> BEEP duration = %d", beep_info[1]);
-        }
-
-        cjson_item = cJSON_GetObjectItem(root, "beep_repetition_ms");
-        if (cjson_item != NULL)
-        {
-            beep_info[2] = cjson_item->valueint;
-            ESP_LOGI(TAG, "MQTT -> BEEP beep_repetition_ms = %d", beep_info[2]);
-        }
-        // printf("Sizeof(beepinfo) -> %d\n",sizeof(beep_info));
-        // printf("Sizeof(3*sizeof(int)) -> %d\n",3*sizeof(int));
-        esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_BEEP, &beep_info[0], sizeof(beep_info), portMAX_DELAY);
-        // esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_BEEP, NULL, 0, portMAX_DELAY);
-    }
-
-prase_end:
-    cJSON_Delete(root);
 }
 
 /**
@@ -356,6 +457,11 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
         msg_id = esp_mqtt_client_subscribe(client, "indicator/beep", 0);
         msg_id = esp_mqtt_client_subscribe(client, "indicator/message", 0);
 
+        // Subscription to ALARMO topics
+        //msg_id = esp_mqtt_client_subscribe(client, CONFIG_TOPIC_ALARMO_STATE, 0);
+        msg_id = esp_mqtt_client_subscribe(client, ha_alarm_entity.topic_event, 0);
+        msg_id = esp_mqtt_client_subscribe(client, ha_alarm_entity.topic_command, 0);
+
         //  restore switch state for UI and HA.
         /*struct view_data_ha_switch_data switch_data;
         for (int i; i < ha_switch_entites_num; i++)
@@ -390,8 +496,8 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
         break;
     case MQTT_EVENT_DATA:
         ESP_LOGI(TAG, "MQTT_EVENT_DATA");
-        printf("TOPIC=%.*s\r\n", event->topic_len, event->topic);
-        printf("DATA=%.*s\r\n", event->data_len, event->data);
+        // printf("TOPIC=%.*s\r\n", event->topic_len, event->topic);
+        // printf("DATA=%.*s\r\n", event->data_len, event->data);
         mqtt_msg_handler(event->topic, event->topic_len, event->data, event->data_len);
         break;
     case MQTT_EVENT_ERROR:
