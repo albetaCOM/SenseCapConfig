@@ -46,9 +46,7 @@ typedef struct ha_switch_entity
 
 typedef struct
 {
-    char *topic_command;
     char *topic_event;
-    char *topic_state;
     int qos;
 } ha_alarm_entity_t;
 
@@ -112,7 +110,6 @@ static void ha_entites_init(void)
 
     // Alarm entity
     ha_alarm_entity.topic_event = CONFIG_TOPIC_ALARMO_EVENT;
-    ha_alarm_entity.topic_command = CONFIG_TOPIC_ALARMO_COMMAND;
 }
 
 /**
@@ -460,7 +457,6 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
         // Subscription to ALARMO topics
         //msg_id = esp_mqtt_client_subscribe(client, CONFIG_TOPIC_ALARMO_STATE, 0);
         msg_id = esp_mqtt_client_subscribe(client, ha_alarm_entity.topic_event, 0);
-        msg_id = esp_mqtt_client_subscribe(client, ha_alarm_entity.topic_command, 0);
 
         //  restore switch state for UI and HA.
         /*struct view_data_ha_switch_data switch_data;
@@ -714,15 +710,14 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
 #if DEBUG_HA
         ESP_LOGI(TAG, "event: VIEW_EVENT_HA_ALARM_CODE_CHANGE");
 #endif
-
         char *p_data = (char *)event_data;
 
         char data_buf[64];
         int len = 0;
         memset(data_buf, 0, sizeof(data_buf));
 
-        len = snprintf(data_buf, sizeof(data_buf), "{\"code\": \"%s\"}", p_data);
-        esp_mqtt_client_publish(mqtt_client, CONFIG_TOPIC_ALARM_CODE, data_buf, len, 0, 0);
+        len = snprintf(data_buf, sizeof(data_buf), "{\"command\": \"DISARM\",\"code\": \"%s\"}", p_data);
+        esp_mqtt_client_publish(mqtt_client, CONFIG_TOPIC_ALARMO_COMMAND, data_buf, len, 0, 0);
 
         ESP_LOGI(TAG, "MQTT send alarm code: %s", p_data);
         break;
