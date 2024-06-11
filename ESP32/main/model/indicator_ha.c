@@ -229,7 +229,7 @@ static int mqtt_msg_handler(const char *p_topic, int topic_len, const char *p_da
         {
             if (strncmp(ha_switch_entites[i].key, p_topic, topic_len) == 0)
             {
-                ESP_LOGI(TAG, "[mqtt_msg_handler] KEY: %s - topic: %s - ptopic: %.*s", ha_switch_entites[i].key, ha_switch_entites->topic_set, topic_len, p_topic);
+                // ESP_LOGI(TAG, "[mqtt_msg_handler] KEY: %s - topic: %s - ptopic: %.*s", ha_switch_entites[i].key, ha_switch_entites->topic_set, topic_len, p_topic);
                 switch_data.index = i;
                 strncpy(switch_data.value_str, p_data, data_len);
                 esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SWITCH_SET, &switch_data, sizeof(switch_data), portMAX_DELAY);
@@ -238,12 +238,7 @@ static int mqtt_msg_handler(const char *p_topic, int topic_len, const char *p_da
     }
     else
     {
-        // // Analyze the topics that contains data with JSON format
-        // if (strncmp(ha_alarm_entity.topic_command, p_topic, topic_len) == 0)
-        // {
-        //     strncpy(switch_data.value_str, p_data, data_len);
-        //     esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SWITCH_SET, &switch_data, sizeof(switch_data), portMAX_DELAY);
-        // }
+        // ALARM EVENTS
         if (strncmp(ha_alarm_entity.topic_event, p_topic, topic_len) == 0)
         {
             cjson_item = cJSON_GetObjectItem(root, "event");
@@ -281,7 +276,7 @@ static int mqtt_msg_handler(const char *p_topic, int topic_len, const char *p_da
                 } else if (strcmp(cjson_item->valuestring, "INVALID_CODE_PROVIDED") == 0)
                 {
                     struct view_data_ha_message_data message_data;
-                    message_data.seconds = 5;
+                    message_data.seconds = 3;
                     strcpy(message_data.message, "Codi incorrecte");
                     esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_MESSAGE, &message_data, sizeof(message_data), portMAX_DELAY);
                 } 
@@ -295,29 +290,41 @@ static int mqtt_msg_handler(const char *p_topic, int topic_len, const char *p_da
 
         ESP_LOGI(TAG, "mqtt_msg_handler number of sensor entites:%d", ha_sensor_entites_num);
 #endif
+        // SENSORS
         for (int i = 0; i < ha_sensor_entites_num; i++)
         {
             cjson_item = cJSON_GetObjectItem(root, ha_sensor_entites[i].key);
-#if DEBUG_HA
-            ESP_LOGI(TAG, "mqtt_msg_handler check key :%s", ha_sensor_entites[i].key);
-#endif
-            if (cjson_item != NULL && cjson_item->valuestring != NULL && 0 == strncmp(p_topic, ha_sensor_entites->topic, topic_len))
+//#if DEBUG_HA
+            // ESP_LOGI(TAG, "SENSOR mqtt_msg_handler check key :%s", ha_sensor_entites[i].key);
+//#endif
+            if (cjson_item != NULL && cjson_item->valuestring != NULL && 0 == strncmp(p_topic, ha_sensor_entites[i].topic, topic_len))
             {
-#if DEBUG_HA
+//#if DEBUG_HA
                 ESP_LOGI(TAG, "mqtt_msg_handler found item :%s", ha_sensor_entites[i].key);
-#endif
+//#endif
                 sensor_data.index = i;
-                strncpy(sensor_data.value, cjson_item->valuestring, sizeof(sensor_data.value) - 1);
+                printf("int = %d, string = %s",cjson_item->valueint,cjson_item->valuestring);
+                int num = atoi(cjson_item->valuestring);
+                printf("atoi value = %d",num);
+                if (num > 99 || num < (-99)) {
+                    itoa(num, sensor_data.value, 10);
+                } else {
+                    strncpy(sensor_data.value, cjson_item->valuestring, sizeof(sensor_data.value) - 1);
+                }
                 esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SENSOR, &sensor_data, sizeof(sensor_data), portMAX_DELAY);
                 // return 0;
             }
         }
-
+        //SWITCHS
         for (int i = 0; i < ha_switch_entites_num; i++)
         {
             cjson_item = cJSON_GetObjectItem(root, ha_switch_entites[i].key);
 
-            if (cjson_item != NULL && 0 == strncmp(p_topic, ha_switch_entites->topic_set, topic_len))
+//#if DEBUG_HA
+            // ESP_LOGI(TAG, "SWITCH mqtt_msg_handler check key :%s", ha_switch_entites[i].key);
+//#endif
+
+            if (cjson_item != NULL && 0 == strncmp(p_topic, ha_switch_entites[i].topic_set, topic_len))
             {
                 ESP_LOGI(TAG, "[mqtt_msg_handler] KEY: %s - topic: %s - ptopic: %.*s", ha_switch_entites[i].key, ha_switch_entites->topic_set, topic_len, p_topic);
                 switch_data.index = i;
@@ -349,9 +356,8 @@ static int mqtt_msg_handler(const char *p_topic, int topic_len, const char *p_da
             cjson_item = cJSON_GetObjectItem(root, "seconds");
             if (cjson_item != NULL)
             {
-                strcpy(message_data.seconds, cjson_item->valueint);
+                message_data.seconds =cjson_item->valueint;
             }
-
             esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_MESSAGE, &message_data, sizeof(message_data), portMAX_DELAY);
             
         }
@@ -598,15 +604,15 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
             //   char *topic_state = ha_switch_entites[p_data->index].topic_state;
             char *key = all_sensors[p_data->ha_data.index].ha_key;
 
-            ESP_LOGI(TAG, "MQTT data to send: %s", p_data->ha_data.value);
+            ESP_LOGI(TAG, "SENSOR: MQTT data to send: %s", p_data->ha_data.value);
 
             len = snprintf(data_buf, sizeof(data_buf), "{\"%s\": \"%s\"}", key, p_data->ha_data.value);
 
-            ESP_LOGI(TAG, "MQTT data to send (formated): %s", data_buf);
+            ESP_LOGI(TAG, "SENSOR: MQTT data to send (formated): %s", data_buf);
 
             esp_mqtt_client_publish(mqtt_client, CONFIG_TOPIC_SENSOR_DATA, data_buf, len, 0, 0);
 
-            ESP_LOGI(TAG, "MQTT set sensor %d: %s", p_data->ha_data.index, p_data->ha_data.value);
+            ESP_LOGI(TAG, "SENSOR: MQTT set sensor %d: %s", p_data->ha_data.index, p_data->ha_data.value);
 
             break;
         }
@@ -643,6 +649,8 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
     {
         if (mqtt_connected_flag == false)
         {
+            struct view_data_ha_switch_data *p_data = (struct view_data_ha_switch_data *)event_data;
+            //printf("MQTT NOT CONNECTED!! Switch %s\n",all_switches[p_data->index].ha_key);
             break;
         }
 #if DEBUG_HA
@@ -651,22 +659,22 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
 
         struct view_data_ha_switch_data *p_data = (struct view_data_ha_switch_data *)event_data;
 
-        char data_buf[64];
+        char data_buf[200];
         int len = 0;
         memset(data_buf, 0, sizeof(data_buf));
 
         //   char *topic_state = ha_switch_entites[p_data->index].topic_state;
         char *key = all_switches[p_data->index].ha_key;
 
-        ESP_LOGI(TAG, "MQTT data to send: %s", p_data->value_str);
+        ESP_LOGI(TAG, "SWITCH: MQTT data to send: %s", p_data->value_str);
 
         len = snprintf(data_buf, sizeof(data_buf), "{\"%s\": \"%s\"}", key, p_data->value_str);
 
-        ESP_LOGI(TAG, "MQTT data to send (formated): %s", data_buf);
+        ESP_LOGI(TAG, "SWITCH: MQTT data to send (formated): %s", data_buf);
 
         esp_mqtt_client_publish(mqtt_client, CONFIG_TOPIC_SWITCH_STATE, data_buf, len, 0, 0);
 
-        ESP_LOGI(TAG, "MQTT set switch %d: %s", p_data->index, p_data->value_str);
+        ESP_LOGI(TAG, "SWITCH: MQTT set switch %d: %s", p_data->index, p_data->value_str);
 
         /*if (p_data->index < ha_switch_entites_num)
         {

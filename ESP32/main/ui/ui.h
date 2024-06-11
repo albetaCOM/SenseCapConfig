@@ -184,7 +184,11 @@ LV_IMG_DECLARE( ui_img_up_png);
 LV_IMG_DECLARE( ui_img_down_png);
 LV_IMG_DECLARE( ui_img_ceilingfanoff_png);
 LV_IMG_DECLARE( ui_img_ceilingfanon_png);
-LV_IMG_DECLARE( ui_img_wifi_3_png);
+LV_IMG_DECLARE(ui_img_wifi_1_png);
+LV_IMG_DECLARE(ui_img_wifi_2_png);
+LV_IMG_DECLARE(ui_img_wifi_3_png);
+LV_IMG_DECLARE(ui_img_solargreen_png);
+LV_IMG_DECLARE(ui_img_powerred_png);
 
 
 

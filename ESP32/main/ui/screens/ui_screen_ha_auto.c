@@ -246,7 +246,7 @@ void page_create(int index, char *name, char *label)
     screens[index].ha_wifi_st = lv_img_create(screens[index].ha_wifi_btn);
     // ui_ha_wifi_st = lv_img_create(screens[index].ha_wifi_btn);
     // lv_img_set_src(screens[index].ha_wifi_st, &ui_img_wifi_disconet_png);
-    lv_img_set_src(screens[index].ha_wifi_st, &ui_img_wifi_3_png);
+    lv_img_set_src(screens[index].ha_wifi_st, &ui_img_wifi_disconet_png);
     lv_obj_set_width(screens[index].ha_wifi_st, LV_SIZE_CONTENT);  /// 1
     lv_obj_set_height(screens[index].ha_wifi_st, LV_SIZE_CONTENT); /// 1
     lv_obj_set_align(screens[index].ha_wifi_st, LV_ALIGN_TOP_RIGHT);
@@ -353,6 +353,8 @@ void switch_create(lv_obj_t *parent, char *name, char *label, char *icon, int si
     //     ESP_LOGW(TAG, "States[%d].state_value = '%s'", j, ((ha_switch_states_t*)states)[j].state_value);
     //     ESP_LOGW(TAG, "Switch[%d].states[%d].state_value = '%s'", i,j,all_switches[i].states[j].state_value);
     // }
+    lv_style_init(&(all_switches[i].style));
+
     // store the ha key
     strcpy(all_switches[i].ha_key, ha_key);
 

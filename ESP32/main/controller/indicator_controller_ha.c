@@ -162,6 +162,9 @@ void ui_event_switch_button(lv_event_t *e)
  *
  * @return The function does not return any value.
  */
+
+lv_style_t switch_style;
+
 void ui_event_switch_pushbutton(lv_event_t *e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
@@ -188,11 +191,30 @@ void ui_event_switch_pushbutton(lv_event_t *e)
             if ((all_switches[*index].states[i].state_value[0] != 0) && (all_switches[*index].value[0] != 0) &&
                 (strcmp(all_switches[*index].value,all_switches[*index].states[i].state_value) == 0) ){
                 state_found = true;
+
                 strcpy(switch_data.value_str, all_switches[*index].states[i].state_value);
                 ESP_LOGI(TAG, " switch %d state:  '%s'", switch_data.index, switch_data.value_str);
                 esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SWITCH_ST, &switch_data, sizeof(switch_data), portMAX_DELAY);
 
                 if(all_switches[*index].states[i].state_action[0] != 0){
+                    /**************************************************************/
+                    /*********** STYLE ********************************************/
+                    /**************************************************************/
+                    // lv_style_init(&(all_switches[*index].style));
+                    /*Set a background color and a radius*/
+                    lv_style_set_radius(&(all_switches[*index].style), 5);
+                    lv_style_set_bg_opa(&(all_switches[*index].style), LV_OPA_COVER);
+                    lv_style_set_bg_color(&(all_switches[*index].style), lv_palette_lighten(LV_PALETTE_GREY, 1));
+
+                    /*Add a shadow*/
+                    lv_style_set_shadow_width(&(all_switches[*index].style), 55);
+                    lv_style_set_shadow_color(&(all_switches[*index].style), lv_palette_main(LV_PALETTE_BLUE));
+                    /*Create an object with the new (all_switches[*index].style)*/
+                                        
+                    lv_obj_add_style(all_switches[*index].btn, &(all_switches[*index].style), 0);
+                    /**************************************************************/
+
+
                     strcpy(switch_data.value_str, all_switches[*index].states[i].state_action);
                     ESP_LOGI(TAG, " switch %d action: '%s'", switch_data.index, switch_data.value_str);
                     esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_SWITCH_ACTION, &switch_data, sizeof(switch_data), portMAX_DELAY);

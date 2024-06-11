@@ -50,6 +50,7 @@ typedef struct
     char ha_key[100];     // ha key
     char value[MAX_LENGTH_STATE_STRING];
     ha_switch_states_t states[MAX_STATES];
+    lv_style_t style;
 } ha_switch_t;
 
 // screen_t **screens;

@@ -267,6 +267,14 @@ lv_img_dsc_t *get_icon_img(char * icon)
     {
         icon_img = &ui_img_ic_tvoc_png;
     }
+    else if (strcmp(icon, "power") == 0)
+    {
+        icon_img = &ui_img_powerred_png;
+    }
+    else if (strcmp(icon, "solar") == 0)
+    {
+        icon_img = &ui_img_solargreen_png;
+    }
     else if (strcmp(icon, "shutter_up") == 0)
     {
         icon_img = &ui_img_shutter_open_png;

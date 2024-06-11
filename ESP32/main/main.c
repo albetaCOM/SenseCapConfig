@@ -39,7 +39,7 @@ void app_main(void)
     lv_port_init();
 
     esp_event_loop_args_t view_event_task_args = {
-        .queue_size = 10,
+        .queue_size = 30,
         .task_name = "view_event_task",
         .task_priority = uxTaskPriorityGet(NULL),
         .task_stack_size = 10240,
@@ -73,10 +73,17 @@ void app_main(void)
     //         heap_caps_get_total_size(MALLOC_CAP_SPIRAM));
     // ESP_LOGI("MEM-02", "%s", buffer);
 
+
+    // WATCHDOG
+    ESP_ERROR_CHECK(esp_task_wdt_add(NULL));
+    ESP_ERROR_CHECK(esp_task_wdt_status(NULL));
+
     bool UI_init_flag = false;
     
     while (1)
     {
+        esp_task_wdt_reset();
+
         // chek if the configiguration is ready
         if (UI_init_flag == false && config_flag == CONF_READY)
         {

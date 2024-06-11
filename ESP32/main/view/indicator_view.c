@@ -14,9 +14,9 @@ static const char *TAG = "view";
 /*****************************************************************/
 // wifi config
 /*****************************************************************/
-LV_IMG_DECLARE(ui_img_wifi_1_png);
-LV_IMG_DECLARE(ui_img_wifi_2_png);
-LV_IMG_DECLARE(ui_img_wifi_3_png);
+// LV_IMG_DECLARE(ui_img_wifi_1_png);
+// LV_IMG_DECLARE(ui_img_wifi_2_png);
+// LV_IMG_DECLARE(ui_img_wifi_3_png);
 LV_IMG_DECLARE(ui_img_lock_png);
 
 static void wifi_list_init(void);
@@ -677,8 +677,8 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
     case VIEW_EVENT_CITY:
     {
         ESP_LOGI(TAG, "event: VIEW_EVENT_CITY");
-        //char *p_data = (char *)event_data;
-        //lv_label_set_text(ui_city, p_data);
+        // char *p_data = (char *)event_data;
+        // lv_label_set_text(ui_city, p_data);
         break;
     }
 
