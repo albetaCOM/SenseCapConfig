@@ -48,6 +48,7 @@ typedef struct
 {
     char *topic_event;
     int qos;
+    int switch_index;
 } ha_alarm_entity_t;
 
 // ui  {"index": 1, vaule: "27.2"}  <==MQTT==  topic:/xxx/state {"key": "27.2"}  HA
@@ -106,6 +107,10 @@ static void ha_entites_init(void)
         ha_switch_entites[i].topic_set = CONFIG_TOPIC_SWITCH_SET;
         ha_switch_entites[i].topic_state = CONFIG_TOPIC_SWITCH_STATE;
         ha_switch_entites[i].qos = CONFIG_TOPIC_SWITCH_QOS;
+
+        if (strstr(all_switches[i].ha_key, "alarm") != NULL) {
+            ha_alarm_entity.switch_index = i;
+        }
     }
 
     // Alarm entity
@@ -241,6 +246,13 @@ static int mqtt_msg_handler(const char *p_topic, int topic_len, const char *p_da
         // ALARM EVENTS
         if (strncmp(ha_alarm_entity.topic_event, p_topic, topic_len) == 0)
         {
+            /* Update the switch state with the same one it has as we received some feedback */
+            /**************************************************************/
+            /*********** STYLE ********************************************/
+            /**************************************************************/
+            lv_obj_remove_style(all_switches[ha_alarm_entity.switch_index].btn, &(all_switches[ha_alarm_entity.switch_index].style), 0);
+
+            /* Get the event */
             cjson_item = cJSON_GetObjectItem(root, "event");
             if (cjson_item != NULL && cjson_item->valuestring != NULL)
             {
@@ -303,9 +315,9 @@ static int mqtt_msg_handler(const char *p_topic, int topic_len, const char *p_da
                 ESP_LOGI(TAG, "mqtt_msg_handler found item :%s", ha_sensor_entites[i].key);
 //#endif
                 sensor_data.index = i;
-                printf("int = %d, string = %s",cjson_item->valueint,cjson_item->valuestring);
+                //printf("int = %d, string = %s",cjson_item->valueint,cjson_item->valuestring);
                 int num = atoi(cjson_item->valuestring);
-                printf("atoi value = %d",num);
+                //printf("atoi value = %d",num);
                 if (num > 99 || num < (-99)) {
                     itoa(num, sensor_data.value, 10);
                 } else {
@@ -360,6 +372,13 @@ static int mqtt_msg_handler(const char *p_topic, int topic_len, const char *p_da
             }
             esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_MESSAGE, &message_data, sizeof(message_data), portMAX_DELAY);
             
+        }
+
+        // Added MQTT topic for changing the configuration of the screen from home assistant
+        if (0 == strncmp(p_topic, "indicator/config", topic_len))
+        {
+            printf("-----------------------------------------------------> MQTT NEW CONFIG RECEICED\n");
+            esp_event_post_to(view_event_handle, VIEW_EVENT_BASE, VIEW_EVENT_HA_CONFIG, p_data, data_len, portMAX_DELAY);
         }
 
         // Added MQTT topic for changinf the screen from home assistant
@@ -449,7 +468,6 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
         for (int i; i < ha_switch_entites_num; i++)
         {
             msg_id = esp_mqtt_client_subscribe(client, ha_switch_entites[i].topic_set, ha_switch_entites[i].qos);
-            ESP_LOGI(TAG, "subscribe:%s, msg_id=%d", ha_switch_entites[i].topic_set, msg_id);
 #if DEBUG_HA
             ESP_LOGI(TAG, "subscribe:%s, msg_id=%d", ha_switch_entites[i].topic_set, msg_id);
 #endif
@@ -459,6 +477,7 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
         msg_id = esp_mqtt_client_subscribe(client, "indicator/screen", 0);
         msg_id = esp_mqtt_client_subscribe(client, "indicator/beep", 0);
         msg_id = esp_mqtt_client_subscribe(client, "indicator/message", 0);
+        msg_id = esp_mqtt_client_subscribe(client, "indicator/config", 0);
 
         // Subscription to ALARMO topics
         //msg_id = esp_mqtt_client_subscribe(client, CONFIG_TOPIC_ALARMO_STATE, 0);

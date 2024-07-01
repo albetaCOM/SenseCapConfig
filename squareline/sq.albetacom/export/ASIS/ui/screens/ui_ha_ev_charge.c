@@ -33,16 +33,54 @@ void ui_ha_ev_charge_screen_init(void)
     lv_obj_clear_flag(ui_Image4, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_img_set_zoom(ui_Image4, 150);
 
-    ui_Image2 = lv_img_create(ui_ha_ev_charge);
-    lv_img_set_src(ui_Image2, &ui_img_batterynocharging_png);
-    lv_obj_set_width(ui_Image2, LV_SIZE_CONTENT);   /// 256
-    lv_obj_set_height(ui_Image2, LV_SIZE_CONTENT);    /// 256
-    lv_obj_set_x(ui_Image2, -100);
-    lv_obj_set_y(ui_Image2, -130);
-    lv_obj_set_align(ui_Image2, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_Image2, LV_OBJ_FLAG_ADV_HITTEST);     /// Flags
-    lv_obj_clear_flag(ui_Image2, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    ui_Container3 = lv_obj_create(ui_ha_ev_charge);
+    lv_obj_remove_style_all(ui_Container3);
+    lv_obj_set_width(ui_Container3, 100);
+    lv_obj_set_height(ui_Container3, 50);
+    lv_obj_set_x(ui_Container3, -233);
+    lv_obj_set_y(ui_Container3, 105);
+    lv_obj_set_align(ui_Container3, LV_ALIGN_CENTER);
+    lv_obj_clear_flag(ui_Container3, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
-    lv_obj_add_event_cb(ui_ha_ev_charge, ui_event_ha_ev_charge, LV_EVENT_ALL, NULL);
+    ui_Label15 = lv_label_create(ui_ha_ev_charge);
+    lv_obj_set_width(ui_Label15, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Label15, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_Label15, 0);
+    lv_obj_set_y(ui_Label15, -225);
+    lv_obj_set_align(ui_Label15, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Label15, "Electric Vehicle");
+    lv_obj_set_style_text_color(ui_Label15, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_Label15, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Label15, &ui_font_font2, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_LabelEVBattery = lv_label_create(ui_ha_ev_charge);
+    lv_obj_set_width(ui_LabelEVBattery, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_LabelEVBattery, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_LabelEVBattery, 20);
+    lv_obj_set_y(ui_LabelEVBattery, 78);
+    lv_label_set_text(ui_LabelEVBattery, "Battery: 60%");
+    lv_obj_set_style_text_color(ui_LabelEVBattery, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_LabelEVBattery, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_LabelEVBattery, &ui_font_font2, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_LabelEVRange = lv_label_create(ui_ha_ev_charge);
+    lv_obj_set_width(ui_LabelEVRange, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_LabelEVRange, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_LabelEVRange, 20);
+    lv_obj_set_y(ui_LabelEVRange, 123);
+    lv_label_set_text(ui_LabelEVRange, "Range: 350 Km");
+    lv_obj_set_style_text_color(ui_LabelEVRange, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_LabelEVRange, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_LabelEVRange, &ui_font_font2, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_LabelEVStatus = lv_label_create(ui_ha_ev_charge);
+    lv_obj_set_width(ui_LabelEVStatus, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_LabelEVStatus, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_LabelEVStatus, 21);
+    lv_obj_set_y(ui_LabelEVStatus, 168);
+    lv_label_set_text(ui_LabelEVStatus, "Cable not connected");
+    lv_obj_set_style_text_color(ui_LabelEVStatus, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_LabelEVStatus, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_LabelEVStatus, &ui_font_font2, LV_PART_MAIN | LV_STATE_DEFAULT);
 
 }

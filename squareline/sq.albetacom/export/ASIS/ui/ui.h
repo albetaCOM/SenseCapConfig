@@ -61,22 +61,19 @@ extern lv_obj_t * ui_LabelCode;
 extern lv_obj_t * ui_LabelCode1;
 // SCREEN: ui_ha_ev_charge
 void ui_ha_ev_charge_screen_init(void);
-void ui_event_ha_ev_charge(lv_event_t * e);
 extern lv_obj_t * ui_ha_ev_charge;
 extern lv_obj_t * ui_Image1;
 extern lv_obj_t * ui_Image4;
-extern lv_obj_t * ui_Image2;
-// SCREEN: ui_ha_energy
-void ui_ha_energy_screen_init(void);
-void ui_event_ha_energy(lv_event_t * e);
-extern lv_obj_t * ui_ha_energy;
-extern lv_obj_t * ui_Bar1;
+extern lv_obj_t * ui_Container3;
+extern lv_obj_t * ui_Label15;
+extern lv_obj_t * ui_LabelEVBattery;
+extern lv_obj_t * ui_LabelEVRange;
+extern lv_obj_t * ui_LabelEVStatus;
 extern lv_obj_t * ui____initial_actions0;
 
 
 LV_IMG_DECLARE(ui_img_teslamodel3_png);    // assets/teslamodel3.png
 LV_IMG_DECLARE(ui_img_evcharger_png);    // assets/evcharger.png
-LV_IMG_DECLARE(ui_img_batterynocharging_png);    // assets/batterynocharging.png
 LV_IMG_DECLARE(ui_img_919524860);    // assets/2023-11-13-20-02-12.png
 LV_IMG_DECLARE(ui_img_acoff_png);    // assets/acoff.png
 LV_IMG_DECLARE(ui_img_acon_png);    // assets/acon.png
@@ -87,6 +84,7 @@ LV_IMG_DECLARE(ui_img_alarmwarning_png);    // assets/alarmwarning.png
 LV_IMG_DECLARE(ui_img_back_png);    // assets/back.png
 LV_IMG_DECLARE(ui_img_background_png);    // assets/background.png
 LV_IMG_DECLARE(ui_img_batterycharging_png);    // assets/batterycharging.png
+LV_IMG_DECLARE(ui_img_batterynocharging_png);    // assets/batterynocharging.png
 LV_IMG_DECLARE(ui_img_ceilingfanoff_png);    // assets/ceilingfanoff.png
 LV_IMG_DECLARE(ui_img_ceilingfanon_png);    // assets/ceilingfanon.png
 LV_IMG_DECLARE(ui_img_co2_png);    // assets/co2.png
@@ -115,7 +113,9 @@ LV_IMG_DECLARE(ui_img_location_png);    // assets/location.png
 LV_IMG_DECLARE(ui_img_location2_png);    // assets/location2.png
 LV_IMG_DECLARE(ui_img_lock_png);    // assets/lock.png
 LV_IMG_DECLARE(ui_img_low_light_png);    // assets/low_light.png
+LV_IMG_DECLARE(ui_img_powerred_png);    // assets/powerred.png
 LV_IMG_DECLARE(ui_img_setting_png);    // assets/setting.png
+LV_IMG_DECLARE(ui_img_solargreen_png);    // assets/solargreen.png
 LV_IMG_DECLARE(ui_img_temp_1_png);    // assets/temp_1.png
 LV_IMG_DECLARE(ui_img_temp_2_png);    // assets/temp_2.png
 LV_IMG_DECLARE(ui_img_time_png);    // assets/time.png
@@ -126,8 +126,6 @@ LV_IMG_DECLARE(ui_img_wifi_2_png);    // assets/wifi_2.png
 LV_IMG_DECLARE(ui_img_wifi_3_png);    // assets/wifi_3.png
 LV_IMG_DECLARE(ui_img_wifi_disconet_png);    // assets/wifi_disconet.png
 LV_IMG_DECLARE(ui_img_wifi_setting_png);    // assets/wifi_setting.png
-LV_IMG_DECLARE(ui_img_powerred_png);    // assets/powerred.png
-LV_IMG_DECLARE(ui_img_solargreen_png);    // assets/solargreen.png
 
 
 
@@ -135,7 +133,6 @@ LV_FONT_DECLARE(ui_font_font0);
 LV_FONT_DECLARE(ui_font_font2);
 LV_FONT_DECLARE(ui_font_font3);
 LV_FONT_DECLARE(ui_font_font4);
-
 
 
 void ui_init(void);

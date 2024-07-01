@@ -57,18 +57,14 @@ lv_obj_t * ui_LabelCode1;
 
 // SCREEN: ui_ha_ev_charge
 void ui_ha_ev_charge_screen_init(void);
-void ui_event_ha_ev_charge(lv_event_t * e);
 lv_obj_t * ui_ha_ev_charge;
 lv_obj_t * ui_Image1;
 lv_obj_t * ui_Image4;
-lv_obj_t * ui_Image2;
-
-
-// SCREEN: ui_ha_energy
-void ui_ha_energy_screen_init(void);
-void ui_event_ha_energy(lv_event_t * e);
-lv_obj_t * ui_ha_energy;
-lv_obj_t * ui_Bar1;
+lv_obj_t * ui_Container3;
+lv_obj_t * ui_Label15;
+lv_obj_t * ui_LabelEVBattery;
+lv_obj_t * ui_LabelEVRange;
+lv_obj_t * ui_LabelEVStatus;
 lv_obj_t * ui____initial_actions0;
 const lv_img_dsc_t * ui_imgset_1149741500[1] = {&ui_img_919524860};
 const lv_img_dsc_t * ui_imgset_co[1] = {&ui_img_co2_png};
@@ -195,22 +191,6 @@ void ui_event_Button12(lv_event_t * e)
         ButtonSendClickedAction(e);
     }
 }
-void ui_event_ha_ev_charge(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t * target = lv_event_get_target(e);
-    if(event_code == LV_EVENT_SCREEN_LOADED) {
-        AlarmCodeScreenLoadedAction(e);
-    }
-}
-void ui_event_ha_energy(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t * target = lv_event_get_target(e);
-    if(event_code == LV_EVENT_SCREEN_LOADED) {
-        AlarmCodeScreenLoadedAction(e);
-    }
-}
 
 ///////////////////// SCREENS ////////////////////
 
@@ -222,7 +202,6 @@ void ui_init(void)
     lv_disp_set_theme(dispp, theme);
     ui_ha_alarm_keypad_screen_init();
     ui_ha_ev_charge_screen_init();
-    ui_ha_energy_screen_init();
     ui____initial_actions0 = lv_obj_create(NULL);
     lv_disp_load_scr(ui_ha_alarm_keypad);
 }

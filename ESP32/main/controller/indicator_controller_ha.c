@@ -164,6 +164,14 @@ void ui_event_switch_button(lv_event_t *e)
  */
 
 lv_style_t switch_style;
+static esp_timer_handle_t   reset_style_timer_handle;
+
+static void __reset_style_callback(void* arg)
+{
+    int index = *((int *)arg);
+    lv_obj_remove_style(all_switches[index].btn, &(all_switches[index].style), 0);
+}
+
 
 void ui_event_switch_pushbutton(lv_event_t *e)
 {
@@ -212,6 +220,18 @@ void ui_event_switch_pushbutton(lv_event_t *e)
                     /*Create an object with the new (all_switches[*index].style)*/
                                         
                     lv_obj_add_style(all_switches[*index].btn, &(all_switches[*index].style), 0);
+
+                    // Create a timer so if we don't get an state update the blue shadow doesn't show up forever 
+                    const esp_timer_create_args_t timer_args = {
+                        .callback = &__reset_style_callback,
+                        /* argument specified here will be passed to timer callback function */
+                        .arg = (void*) index,
+                        .name = "reset_style"
+                    };
+                    ESP_ERROR_CHECK( esp_timer_create(&timer_args, &reset_style_timer_handle));
+                    ESP_ERROR_CHECK(esp_timer_start_once(reset_style_timer_handle, 1000000*60)); //60s
+
+
                     /**************************************************************/
 
 

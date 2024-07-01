@@ -574,8 +574,29 @@ void onPacketReceived(const uint8_t *buffer, size_t size)
         sensor_power_off();
         break;
     }
+
+    /*case PKT_TYPE_CMD_CONFIG_FILE_RENAME:
+    {
+
+      break;
+    }
+
+    case PKT_TYPE_CMD_CONFIG_FILE_RECEIVE:
+    {
+
+      break;
+    }*/
+
+    // JC: Podriem fer que es rebés el nom del fitxer de config i gestionar-ho des del ESP32
     case PKT_TYPE_CMD_CONFIG:
     {
+        char config_filename[32] = CONFIG_FILE;
+        
+        if(size>1){
+          strcpy(config_filename,(char*)&buffer[1]);
+        }
+
+
         Serial.println("cmd config");
         // read the configuration file from SD card
 
@@ -591,7 +612,8 @@ void onPacketReceived(const uint8_t *buffer, size_t size)
             break;
         }
 
-        File configFile = SD.open(CONFIG_FILE);
+        //Serial.println("SD Card: opening file %s",config_filename);
+        File configFile = SD.open(config_filename);
         if (!configFile)
         {
             Serial.println("Failed to open config file");

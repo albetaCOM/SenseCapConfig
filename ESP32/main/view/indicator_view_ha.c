@@ -110,7 +110,7 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
     {
     case VIEW_EVENT_HA_MESSAGE:
     {
-        ESP_LOGI(TAG, "event: VIEW_EVENT_HA_SCREEN_CHANGE");
+        ESP_LOGI(TAG, "event: VIEW_EVENT_HA_MESSAGE");
         struct view_data_ha_message_data * message_data = (struct view_data_ha_message_data *)event_data;
         //char *p_data = (char *)event_data;
         ESP_LOGW(TAG, "data: %s",message_data->message);
@@ -123,6 +123,12 @@ static void __view_event_handler(void *handler_args, esp_event_base_t base, int3
         break;
     }
 
+    case VIEW_EVENT_HA_CONFIG:
+    {
+        ESP_LOGI(TAG, "event: VIEW_EVENT_HA_CONFIG");
+        break;
+    }
+    
     case VIEW_EVENT_HA_SCREEN_CHANGE:
     {
         ESP_LOGI(TAG, "event: VIEW_EVENT_HA_SCREEN_CHANGE");
@@ -337,6 +343,10 @@ int indicator_view_ha_init(void)
     ESP_ERROR_CHECK(esp_event_handler_instance_register_with(view_event_handle,
                                                              VIEW_EVENT_BASE, VIEW_EVENT_HA_MESSAGE,
                                                              __view_event_handler, NULL, NULL));
+    
+    ESP_ERROR_CHECK(esp_event_handler_instance_register_with(view_event_handle,
+                                                             VIEW_EVENT_BASE, VIEW_EVENT_HA_CONFIG,
+                                                             __view_event_handler, NULL, NULL));                                                        
 
     ESP_ERROR_CHECK(esp_event_handler_instance_register_with(view_event_handle,
                                                              VIEW_EVENT_BASE, VIEW_EVENT_WIFI_ST,
